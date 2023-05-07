@@ -8,7 +8,6 @@ NOTES FROM WILL (5/6/23) --
 * I made some guesses on how the HTML might look and what display names and generated columns we might want to use. I will correct things based on the pages you create.
 * I ended up creating SQL queries for everything, but I don't think we have to implement all of them in HTML for step 3.
 * I thought it might be useful to put Movies and Actors together on one page. On their own they don't do much.
-* If we wanted to simplify our design further, I had an idea: Spin off a Regions table from Customers that includes only the regions used by existing customers, then delete Actors. Then we'd still have 5 relationships and 1 M:M. Just a thought if this all becomes too complicated.
 * We might want to change the 'condition' attribute to something else. It turns out CONDITION is a reserved keyword. That's why I used backticks for them.
 * For many of the entities, I used combinations of attributes so our dropdowns didn't use the IDs. We might want to make some of these attribute combos unique in SQL. I think you mentioned this in an earlier step. It might be time to implement this. Some possible UNIQUE entities:
 ** Customers: email
@@ -89,14 +88,14 @@ VALUES (:order_date_input, :ship_date_input, :delivered_date_input, :comment_inp
 
 -- Display all memorabilia items.
 SELECT items.item_id, items.description, items.type, items.`condition`, items.price,
-        CONCAT(c.first_name, ' ', c.last_name, ' (', c.email, ') on ', o.order_date) AS ordered_by
+        CONCAT(c.first_name, ' ', c.last_name, ' (', c.email, ') on ', o.order_date) AS customer_order
 FROM Memorabilia AS items
 LEFT JOIN Orders AS o ON items.order_id = o.order_id
 LEFT JOIN Customers AS c ON o.customer_id = c.customer_id
-ORDER by ordered_by;
+ORDER by customer_order;
 /*
 +---------+--------------------------------------------+----------+-----------+---------+---------------------------------------------------------------------+
-| item_id | description                                | type     | condition | price   | ordered_by                                                          |
+| item_id | description                                | type     | condition | price   | customer_order                                                      |
 +---------+--------------------------------------------+----------+-----------+---------+---------------------------------------------------------------------+
 |       7 | Toy Story movie script signed by Tom Hanks | script   | poor      |  100.00 | NULL                                                                |
 |       1 | Batman's cape                              | wardrobe | good      | 2000.00 | Cordula de Courcey (cdecourcey1@dyndns.org) on 2022-06-22 00:00:00  |
@@ -110,12 +109,12 @@ ORDER by ordered_by;
 
 
 -- Select order data used to populate the dropdown that associates a memorabilia item with an order. 
-SELECT o.order_id, CONCAT(c.first_name, ' ', c.last_name, ' (', c.email, ') on ', o.order_date) AS ordered_by
+SELECT o.order_id, CONCAT(c.first_name, ' ', c.last_name, ' (', c.email, ') on ', o.order_date) AS customer_order
 FROM Orders AS o
 JOIN Customers as c ON o.customer_id = c.customer_id;
 /*
 +----------+---------------------------------------------------------------------+
-| order_id | ordered_by                                                          |
+| order_id | customer_order                                                          |
 +----------+---------------------------------------------------------------------+
 |        1 | Cordula de Courcey (cdecourcey1@dyndns.org) on 2022-06-22 00:00:00  |
 |        2 | Donia Calderhead (dcalderhead2@netscape.com) on 2022-08-14 00:00:00 |
@@ -131,7 +130,7 @@ VALUES (:description_input, :type_input, :condition_input, :price_input, :order_
 
 -- Select a memorabilia item to update or delete.
 SELECT item_id, items.description, items.type, items.`condition`, items.price,
-        CONCAT(c.first_name, ' ', c.last_name, ' (', c.email, ') on ', o.order_date) AS ordered_by
+        CONCAT(c.first_name, ' ', c.last_name, ' (', c.email, ') on ', o.order_date) AS customer_order
 FROM Memorabilia AS items
 LEFT JOIN Orders AS o ON items.order_id = o.order_id
 LEFT JOIN Customers AS c ON o.customer_id = c.customer_id
