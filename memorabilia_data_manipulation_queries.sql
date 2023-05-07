@@ -1,5 +1,5 @@
 -- Database manipulation queries for the Movie Memories database.
--- by Will Tripp and Seth Stephanz (CS340 - Group 59)
+-- Will Tripp and Seth Stephanz (CS340 - Group 59)
 -- Variable names are preceded by a colon (:).
 
 /*
