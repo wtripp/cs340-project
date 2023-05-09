@@ -148,7 +148,13 @@ INSERT INTO
         `order_id`
     )
 VALUES
-    ('Batman\'s cape', 'wardrobe', 'good', 2000.00, 1),
+    (
+        'Batman\'s cape',
+        'wardrobe',
+        'good',
+        2000.00,
+        1
+    ),
     (
         'Godfather script signed by Al Pacino',
         'script',
@@ -228,14 +234,29 @@ CREATE OR REPLACE TABLE `MovieItems` (
 INSERT INTO
     `MovieItems` (`item_id`, `movie_id`)
 VALUES
-    (1, 1),
-    (1, 2),
-    (2, 3),
-    (3, 4),
-    (4, 5),
-    (5, 6),
-    (6, 7),
-    (7, 8);
+    ((SELECT item_id FROM Memorabilia WHERE description = 'Batman''s cape'),
+     (SELECT movie_id FROM Movies WHERE title = 'Batman Begins' AND year = '2005')),
+
+    ((SELECT item_id FROM Memorabilia WHERE description = 'Batman''s cape'),
+     (SELECT movie_id FROM Movies WHERE title = 'The Dark Knight' AND year = '2008')),
+
+    ((SELECT item_id FROM Memorabilia WHERE description = 'Godfather script signed by Al Pacino'),
+     (SELECT movie_id FROM Movies WHERE title = 'The Godfather' AND year = '1972')),
+
+    ((SELECT item_id FROM Memorabilia WHERE description = 'Pulp Fiction rare movie poster'),
+     (SELECT movie_id FROM Movies WHERE title = 'Pulp Fiction' AND year = '1994')),
+
+    ((SELECT item_id FROM Memorabilia WHERE description = 'Jason Voorhees''s machete'),
+     (SELECT movie_id FROM Movies WHERE title = 'Friday the 13th' AND year = '1980')),
+
+    ((SELECT item_id FROM Memorabilia WHERE description = 'Patrick Bateman''s business card'),
+     (SELECT movie_id FROM Movies WHERE title = 'American Psycho' AND year = '2000')),
+
+    ((SELECT item_id FROM Memorabilia WHERE description = 'The Dude''s robe'),
+     (SELECT movie_id FROM Movies WHERE title = 'The Big Lebowski' AND year = '1998')),
+
+    ((SELECT item_id FROM Memorabilia WHERE description = 'Toy Story movie script signed by Tom Hanks'),
+     (SELECT movie_id FROM Movies WHERE title = 'Toy Story' AND year = '1995'));
 
 -- Create Actors table and insert data
 CREATE OR REPLACE TABLE `Actors` (
@@ -271,14 +292,29 @@ CREATE OR REPLACE TABLE `ActorRoles` (
 INSERT INTO
     `ActorRoles` (`movie_id`, `actor_id`)
 VALUES
-    (1, 1),
-    (2, 1),
-    (3, 2),
-    (4, 3),
-    (6, 1),
-    (7, 6),
-    (7, 7),
-    (8, 4);
+    ((SELECT movie_id FROM Movies WHERE title = 'Batman Begins' AND year = '2005'),
+     (SELECT actor_id FROM Actors WHERE first_name = 'Christian' AND last_name = 'Bale')),
+
+    ((SELECT movie_id FROM Movies WHERE title = 'The Dark Knight' AND year = '2008'),
+     (SELECT actor_id FROM Actors WHERE first_name = 'Christian' AND last_name = 'Bale')),
+
+    ((SELECT movie_id FROM Movies WHERE title = 'The Godfather' AND year = '1972'),
+     (SELECT actor_id FROM Actors WHERE first_name = 'Al' AND last_name = 'Pacino')),
+
+    ((SELECT movie_id FROM Movies WHERE title = 'Pulp Fiction' AND year = '1994'),
+     (SELECT actor_id FROM Actors WHERE first_name = 'Uma' AND last_name = 'Thurman')),
+
+    ((SELECT movie_id FROM Movies WHERE title = 'American Psycho' AND year = '2000'),
+     (SELECT actor_id FROM Actors WHERE first_name = 'Christian' AND last_name = 'Bale')),
+
+    ((SELECT movie_id FROM Movies WHERE title = 'The Big Lebowski' AND year = '1998'),
+     (SELECT actor_id FROM Actors WHERE first_name = 'Jeff' AND last_name = 'Bridges')),
+
+    ((SELECT movie_id FROM Movies WHERE title = 'The Big Lebowski' AND year = '1998'),
+     (SELECT actor_id FROM Actors WHERE first_name = 'Julianne' AND last_name = 'Moore')),
+
+    ((SELECT movie_id FROM Movies WHERE title = 'Toy Story' AND year = '1995'),
+     (SELECT actor_id FROM Actors WHERE first_name = 'Tom' AND last_name = 'Hanks'));
 
 -- These two commands are from the assignment description:
 -- https://canvas.oregonstate.edu/courses/1914747/assignments/9180999?module_item_id=23040579
