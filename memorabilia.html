@@ -1,0 +1,193 @@
+<!-- CITATION:
+          https://www.w3schools.com/html/html_form_elements.asp -->
+
+<html>
+  <head>
+    <title>Memorabilia</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <h1>Memorabilia</h1>
+
+    [ <a href="customers.html">Customers</a> |
+    <a href="orders.html">Orders</a> |
+    <a href="memorabilia.html">Memorabilia</a> |
+    <a href="movies.html">Movies</a> | <a href="actors.html">Actors</a> ]
+    <div id="browse" style="display: block">
+      <p><strong>Browse Memorabilia</strong></p>
+      <table border="1" cellpadding="5">
+        <tr>
+          <th><a href="#">New</a></th>
+          <th></th>
+          <th>Item ID</th>
+          <th>Description</th>
+          <th><label for="type">Type</label></th>
+          <th><label for="condition">Condition</label></th>
+          <th>Price</th>
+          <th>Order ID</th>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td align="center">1</td>
+          <td align="center">Batman's Cape</td>
+          <td align="center">Wardrobe</td>
+          <td align="center">Good</td>
+          <td align="center">$2000.00</td>
+          <td align="center">1</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td align="center">2</td>
+          <td align="center">Godfather script signed by Al Pacino</td>
+          <td align="center">Script</td>
+          <td align="center">Fair</td>
+          <td align="center">$500.00</td>
+          <td align="center">1</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td align="center">3</td>
+          <td align="center">Pulp Fiction rare movie poster</td>
+          <td align="center">Poster</td>
+          <td align="center">New</td>
+          <td align="center">$50.00</td>
+          <td align="center">2</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td align="center">4</td>
+          <td align="center">Jason Voorhees's machete</td>
+          <td align="center">Prop</td>
+          <td align="center">Excellent</td>
+          <td align="center">$1000.00</td>
+          <td align="center">3</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td align="center">5</td>
+          <td align="center">Patrick Bateman's business card</td>
+          <td align="center">Prop</td>
+          <td align="center">Good</td>
+          <td align="center">$70.00</td>
+          <td align="center">4</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td align="center">6</td>
+          <td align="center">Toy Story movie script signed by Tom Hanks</td>
+          <td align="center">Script</td>
+          <td align="center">Poor</td>
+          <td align="center">$100.00</td>
+          <td align="center">NULL</td>
+        </tr>
+      </table>
+      <p>&nbsp;</p>
+    </div>
+    <!-- browse -->
+    <div id="insert" style="display: block">
+      <form id="addMemorabilia">
+        <legend><strong>Add Memorabilia</strong></legend>
+        <fieldset class="fields">
+          <label> Description </label> <input type="text" name="description" />
+
+          <label for="type">Type</label>
+          <select id="type" name="type">
+            <option value="defaultSelect1">SELECT</option>
+            <option value="script">Script</option>
+            <option value="prop">Prop</option>
+            <option value="wardrobe">Wardrobe</option>
+            <option value="poster">Poster</option>
+          </select>
+          <label for="condition">Condition</label>
+          <select id="condition" name="condition">
+            <option value="defaultSelect2">SELECT</option>
+            <option value="new">New</option>
+            <option value="excellent">Excellent</option>
+            <option value="good">Good</option>
+            <option value="fair">Fair</option>
+            <option value="poor">Poor</option>
+          </select>
+          <label> Price </label> <input type="number" name="price" />
+          <label> Order ID </label> <input type="number" name="orderID" />
+        </fieldset>
+        <input
+          class="btn"
+          type="submit"
+          id="addMemorabilia"
+          value="Add Memorabilia"
+        />
+        <input class="btn" type="button" value="cancel" />
+      </form>
+      <!--add new Memorabilia-->
+    </div>
+    <!-- insert -->
+
+    <p>&nbsp;</p>
+    <div id="update" style="display: block">
+      <form id="updateMemorabilia">
+        <legend><strong>Update Memorabilia</strong></legend>
+        <fieldset class="fields">
+          <label>Item ID:</label>
+          <input type="number" value="#" name="itemID" />
+          <label> Description: </label>
+          <input type="text" value="description" name="description" />
+          <label for="updateType">Type</label>
+          <select id="updateType" name="updateType">
+            <option value="defaultSelect1">SELECT</option>
+            <option value="script">Script</option>
+            <option value="prop">Prop</option>
+            <option value="wardrobe">Wardrobe</option>
+            <option value="poster">Poster</option>
+          </select>
+          <label for="updateCondition">Condition</label>
+          <select id="updateCondition" name="updateCondition">
+            <option value="defaultSelect2">SELECT</option>
+            <option value="new">New</option>
+            <option value="excellent">Excellent</option>
+            <option value="good">Good</option>
+            <option value="fair">Fair</option>
+            <option value="poor">Poor</option>
+          </select>
+          <label> Price: </label>
+          <input type="number" name="price" value="0.00" />
+          <label> Order ID: </label>
+          <input type="number" name="updateOrderID" value="#" />
+        </fieldset>
+        <input
+          class="btn"
+          type="submit"
+          id="UpdateSaveMemorabilia"
+          value="Save Update Memorabilia"
+        />
+        <input class="btn" type="button" value="cancel" />
+      </form>
+    </div>
+    <!-- update -->
+    <p>&nbsp;</p>
+    <div id="delete" style="display: block">
+      <form id="deleteMemorabilia">
+        <legend><strong>Delete Memorabilia</strong></legend>
+        <fieldset class="fields">
+          <p>Are you sure you wish to delete the following?</p>
+          <label>Item ID:</label>
+          <input type="number" name="deleteOrderID" value="#" />
+        </fieldset>
+        <input
+          class="btn"
+          type="submit"
+          id="DeleteMemorabilia"
+          value="Delete Memorabilia"
+        />
+        <input class="btn" type="button" value="cancel" />
+      </form>
+    </div>
+    <!-- delete -->
+  </body>
+</html>

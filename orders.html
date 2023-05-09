@@ -1,0 +1,222 @@
+<html>
+  <head>
+    <title>Orders</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <script language="JavaScript">
+      function showform(dowhat) {
+        /*
+         * four DIVS: browse, insert, update, delete
+         * this function sets one visible the others not
+         */
+        if (dowhat == "insert") {
+          document.getElementById("browse").style.display = "none";
+          document.getElementById("insert").style.display = "block";
+          document.getElementById("update").style.display = "none";
+          document.getElementById("delete").style.display = "none";
+        } else if (dowhat == "update") {
+          document.getElementById("browse").style.display = "none";
+          document.getElementById("insert").style.display = "none";
+          document.getElementById("update").style.display = "block";
+          document.getElementById("delete").style.display = "none";
+        } else if (dowhat == "delete") {
+          document.getElementById("browse").style.display = "none";
+          document.getElementById("insert").style.display = "none";
+          document.getElementById("update").style.display = "none";
+          document.getElementById("delete").style.display = "block";
+        } else if (dowhat == "all") {
+          document.getElementById("browse").style.display = "block";
+          document.getElementById("insert").style.display = "block";
+          document.getElementById("update").style.display = "block";
+          document.getElementById("delete").style.display = "block";
+        } else {
+          //by default display browse
+          document.getElementById("browse").style.display = "block";
+          document.getElementById("insert").style.display = "none";
+          document.getElementById("update").style.display = "none";
+          document.getElementById("delete").style.display = "none";
+        }
+      }
+      function newOrder() {
+        showform("insert");
+      }
+      function updateOrder(pid) {
+        showform("update");
+      }
+      function deleteOrder(pid) {
+        showform("delete");
+      }
+      function browseOrder() {
+        showform("browse");
+      }
+      function showAll() {
+        showform("all");
+      }
+    </script>
+  </head>
+
+  <body onload="browseOrder()">
+    <h1>Orders</h1>
+
+    [ <a href="customers.html">Customers</a> |
+    <a href="orders.html">Orders</a> |
+    <a href="memorabilia.html">Memorabilia</a> |
+    <a href="movies.html">Movies</a> | <a href="actors.html">Actors</a> ]
+
+    <div id="browse">
+      <p><a href="#" onClick="showAll()">Display all forms</a></p>
+      <table border="1" cellpadding="5">
+        <tr>
+          <th><a href="#" onClick="newOrder()">New</a></th>
+          <th></th>
+          <th>Order ID</th>
+          <th>Order Date</th>
+          <th>Ship Date</th>
+          <th>Delivered Date</th>
+          <th>Comment</th>
+          <th>Customer ID</th>
+        </tr>
+        <tr>
+          <td><a href="#" onClick="updateOrder('this.OrderID')">Edit</a></td>
+          <td>
+            <a href="#" onclick="deleteOrder('this.OrderID')">Delete</a>
+          </td>
+          <td align="center">1</td>
+          <td align="center">2022-06-22 00:00:00</td>
+          <td align="center">2022-06-23 00:00:00</td>
+          <td align="center">2022-07-01 00:00:00</td>
+          <td align="center">put in backyard</td>
+          <td align="center">1</td>
+        </tr>
+        <tr>
+          <td><a href="#" onClick="updateOrder('this.OrderID')">Edit</a></td>
+          <td>
+            <a href="#" onclick="deleteOrder('this.OrderID')">Delete</a>
+          </td>
+          <td align="center">2</td>
+          <td align="center">2022-06-23 00:00:00</td>
+          <td align="center">2022-06-23 00:00:00</td>
+          <td align="center">2022-06-23 00:00:00</td>
+          <td align="center">2022-06-23 00:00:00</td>
+          <td align="center">2</td>
+        </tr>
+        <tr>
+          <td><a href="#" onClick="updateOrder('this.OrderID')">Edit</a></td>
+          <td>
+            <a href="#" onclick="deleteOrder('this.OrderID')">Delete</a>
+          </td>
+          <td align="center">3</td>
+          <td align="center">2022-06-23 00:00:00</td>
+          <td align="center">2022-06-23 00:00:00</td>
+          <td align="center">2022-06-23 00:00:00</td>
+          <td align="center">NULL</td>
+          <td align="center">3</td>
+        </tr>
+        <tr>
+          <td><a href="#" onClick="updateOrder('this.OrderID')">Edit</a></td>
+          <td>
+            <a href="#" onclick="deleteOrder('this.OrderID')">Delete</a>
+          </td>
+          <td align="center">4</td>
+          <td align="center">2022-06-23 00:00:00</td>
+          <td align="center">2022-06-23 00:00:00</td>
+          <td align="center">NULL</td>
+          <td align="center">beware of dog</td>
+          <td align="center">4</td>
+        </tr>
+      </table>
+      <p>&nbsp;</p>
+    </div>
+    <!-- browse -->
+    <div id="insert">
+      <form method="POST" id="addOrder">
+        <legend><strong>Add Order</strong></legend>
+        <fieldset class="fields">
+          <!-- 
+            These are probably the only ones that would make sense to enter manually 
+          -->
+          <label> Order Date </label>
+          <input type="datetime" name="orderDate" /> <label> Ship Date </label>
+          <input type="datetime" name="shipDate" />
+          <label> Delivered Date </label>
+          <input type="datetime" name="deliveredDate" />
+          <label> Comment </label> <input type="text" name="comment" />
+          <label> Customer ID </label>
+          <input type="number" name="customerID" />
+          <!-- <select name="homeworld">
+            <option value="0">&nbsp;</option>
+            <option value="1">Gemenon</option>
+            <option value="2">Leonis</option>
+            <option value="3">Caprica</option>
+          </select> -->
+        </fieldset>
+        <input class="btn" type="submit" id="addOrder" value="Add Order" />
+        <input
+          class="btn"
+          type="button"
+          value="cancel"
+          onClick="browseOrder()"
+        />
+      </form>
+    </div>
+    <!-- insert -->
+    <p>&nbsp;</p>
+    <div id="update">
+      <form method="POST" id="UpdateOrder">
+        <legend><strong>Update Order</strong></legend>
+        <fieldset class="fields">
+          <input type="hidden" name="orderID" id="updateOrderID" value="1" />
+          <label> Order ID: </label>
+          <input type="number" name="orderID" value="#" />
+          <label> Order Date </label>
+          <input type="datetime" name="orderDate" value="datetime" />
+          <label> Ship Date </label>
+          <input type="datetime" name="shipDate" value="datetime" />
+          <label> Delivered Date </label>
+          <input type="datetime" name="deliveredDate" value="datetime" />
+          <label> Comment </label>
+          <input type="datetime" name="shipDate" value="datetime" />
+          <label> Customer ID </label>
+          <input type="number" name="customerID" value="#" />
+        </fieldset>
+        <input
+          class="btn"
+          type="submit"
+          id="UpdateSaveOrder"
+          value="Update Order"
+        />
+        <input
+          class="btn"
+          type="button"
+          value="cancel"
+          onClick="browseOrder()"
+        />
+      </form>
+    </div>
+    <!-- update -->
+    <p>&nbsp;</p>
+    <div id="delete" style="display: block">
+      <form method="POST" id="deleteOrder">
+        <legend><strong>Delete Order</strong></legend>
+        <fieldset class="fields">
+          <p>Are you sure you wish to delete the following?</p>
+          <input type="hidden" name="OrderID" id="deleteOrderID" value="1" />
+          <label><strong>Order ID:</strong></label>
+          <input type="number" name="orderID" value="#" />
+        </fieldset>
+        <input
+          class="btn"
+          type="submit"
+          id="DeleteOrder"
+          value="Delete Order"
+        />
+        <input
+          class="btn"
+          type="button"
+          value="cancel"
+          onClick="browseOrder()"
+        />
+      </form>
+    </div>
+    <!-- delete -->
+  </body>
+</html>

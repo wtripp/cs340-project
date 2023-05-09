@@ -1,0 +1,162 @@
+<html>
+  <head>
+    <title>Movies</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <h1>Movies</h1>
+
+    [ <a href="customers.html">Customers</a> |
+    <a href="orders.html">Orders</a> |
+    <a href="memorabilia.html">Memorabilia</a> |
+    <a href="movies.html">Movies</a> | <a href="actors.html">Actors</a> ]
+    <div id="browse" style="display: block">
+      <p><strong>Browse Movies</strong></p>
+      <table border="1" cellpadding="5">
+        <tr>
+          <th><a href="#">New</a></th>
+          <th></th>
+          <th>Movie ID</th>
+          <th>Title</th>
+          <th>Year</th>
+          <th>Genre</th>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td align="center">1</td>
+          <td align="center">Batman Begins</td>
+          <td align="center">2005</td>
+          <td align="center">action</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td align="center">2</td>
+          <td align="center">The Dark Knight</td>
+          <td align="center">2008</td>
+          <td align="center">action</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td align="center">3</td>
+          <td align="center">The Godfather</td>
+          <td align="center">1972</td>
+          <td align="center">drama</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td align="center">4</td>
+          <td align="center">Pulp Fiction</td>
+          <td align="center">1994</td>
+          <td align="center">NULL</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td align="center">5</td>
+          <td align="center">Friday the 13th</td>
+          <td align="center">1980</td>
+          <td align="center">horror</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td align="center">6</td>
+          <td align="center">American Psycho</td>
+          <td align="center">2000</td>
+          <td align="center">thriller</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td align="center">7</td>
+          <td align="center">The Big Lebowski</td>
+          <td align="center">1998</td>
+          <td align="center">comedy</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td align="center">8</td>
+          <td align="center">Toy Story</td>
+          <td align="center">1995</td>
+          <td align="center">animation</td>
+        </tr>
+      </table>
+      <p>&nbsp;</p>
+    </div>
+    <!-- browse -->
+    <div id="insert" style="display: block">
+      <form id="addMovies">
+        <legend><strong>Add Movie</strong></legend>
+        <fieldset class="fields">
+          <label> Title </label> <input type="text" name="title" />
+          <label> Year </label> <input type="number" name="year" />
+          <label for="type">Genre</label>
+          <select id="type" name="type">
+            <option value="defaultSelect1">SELECT</option>
+            <option value="script">Script</option>
+            <option value="prop">Prop</option>
+            <option value="wardrobe">Wardrobe</option>
+            <option value="poster">Poster</option>
+          </select>
+        </fieldset>
+        <input class="btn" type="submit" id="addMovies" value="Add Movie" />
+        <input class="btn" type="button" value="cancel" />
+      </form>
+      <!--add new Memorabilia-->
+    </div>
+    <!-- insert -->
+
+    <p>&nbsp;</p>
+    <div id="update" style="display: block">
+      <form id="updateMovie">
+        <legend><strong>Update Movie</strong></legend>
+        <fieldset class="fields">
+          <label> Movie ID </label> <input type="number" name="movieID" />
+          <label> Title </label> <input type="text" name="title" />
+          <label> Year </label> <input type="number" name="year" />
+          <label for="type">Genre</label>
+          <select id="type" name="type">
+            <option value="defaultSelect1">SELECT</option>
+            <option value="script">Script</option>
+            <option value="prop">Prop</option>
+            <option value="wardrobe">Wardrobe</option>
+            <option value="poster">Poster</option>
+          </select>
+        </fieldset>
+        <input
+          class="btn"
+          type="submit"
+          id="UpdateSaveMovie"
+          value="Save Update Movie"
+        />
+        <input class="btn" type="button" value="cancel" />
+      </form>
+    </div>
+    <!-- update -->
+    <p>&nbsp;</p>
+    <div id="delete" style="display: block">
+      <form id="deleteMovie">
+        <legend><strong>Delete Movie</strong></legend>
+        <fieldset class="fields">
+          <p>Are you sure you wish to delete the following?</p>
+          <label> Movie ID: </label>
+          <input type="number" name="deleteMovieByID" />
+        </fieldset>
+        <input
+          class="btn"
+          type="submit"
+          id="DeleteMovie"
+          value="Delete Movie"
+        />
+        <input class="btn" type="button" value="cancel" />
+      </form>
+    </div>
+    <!-- delete -->
+  </body>
+</html>

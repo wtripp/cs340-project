@@ -1,0 +1,165 @@
+<html>
+  <head>
+    <title>Customers</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <h1>Customers</h1>
+
+    [ <a href="customers.html">Customers</a> |
+    <a href="orders.html">Orders</a> |
+    <a href="memorabilia.html">Memorabilia</a> |
+    <a href="movies.html">Movies</a> | <a href="actors.html">Actors</a> ]
+    <div id="browse" style="display: block">
+      <p><strong>Browse Customers</strong></p>
+      <table border="1" cellpadding="5">
+        <tr>
+          <th><a href="#">New</a></th>
+          <th></th>
+          <th>ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Address</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Postal Code</th>
+        </tr>
+        <tr>
+          <td align="center"><a href="#">Edit</a></td>
+          <td align="center"><a href="#">Delete</a></td>
+          <td align="center">1</td>
+          <td>Cordula</td>
+          <td>de Courcey</td>
+          <td align="center">202-430-1819</td>
+          <td>cdecourcey1@dyndns.org</td>
+          <td>353 Buhler Avenue</td>
+          <td>Philadelphia</td>
+          <td>Pennsylvania</td>
+          <td align="center">19104</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td align="center">2</td>
+          <td>Donia</td>
+          <td>Calderhead</td>
+          <td align="center">NULL</td>
+          <td>dcalderhead2@netscape.com</td>
+          <td>1 Pepper Wood Hill</td>
+          <td>Chicago</td>
+          <td>NULL</td>
+          <td align="center">60620</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td align="center">3</td>
+          <td>Sarena</td>
+          <td>Vasse</td>
+          <td align="center">349-502-4035</td>
+          <td>svasse3@gmail.com</td>
+          <td>17 Oxford Parkway</td>
+          <td>Cambridge</td>
+          <td>Massachusetts</td>
+          <td align="center">02138</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td align="center">4</td>
+          <td>Liuka</td>
+          <td>Vasse</td>
+          <td align="center">213-333-8701</td>
+          <td>lfyndon4@gmail.com</td>
+          <td>17 Oxford Parkway</td>
+          <td>Cambridge</td>
+          <td>Massachusetts</td>
+          <td align="center">02138</td>
+        </tr>
+      </table>
+      <p>&nbsp;</p>
+    </div>
+    <!-- browse -->
+    <div id="insert" style="display: block">
+      <form id="addCustomer">
+        <legend><strong>Add Customer</strong></legend>
+        <fieldset class="fields">
+          <label> First Name </label> <input type="text" name="fname" />
+          <label> Last Name </label> <input type="text" name="lname" />
+          <label> Phone </label> <input type="tel" name="phone" />
+          <label> Email </label> <input type="email" name="email" />
+          <label> Address </label> <input type="text" name="address" />
+          <label> City </label> <input type="text" name="city" />
+          <label> State </label> <input type="text" name="state" />
+          <label> Postal Code </label> <input type="number" name="postalcode" />
+        </fieldset>
+        <input
+          class="btn"
+          type="submit"
+          id="addCustomer"
+          value="Add a Customer"
+        />
+        <input class="btn" type="button" value="cancel" />
+      </form>
+      <!--add new customer-->
+    </div>
+    <!-- insert -->
+
+    <p>&nbsp;</p>
+    <div id="update" style="display: block">
+      <form id="updateCustomer">
+        <legend><strong>Update Customer</strong></legend>
+        <fieldset class="fields">
+          <label>ID:</label>
+          <input type="number" value="#" name="customerID" />
+          <label> First Name: </label>
+          <input type="text" value="firstname" name="firstname" />
+          <label>Last Name:</label>
+          <input type="text" value="firstname" name="lastname" />
+          <label> Phone Number: </label>
+          <input type="tel" name="population" value="000-000-0000" />
+          <label> Email: </label>
+          <input type="email" name="email" value="email@email.com" />
+          <label> Address: </label>
+          <input type="text" name="address" value="123 Fake Street" />
+          <label> City: </label>
+          <input type="text" name="city" value="City" />
+          <label> State: </label>
+          <input type="text" name="state" value="State" />
+          <label> Postal Code: </label>
+          <input type="number" name="postalcode" value="00000" />
+        </fieldset>
+        <input
+          class="btn"
+          type="submit"
+          id="UpdateSavePlanet"
+          value="Save Update Planet"
+        />
+        <input class="btn" type="button" value="cancel" />
+      </form>
+    </div>
+    <!-- update -->
+    <p>&nbsp;</p>
+    <div id="delete" style="display: block">
+      <form id="deletePlanet">
+        <legend><strong>Delete Customer</strong></legend>
+        <fieldset class="fields">
+          <p>Are you sure you wish to delete the following?</p>
+          <label>ID:</label>
+          <input type="number" value="#" name="customerID" />
+        </fieldset>
+        <input
+          class="btn"
+          type="submit"
+          id="DeleteCustomer"
+          value="DELETE CUSTOMER"
+        />
+        <input class="btn" type="button" value="cancel" />
+      </form>
+    </div>
+    <!-- delete -->
+  </body>
+</html>
