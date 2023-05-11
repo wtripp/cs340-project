@@ -2,25 +2,9 @@
 -- Will Tripp and Seth Stephanz (CS340 - Group 59)
 -- Variable names are preceded by a colon (:).
 
-/*
-NOTES FROM WILL (5/6/23) --
-* I added the returned SQL code I got wherever I didn't use variables. Hope this helps.
-* I made some guesses on how the HTML might look and what display names and generated columns we might want to use. I will correct things based on the pages you create.
-* I ended up creating SQL queries for everything, but I don't think we have to implement all of them in HTML for step 3.
-* I thought it might be useful to put Movies and Actors together on one page. On their own they don't do much.
-* We might want to change the 'condition' attribute to something else. It turns out CONDITION is a reserved keyword. That's why I used backticks for them.
-* For many of the entities, I used combinations of attributes so our dropdowns didn't use the IDs. We might want to make some of these attribute combos unique in SQL. I think you mentioned this in an earlier step. It might be time to implement this. Some possible UNIQUE entities:
-** Customers: email
-** Orders: (order_date, customer_id) -- A customer can't place two orders at the exact same time.
-** Memorabilia: description
-** Movies: (title, year) -- Unlikely that two movies with the same title would come out in the same year.
-** Actors: (first_name, last_name) -- This might not be enough to make unique. We could consider adding a date_of_birth attribute.
-* It turns out ENUMs are really annoying for doing INSERTS/UPDATES. I couldn't figure out how to populate them in a dropdown, so we might want to change 'condition' and 'type' in Memorabilia to VARCHAR.
-*/
-
 -- CUSTOMERS PAGE --
 
--- Display all customers.
+-- Browse Customers
 SELECT customer_id, first_name, last_name, phone, email, address, city, state, postal_code FROM Customers;
 /*
 +-------------+------------+------------+--------------+---------------------------+--------------------+--------------+---------------+-------------+
@@ -33,38 +17,49 @@ SELECT customer_id, first_name, last_name, phone, email, address, city, state, p
 +-------------+------------+------------+--------------+---------------------------+--------------------+--------------+---------------+-------------+
 */
 
--- Add a new customer.
+-- Add Customer
 INSERT INTO Customers (first_name, last_name, phone, email, address, city, state, postal_code)
 VALUES (:first_name_input, :last_name_input, :phone_input, :email_input, :address_input, :city_input, :state_input, :postal_code_input);
+
+-- Helper: Get customer data when user clicks "Edit" or "Delete"
+SELECT customer_id, first_name, last_name, phone, email, address, city, state, postal_code
+FROM Customers WHERE customer_id = :customer_id_selected_for_edit_or_delete;
+
+-- Update Customer
+UPDATE Customers
+SET first_name = :first_name_input, last_name = :last_name_input,
+    phone = :phone_input, email = :email_input,
+    address = :address_input, city = :city_input,
+    state = :state_input, postal_code = :post_code_input
+WHERE customer_id = :customer_id_selected_for_edit_or_delete;
+
+-- Delete Customer
+DELETE FROM Customers WHERE customer_id = :customer_id_selected_for_edit_or_delete;
 
 -- END CUSTOMERS PAGE --
 
 
 -- ORDERS PAGE --
 
--- Display all orders.
+-- Browse Orders
 SELECT o.order_id, o.order_date, o.ship_date, o.delivered_date, o.comment,
-       CONCAT(c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_name,
-       GROUP_CONCAT(items.description SEPARATOR ', ') AS items_ordered,
-       SUM(items.price) AS order_total
+       CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
 FROM Orders AS o
 JOIN Customers AS c ON o.customer_id = c.customer_id
-JOIN Memorabilia AS items ON items.order_id = o.order_id
-GROUP BY o.order_id
 ORDER BY o.order_date;
 /*
-+----------+---------------------+---------------------+---------------------+-----------------+----------------------------------------------+-----------------------------------------------------+-------------+
-| order_id | order_date          | ship_date           | delivered_date      | comment         | customer_name                                | items_ordered                                       | order_total |
-+----------+---------------------+---------------------+---------------------+-----------------+----------------------------------------------+-----------------------------------------------------+-------------+
-|        1 | 2022-06-22 00:00:00 | 2022-06-23 00:00:00 | 2022-07-01 00:00:00 | put in backyard | Cordula de Courcey (cdecourcey1@dyndns.org)  | Batman's cape, Godfather script signed by Al Pacino |     2500.00 |
-|        2 | 2022-08-14 00:00:00 | 2022-08-15 00:00:00 | 2022-08-29 00:00:00 | NULL            | Donia Calderhead (dcalderhead2@netscape.com) | Pulp Fiction rare movie poster                      |       50.00 |
-|        3 | 2022-12-06 00:00:00 | 2022-12-06 00:00:00 | 2022-12-23 00:00:00 | NULL            | Sarena Vasse (svasse3@gmail.com)             | Jason Voorhees's machete                            |     1000.00 |
-|        4 | 2023-03-28 00:00:00 | 2023-03-29 00:00:00 | NULL                | beware of dog   | Liuka Vasse (lfyndon4@gmail.com)             | Patrick Bateman's business card                     |       75.00 |
-|        5 | 2023-03-28 00:00:00 | NULL                | NULL                | NULL            | Liuka Vasse (lfyndon4@gmail.com)             | The Dude's robe                                     |      150.00 |
-+----------+---------------------+---------------------+---------------------+-----------------+----------------------------------------------+-----------------------------------------------------+-------------+
++----------+---------------------+---------------------+---------------------+-----------------+--------------------------------------------------+
+| order_id | order_date          | ship_date           | delivered_date      | comment         | customer_id                                      |
++----------+---------------------+---------------------+---------------------+-----------------+--------------------------------------------------+
+|        1 | 2022-06-22 00:00:00 | 2022-06-23 00:00:00 | 2022-07-01 00:00:00 | put in backyard | 1 - Cordula de Courcey (cdecourcey1@dyndns.org)  |
+|        2 | 2022-08-14 00:00:00 | 2022-08-15 00:00:00 | 2022-08-29 00:00:00 | NULL            | 2 - Donia Calderhead (dcalderhead2@netscape.com) |
+|        3 | 2022-12-06 00:00:00 | 2022-12-06 00:00:00 | 2022-12-23 00:00:00 | NULL            | 3 - Sarena Vasse (svasse3@gmail.com)             |
+|        4 | 2023-03-28 00:00:00 | 2023-03-29 00:00:00 | NULL                | beware of dog   | 4 - Liuka Vasse (lfyndon4@gmail.com)             |
+|        5 | 2023-03-28 00:00:01 | NULL                | NULL                | NULL            | 4 - Liuka Vasse (lfyndon4@gmail.com)             |
++----------+---------------------+---------------------+---------------------+-----------------+--------------------------------------------------+
 */
 
--- Select customer data used to populate the dropdown that associates a customer with an order. 
+-- Helper: Select customer data used to populate the dropdown that associates a customer with an order. 
 SELECT customer_id, CONCAT(first_name, ' ', last_name, ' (', email, ')') AS customer_dropdown_display FROM Customers;
 /*
 +-------------+----------------------------------------------+
@@ -77,97 +72,119 @@ SELECT customer_id, CONCAT(first_name, ' ', last_name, ' (', email, ')') AS cust
 +-------------+----------------------------------------------+
 */
 
--- Add a new order.
+-- Add Order
 INSERT INTO Orders (order_date, ship_date, delivered_date, comment, customer_id)
-VALUES (:order_date_input, :ship_date_input, :delivered_date_input, :comment_input, :customer_id_input_from_dropdown);
+VALUES (:order_date_input, :ship_date_input, :delivered_date_input, :comment_input, :customer_id_from_dropdown);
+
+-- Helper: Get order data when user clicks "Edit" or "Delete".
+SELECT o.order_id, o.order_date, o.ship_date, o.delivered_date, o.comment,
+       CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
+FROM Orders AS o
+JOIN Customers AS c ON o.customer_id = c.customer_id
+WHERE order_id = :order_id_selected_for_edit_or_delete;
+
+-- Update Order
+UPDATE Orders
+SET order_date = :order_date_input, ship_date = :ship_date_input,
+    delivered_date = :delivered_date_input, comment = :comment_input,
+    customer_id = :customer_id_from_dropdown
+WHERE order_id = :order_id_selected_for_edit_or_delete;
+
+-- Delete Order
+DELETE FROM Orders WHERE order_id = :order_id_selected_for_edit_or_delete;
 
 -- END ORDERS PAGE --
 
 
 -- MEMORABILIA PAGE --
 
--- Display all memorabilia items.
+-- Browse Memorabilia
 SELECT items.item_id, items.description, items.type, items.`condition`, items.price,
-        CONCAT(c.first_name, ' ', c.last_name, ' (', c.email, ') on ', o.order_date) AS customer_order
+        CONCAT(o.order_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ') on ', o.order_date) AS customer_order
 FROM Memorabilia AS items
 LEFT JOIN Orders AS o ON items.order_id = o.order_id
 LEFT JOIN Customers AS c ON o.customer_id = c.customer_id
 ORDER by customer_order;
 /*
-+---------+--------------------------------------------+----------+-----------+---------+---------------------------------------------------------------------+
-| item_id | description                                | type     | condition | price   | customer_order                                                      |
-+---------+--------------------------------------------+----------+-----------+---------+---------------------------------------------------------------------+
-|       7 | Toy Story movie script signed by Tom Hanks | script   | poor      |  100.00 | NULL                                                                |
-|       1 | Batman's cape                              | wardrobe | good      | 2000.00 | Cordula de Courcey (cdecourcey1@dyndns.org) on 2022-06-22 00:00:00  |
-|       2 | Godfather script signed by Al Pacino       | script   | fair      |  500.00 | Cordula de Courcey (cdecourcey1@dyndns.org) on 2022-06-22 00:00:00  |
-|       3 | Pulp Fiction rare movie poster             | poster   | new       |   50.00 | Donia Calderhead (dcalderhead2@netscape.com) on 2022-08-14 00:00:00 |
-|       5 | Patrick Bateman's business card            | prop     | good      |   75.00 | Liuka Vasse (lfyndon4@gmail.com) on 2023-03-28 00:00:00             |
-|       6 | The Dude's robe                            | wardrobe | fair      |  150.00 | Liuka Vasse (lfyndon4@gmail.com) on 2023-03-28 00:00:00             |
-|       4 | Jason Voorhees's machete                   | prop     | excellent | 1000.00 | Sarena Vasse (svasse3@gmail.com) on 2022-12-06 00:00:00             |
-+---------+--------------------------------------------+----------+-----------+---------+---------------------------------------------------------------------+
++---------+--------------------------------------------+----------+-----------+---------+-------------------------------------------------------------------------+
+| item_id | description                                | type     | condition | price   | customer_order                                                          |
++---------+--------------------------------------------+----------+-----------+---------+-------------------------------------------------------------------------+
+|       1 | Batman's cape                              | wardrobe | good      | 2000.00 | 1 - Cordula de Courcey (cdecourcey1@dyndns.org) on 2022-06-22 00:00:00  |
+|       2 | Godfather script signed by Al Pacino       | script   | fair      |  500.00 | 1 - Cordula de Courcey (cdecourcey1@dyndns.org) on 2022-06-22 00:00:00  |
+|       3 | Pulp Fiction rare movie poster             | poster   | new       |   50.00 | 2 - Donia Calderhead (dcalderhead2@netscape.com) on 2022-08-14 00:00:00 |
+|       4 | Jason Voorhees's machete                   | prop     | excellent | 1000.00 | 3 - Sarena Vasse (svasse3@gmail.com) on 2022-12-06 00:00:00             |
+|       5 | Patrick Bateman's business card            | prop     | good      |   75.00 | 4 - Liuka Vasse (lfyndon4@gmail.com) on 2023-03-28 00:00:00             |
+|       6 | The Dude's robe                            | wardrobe | fair      |  150.00 | 5 - Liuka Vasse (lfyndon4@gmail.com) on 2023-03-28 00:00:01             |
+|       7 | Toy Story movie script signed by Tom Hanks | script   | poor      |  100.00 | NULL                                                                    |
++---------+--------------------------------------------+----------+-----------+---------+-------------------------------------------------------------------------+
 */
 
-
--- Select order data used to populate the dropdown that associates a memorabilia item with an order. 
+-- Helper: Select order data used to populate the dropdown that associates a memorabilia item with an order. 
 SELECT o.order_id, CONCAT(c.first_name, ' ', c.last_name, ' (', c.email, ') on ', o.order_date) AS customer_order
 FROM Orders AS o
 JOIN Customers as c ON o.customer_id = c.customer_id;
 /*
 +----------+---------------------------------------------------------------------+
-| order_id | customer_order                                                          |
+| order_id | customer_order                                                      |
 +----------+---------------------------------------------------------------------+
 |        1 | Cordula de Courcey (cdecourcey1@dyndns.org) on 2022-06-22 00:00:00  |
 |        2 | Donia Calderhead (dcalderhead2@netscape.com) on 2022-08-14 00:00:00 |
 |        3 | Sarena Vasse (svasse3@gmail.com) on 2022-12-06 00:00:00             |
 |        4 | Liuka Vasse (lfyndon4@gmail.com) on 2023-03-28 00:00:00             |
-|        5 | Liuka Vasse (lfyndon4@gmail.com) on 2023-03-28 00:00:00             |
+|        5 | Liuka Vasse (lfyndon4@gmail.com) on 2023-03-28 00:00:01             |
 +----------+---------------------------------------------------------------------+
 */
 
--- Add a new memorabilia item.
+-- Add Memorabilia
 INSERT INTO Memorabilia (description, type, `condition`, price, order_id)
 VALUES (:description_input, :type_input, :condition_input, :price_input, :order_id_from_dropdown);
 
--- Select a memorabilia item to update or delete.
+-- Helper: Get memorabilia data when user clicks "Edit" or "Delete".
 SELECT item_id, items.description, items.type, items.`condition`, items.price,
-        CONCAT(c.first_name, ' ', c.last_name, ' (', c.email, ') on ', o.order_date) AS customer_order
+        CONCAT(o.order_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ') on ', o.order_date) AS order_id
 FROM Memorabilia AS items
 LEFT JOIN Orders AS o ON items.order_id = o.order_id
 LEFT JOIN Customers AS c ON o.customer_id = c.customer_id
-WHERE items.item_id = :item_id_selected_from_memorabilia_page;
+WHERE items.item_id = :item_id_selected_for_edit_or_delete;
 
--- Update a selected memorabilia item.
+-- Update Memorabilia
 UPDATE Memorabilia
 SET description = :description_input, type = :type_input,
     `condition` = :condition_input, price = :price_input,
     order_id = :order_id_from_dropdown
-WHERE item_id = :item_id_selected_for_update;
+WHERE item_id = :item_id_selected_for_edit_or_delete;
 
--- Delete a selected memorabilia item.
-DELETE FROM Memorabilia WHERE item_id = :item_id_selected_for_deletion;
+-- Delete Memorabilia
+DELETE FROM Memorabilia WHERE item_id = :item_id_selected_for_edit_or_delete;
 
--- Display all movie items (Memorabilia-Movies association).
-SELECT mi.movie_item_id, i.description AS memorabilia_item, CONCAT(m.title, ' (', m.year, ')') AS movie
+-- END MEMORABILIA PAGE --
+
+
+-- MOVIE-ITEMS PAGE
+
+-- Browse Movie Items
+SELECT mi.movie_item_id,
+       CONCAT(i.item_id, ' - ', i.description) AS item_id,
+       CONCAT(m.movie_id, ' - ', m.title, ' (', m.year, ')') AS movie_id
 FROM MovieItems AS mi
 JOIN Memorabilia AS i ON mi.item_id = i.item_id
 JOIN Movies AS m ON m.movie_id = mi.movie_id;
 /*
-+---------------+--------------------------------------------+-------------------------+
-| movie_item_id | memorabilia_item                           | movie                   |
-+---------------+--------------------------------------------+-------------------------+
-|             1 | Batman's cape                              | Batman Begins (2005)    |
-|             2 | Batman's cape                              | The Dark Knight (2008)  |
-|             3 | Godfather script signed by Al Pacino       | The Godfather (1972)    |
-|             4 | Pulp Fiction rare movie poster             | Pulp Fiction (1994)     |
-|             5 | Jason Voorhees's machete                   | Friday the 13th (1980)  |
-|             6 | Patrick Bateman's business card            | American Psycho (2000)  |
-|             7 | The Dude's robe                            | The Big Lebowski (1998) |
-|             8 | Toy Story movie script signed by Tom Hanks | Toy Story (1995)        |
-+---------------+--------------------------------------------+-------------------------+
-*/
++---------------+------------------------------------------------+-----------------------------+
+| movie_item_id | item_id                                        | movie_id                    |
++---------------+------------------------------------------------+-----------------------------+
+|             1 | 1 - Batman's cape                              | 1 - Batman Begins (2005)    |
+|             2 | 1 - Batman's cape                              | 2 - The Dark Knight (2008)  |
+|             3 | 2 - Godfather script signed by Al Pacino       | 3 - The Godfather (1972)    |
+|             5 | 4 - Jason Voorhees's machete                   | 5 - Friday the 13th (1980)  |
+|             6 | 5 - Patrick Bateman's business card            | 6 - American Psycho (2000)  |
+|             4 | 3 - Pulp Fiction rare movie poster             | 4 - Pulp Fiction (1994)     |
+|             7 | 6 - The Dude's robe                            | 7 - The Big Lebowski (1998) |
+|             8 | 7 - Toy Story movie script signed by Tom Hanks | 8 - Toy Story (1995)        |
++---------------+------------------------------------------------+-----------------------------+*/
 
--- Select item data used to populate the item-movie association dropdown. 
-SELECT item_id, description FROM Memorabilia;
+-- Helper: Select item data used to populate the item-movie association dropdown. 
+SELECT item_id, description FROM Memorabilia ORDER BY item_id;
 /*
 +---------+--------------------------------------------+
 | item_id | description                                |
@@ -182,8 +199,8 @@ SELECT item_id, description FROM Memorabilia;
 +---------+--------------------------------------------+
 */
 
--- Select movie data used to populate the item-movie association dropdown. 
-SELECT movie_id, CONCAT(title, ' (', year, ')') AS movie FROM Movies;
+-- Helper: Select movie data used to populate the item-movie association dropdown. 
+SELECT movie_id, CONCAT(title, ' (', year, ')') AS movie FROM Movies ORDER BY movie_id;
 /*
 +----------+-------------------------+
 | movie_id | movie                   |
@@ -199,19 +216,37 @@ SELECT movie_id, CONCAT(title, ' (', year, ')') AS movie FROM Movies;
 +----------+-------------------------+
 */
 
--- Create an item-movie association.
+-- Add Movie Item
 INSERT INTO MovieItems (item_id, movie_id)
 VALUES (:item_id_from_dropdown, :movie_id_from_dropdown);
 
--- Delete an item-movie association.
-DELETE FROM MovieItems WHERE item_id = :item_id_from_dropdown AND movie_id = :movie_id_from_dropdown;
+-- Helper: Get movie item data when user clicks "Edit" or "Delete".
+SELECT mi.movie_item_id,
+       CONCAT(i.item_id, ' - ', i.description) AS item_id,
+       CONCAT(m.movie_id, ' - ', m.title, ' (', m.year, ')') AS movie_id
+FROM MovieItems AS mi
+JOIN Memorabilia AS i ON i.item_id = mi.item_id
+JOIN Movies AS m ON m.movie_id = mi.movie_id
+WHERE mi.movie_item_id = :movie_item_id_selected_for_edit_or_delete;
 
--- END MEMORABILIA PAGE --
+-- Update Movie Item
+UPDATE MovieItems
+SET item_id = :item_id_from_dropdown, movie_id = :movie_id_from_dropdown
+WHERE movie_item_id = :movie_item_id_selected_for_edit_or_delete;
+
+-- Delete Movie Item
+DELETE FROM MovieItems WHERE movie_item_id = :movie_item_id_selected_for_edit_or_delete;
 
 
--- MOVIES AND ACTORS PAGE --
 
--- Display all movies.
+
+
+-- END MOVIE-ITEMS PAGE --
+
+
+-- MOVIES PAGE --
+
+-- Browse Movies
 SELECT movie_id, title, year, genre FROM Movies;
 /*
 +----------+------------------+------+-----------+
@@ -228,10 +263,27 @@ SELECT movie_id, title, year, genre FROM Movies;
 +----------+------------------+------+-----------+
 */
 
--- Add a new movie.
+-- Add Movie
 INSERT INTO Movies (title, year, genre) VALUES (:title_input, :year_input, :genre_input);
 
--- Display all actors.
+-- Helper: Get movie data when user clicks "Edit" or "Delete"
+SELECT movie_id, title, year, genre
+FROM Movies WHERE movie_id = :movie_id_selected_for_edit_or_delete;
+
+-- Update Movie
+UPDATE Movies
+SET title = :title_input, year = :year_input, genre = :genre_input
+WHERE movie_id = :movie_id_selected_for_edit_or_delete;
+
+-- Delete Movie
+DELETE FROM Movies WHERE movie_id = :movie_id_selected_for_edit_or_delete;
+
+-- END MOVIES PAGE --
+
+
+-- ACTORS PAGE --
+
+-- Browse Actors
 SELECT actor_id, first_name, last_name FROM Actors;
 /*
 +----------+------------+-----------+
@@ -247,31 +299,50 @@ SELECT actor_id, first_name, last_name FROM Actors;
 +----------+------------+-----------+
 */
 
--- Add a new actor.
+-- Add Actor
 INSERT INTO Actors (first_name, last_name) VALUES (:first_name_input, :last_name_input);
 
--- Display all actor roles (Movies-Actors associations).
-SELECT ar.actor_role_id, CONCAT(m.title, ' (', m.year, ')') AS movie, CONCAT(a.first_name, ' ', a.last_name) as actor
+-- Helper: Get actor data when user clicks "Edit" or "Delete"
+SELECT actor_id, first_name, last_name
+FROM Actors WHERE actor_id = :actor_id_selected_for_edit_or_delete;
+
+-- Update Actor
+UPDATE Actors
+SET first_name = :first_name_input, last_name = :last_name_input
+WHERE actor_id = :actor_id_selected_for_edit_or_delete;
+
+-- Delete Actor
+DELETE FROM Actors WHERE actor_id = :actor_id_selected_for_edit_or_delete;
+
+-- END ACTORS PAGE --
+
+
+-- ACTOR-ROLES PAGE
+
+-- Browse Actor Roles
+SELECT ar.actor_role_id,
+       CONCAT(m.movie_id, ' - ', m.title, ' (', m.year, ')') AS movie_id,
+       CONCAT(a.actor_id, ' - ', a.first_name, ' ', a.last_name) as actor_id
 FROM ActorRoles AS ar
 JOIN Movies AS m ON m.movie_id = ar.movie_id
 JOIN Actors AS a ON ar.actor_id = a.actor_id;
 /*
-+---------------+-------------------------+----------------+
-| actor_role_id | movie                   | actor          |
-+---------------+-------------------------+----------------+
-|             1 | Batman Begins (2005)    | Christian Bale |
-|             2 | The Dark Knight (2008)  | Christian Bale |
-|             5 | American Psycho (2000)  | Christian Bale |
-|             3 | The Godfather (1972)    | Al Pacino      |
-|             4 | Pulp Fiction (1994)     | Uma Thurman    |
-|             8 | Toy Story (1995)        | Tom Hanks      |
-|             6 | The Big Lebowski (1998) | Jeff Bridges   |
-|             7 | The Big Lebowski (1998) | Julianne Moore |
-+---------------+-------------------------+----------------+
++---------------+-----------------------------+--------------------+
+| actor_role_id | movie_id                    | actor_id           |
++---------------+-----------------------------+--------------------+
+|             1 | 1 - Batman Begins (2005)    | 1 - Christian Bale |
+|             2 | 2 - The Dark Knight (2008)  | 1 - Christian Bale |
+|             3 | 3 - The Godfather (1972)    | 2 - Al Pacino      |
+|             4 | 4 - Pulp Fiction (1994)     | 3 - Uma Thurman    |
+|             5 | 6 - American Psycho (2000)  | 1 - Christian Bale |
+|             6 | 7 - The Big Lebowski (1998) | 6 - Jeff Bridges   |
+|             7 | 7 - The Big Lebowski (1998) | 7 - Julianne Moore |
+|             8 | 8 - Toy Story (1995)        | 4 - Tom Hanks      |
++---------------+-----------------------------+--------------------+
 */
 
--- Select movie data used to populate the movie-actor association dropdown. 
-SELECT movie_id, CONCAT(title, ' (', year, ')') AS movie FROM Movies;
+-- Helper: Select movie data used to populate the movie-actor association dropdown. 
+SELECT movie_id, CONCAT(title, ' (', year, ')') AS movie FROM Movies ORDER BY movie_id;
 /*
 +----------+-------------------------+
 | movie_id | movie                   |
@@ -287,8 +358,8 @@ SELECT movie_id, CONCAT(title, ' (', year, ')') AS movie FROM Movies;
 +----------+-------------------------+
 */
 
--- Select actor data used to populate the movie-actor association dropdown. 
-SELECT actor_id, CONCAT(first_name, ' ', last_name) AS actor FROM Actors;
+-- Helper: Select actor data used to populate the movie-actor association dropdown. 
+SELECT actor_id, CONCAT(first_name, ' ', last_name) AS actor FROM Actors ORDER BY actor_id;
 /*
 +----------+----------------+
 | actor_id | actor          |
@@ -303,11 +374,25 @@ SELECT actor_id, CONCAT(first_name, ' ', last_name) AS actor FROM Actors;
 +----------+----------------+
 */
 
--- Create a movie-actor association.
+-- Add Actor Role
 INSERT INTO ActorRoles (movie_id, actor_id)
 VALUES (:movie_id_from_dropdown, :actor_id_from_dropdown);
 
--- Delete a movie-actor association.
-DELETE FROM ActorRoles WHERE movie_id = :movie_id_from_dropdown AND actor_id = :actor_id_from_dropdown;
+-- Helper: Get actor role data when user clicks "Edit" or "Delete".
+SELECT ar.actor_role_id,
+       CONCAT(m.movie_id, ' - ', m.title, ' (', m.year, ')') AS movie_id,
+       CONCAT(a.actor_id, ' - ', a.first_name, ' ', a.last_name) as actor_id
+FROM ActorRoles AS ar
+JOIN Movies AS m ON m.movie_id = ar.movie_id
+JOIN Actors AS a ON ar.actor_id = a.actor_id
+WHERE ar.actor_role_id = :actor_role_id_selected_for_edit_or_delete;
 
--- END MOVIES AND ACTORS PAGE --
+-- Update Actor Role
+UPDATE ActorRoles
+SET movie_id = :movie_id_from_dropdown, actor_id = :actor_id_from_dropdown
+WHERE actor_role_id = :actor_role_id_selected_for_edit_or_delete;
+
+-- Delete Actor Role
+DELETE FROM ActorRoles WHERE actor_role_id = :actor_role_id_selected_for_edit_or_delete;
+
+-- END ACTOR-ROLES PAGE --

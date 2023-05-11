@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Movies</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <h1>Movies</h1>
+
+    [
+    <a href="customers.html">Customers</a> | <a href="orders.html">Orders</a> |
+    <a href="memorabilia.html">Memorabilia</a> |
+    <a href="movieitems.html">Movie Items</a> |
+    <a href="movies.html">Movies</a> |
+    <a href="actorroles.html">Actor Roles</a> |
+    <a href="actors.html">Actors</a>
+    ]
+
+    <div id="browse" style="display: block">
+      <p><strong>Browse Movies</strong></p>
+      <table border="1" cellpadding="5">
+        <tr>
+          <th><a href="#">New</a></th>
+          <th></th>
+          <th>Movie ID</th>
+          <th>Title</th>
+          <th>Year</th>
+          <th>Genre</th>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>1</td>
+          <td>Batman Begins</td>
+          <td>2005</td>
+          <td>action</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>2</td>
+          <td>The Dark Knight</td>
+          <td>2008</td>
+          <td>action</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>3</td>
+          <td>The Godfather</td>
+          <td>1972</td>
+          <td>drama</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>4</td>
+          <td>Pulp Fiction</td>
+          <td>1994</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>5</td>
+          <td>Friday the 13th</td>
+          <td>1980</td>
+          <td>horror</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>6</td>
+          <td>American Psycho</td>
+          <td>2000</td>
+          <td>thriller</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>7</td>
+          <td>The Big Lebowski</td>
+          <td>1998</td>
+          <td>comedy</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>8</td>
+          <td>Toy Story</td>
+          <td>1995</td>
+          <td>animation</td>
+        </tr>
+      </table>
+      <p>&nbsp;</p>
+    </div>
+    <!-- browse -->
+    <div id="insert" style="display: block">
+      <form id="addMovie">
+        <legend><strong>Add Movie</strong></legend>
+        <fieldset class="fields">
+          <label> Title:</label> <input type="text" name="title" required />
+          <label> Year:</label> <input type="number" name="year" required />
+          <label for="type">Genre:</label>
+          <select id="type" name="type">
+            <option value="defaultSelect1">SELECT</option>
+            <option value="script">Action</option>
+            <option value="prop">Drama</option>
+            <option value="wardrobe">Horror</option>
+            <option value="poster">Thriller</option>
+            <option value="poster">Comedy</option>
+            <option value="poster">Animation</option>
+          </select>
+        </fieldset>
+        <input
+          class="btn"
+          type="submit"
+          id="addMovieButton"
+          value="Add Movie"
+        />
+        <input class="btn" type="button" value="Cancel" />
+      </form>
+      <!--add new Memorabilia-->
+    </div>
+    <!-- insert -->
+
+    <p>&nbsp;</p>
+    <div id="update" style="display: block">
+      <form id="updateMovie">
+        <legend><strong>Update Movie</strong></legend>
+        <fieldset class="fields">
+          <label> Movie ID:</label>
+          <input type="number" name="movieID" value="1" disabled />
+          <label> Title:</label>
+          <input type="text" name="title" value="Batman Begins" />
+          <label> Year:</label> <input type="number" name="year" value="2008" />
+          <label for="type">Genre:</label>
+          <select id="genre" name="genre">
+            <option value="defaultSelect1">SELECT</option>
+            <option value="action" selected>Action</option>
+            <option value="drama">Drama</option>
+            <option value="horror">Horror</option>
+            <option value="thriller">Thriller</option>
+            <option value="comedy">Comedy</option>
+            <option value="animation">Animation</option>
+          </select>
+        </fieldset>
+        <input
+          class="btn"
+          type="submit"
+          id="updateMovieButton"
+          value="Update Movie"
+        />
+        <input class="btn" type="button" value="Cancel" />
+      </form>
+    </div>
+    <!-- update -->
+    <p>&nbsp;</p>
+    <div id="delete" style="display: block">
+      <form id="deleteMovie">
+        <legend><strong>Delete Movie</strong></legend>
+        <fieldset class="fields">
+          <p>Are you sure you want to delete this movie?</p>
+          <label> Movie ID: </label>
+          <input type="number" name="deleteMovieByID" value="1" disabled />
+          <label> Title: </label>
+          <input
+            type="text"
+            name="deleteMovieByTitle"
+            value="Batman Begins"
+            disabled
+          />
+          <label> Year: </label>
+          <input type="text" name="deleteMovieByTitle" value="2005" disabled />
+          <label> Genre: </label>
+          <select name="genre" disabled>
+            <option value="action" selected>Action</option>
+            <option value="drama">Drama</option>
+            <option value="horror">Horror</option>
+            <option value="thriller">Thriller</option>
+            <option value="comedy">Comedy</option>
+            <option value="animation">Animation</option>
+          </select>
+        </fieldset>
+        <input
+          class="btn"
+          type="submit"
+          id="deleteMovieButton"
+          value="Delete Movie"
+        />
+        <input class="btn" type="button" value="Cancel" />
+      </form>
+    </div>
+    <!-- delete -->
+  </body>
+</html>

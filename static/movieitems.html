@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Movie Items</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <h1>Movie Items</h1>
+
+    [
+    <a href="customers.html">Customers</a> |
+    <a href="orders.html">Orders</a> |
+    <a href="memorabilia.html">Memorabilia</a> |
+    <a href="movieitems.html">Movie Items</a> |
+    <a href="movies.html">Movies</a> |
+    <a href="actorroles.html">Actor Roles</a> |
+    <a href="actors.html">Actors</a>
+    ]
+
+    <div id="browse" style="display: block">
+      <p><strong>Browse Movie Items</strong></p>
+      <table border="1" cellpadding="5">
+        <tr>
+          <th><a href="#">New</a></th>
+          <th></th>
+          <th>Movie Item ID</th>
+          <th>Item ID</th>
+          <th>Movie ID</th>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>1</td>
+          <td>1 - Batman's cape</td>
+          <td>1 - Batman Begins (2005)</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>2</td>
+          <td>1 - Batman's cape</td>
+          <td>2 - The Dark Knight (2008)</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>3</td>
+          <td>2 - Godfather script signed by Al Pacino</td>
+          <td>3 - The Godfather (1972)</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>4</td>
+          <td>4 - Jason Voorhees's machete</td>
+          <td>5 - Friday the 13th (1980)</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>5</td>
+          <td>5 - Patrick Bateman's business card</td>
+          <td>6 - American Psycho (2000)</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>6</td>
+          <td>3 - Pulp Fiction rare movie poster</td>
+          <td>4 - Pulp Fiction (1994)</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>7</td>
+          <td>6 - The Dude's robe</td>
+          <td>7 - The Big Lebowski (1998)</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>8</td>
+          <td>7 - Toy Story movie script signed by Tom Hanks</td>
+          <td>8 - Toy Story (1995)</td>
+        </tr>
+      </table>
+      <p>&nbsp;</p>
+    </div>
+    <!-- browse -->
+    <div id="insert" style="display: block">
+      <form id="addMovieItem">
+        <legend><strong>Add Movie Item</strong></legend>
+        <fieldset class="fields">
+
+          <label> Item ID:</label>
+          <select name="addItemID">
+            <option selected>SELECT</option>
+            <option>1 - Batman's Cape</option>
+            <option>2 - Godfather script signed by Al Pacino</option>
+            <option>3 - Pulp Fiction rare movie poster</option>
+            <option>4 - Jason Voorhees's machete</option>
+            <option>5 - Patrick Bateman's business card</option>
+            <option>6 - The Dude's robe</option>
+            <option>7 - Toy Story movie script signed by Tom Hanks</option>
+          </select>
+
+
+          <label> Movie ID:</label>
+          <select name="addMovieID">
+            <option selected>SELECT</option>
+            <option>1 - Batman Begins (2005)</option>
+            <option>2 - The Dark Knight (2008)</option>
+            <option>3 - The Godfather (1972)</option>
+            <option>4 - Pulp Fiction (1994)</option>
+            <option>5 - Friday the 13th (1980)</option>
+            <option>6 - American Psycho (2000)</option>
+            <option>7 - The Big Lebowski (1998)</option>
+            <option>8 - Toy Story (1995)</option>
+          </select>
+
+
+        </fieldset>
+        <input class="btn" type="submit" id="addMovieItemButton" value="Add Movie Item" />
+        <input class="btn" type="button" value="Cancel" />
+      </form>
+      <!--add new Memorabilia-->
+    </div>
+    <!-- insert -->
+
+    <p>&nbsp;</p>
+    <div id="update" style="display: block">
+      <form id="updateMovieItem">
+        <legend><strong>Update Movie Item</strong></legend>
+        <fieldset class="fields">
+
+          <label> Item ID:</label>
+          <select name="updateItemID">
+            <option selected>1 - Batman's Cape</option>
+            <option>2 - Godfather script signed by Al Pacino</option>
+            <option>3 - Pulp Fiction rare movie poster</option>
+            <option>4 - Jason Voorhees's machete</option>
+            <option>5 - Patrick Bateman's business card</option>
+            <option>6 - The Dude's robe</option>
+            <option>7 - Toy Story movie script signed by Tom Hanks</option>
+          </select>
+
+          <label> Movie ID:</label>
+          <select name="updateMovieID">
+            <option selected>1 - Batman Begins (2005)</option>
+            <option>2 - The Dark Knight (2008)</option>
+            <option>3 - The Godfather (1972)</option>
+            <option>4 - Pulp Fiction (1994)</option>
+            <option>5 - Friday the 13th (1980)</option>
+            <option>6 - American Psycho (2000)</option>
+            <option>7 - The Big Lebowski (1998)</option>
+            <option>8 - Toy Story (1995)</option>
+          </select>
+        </fieldset>
+        <input
+          class="btn"
+          type="submit"
+          id="updateMovieItemButton"
+          value="Update Movie Item"
+        />
+        <input class="btn" type="button" value="cancel" />
+      </form>
+    </div>
+    <!-- update -->
+    <p>&nbsp;</p>
+    <div id="delete" style="display: block">
+      <form id="deleteMovie">
+        <legend><strong>Delete Movie</strong></legend>
+        <fieldset class="fields">
+          <p>Are you sure you want to delete this item-movie association?</p>
+          <label> Movie Item ID: </label>
+          <input type="number" name="deleteMovieItemByID" value="1" disabled/>
+          <label> Item ID:</label>
+          <select name="updateItemID" disabled>
+            <option selected>1 - Batman's Cape</option>
+            <option>2 - Godfather script signed by Al Pacino</option>
+            <option>3 - Pulp Fiction rare movie poster</option>
+            <option>4 - Jason Voorhees's machete</option>
+            <option>5 - Patrick Bateman's business card</option>
+            <option>6 - The Dude's robe</option>
+            <option>7 - Toy Story movie script signed by Tom Hanks</option>
+          </select>
+
+          <label> Movie ID:</label>
+          <select name="updateMovieID" disabled>
+            <option selected>1 - Batman Begins (2005)</option>
+            <option>2 - The Dark Knight (2008)</option>
+            <option>3 - The Godfather (1972)</option>
+            <option>4 - Pulp Fiction (1994)</option>
+            <option>5 - Friday the 13th (1980)</option>
+            <option>6 - American Psycho (2000)</option>
+            <option>7 - The Big Lebowski (1998)</option>
+            <option>8 - Toy Story (1995)</option>
+          </select>
+        </fieldset>
+        <input
+          class="btn"
+          type="submit"
+          id="DeleteMovieItem"
+          value="Delete Movie Item"
+        />
+        <input class="btn" type="button" value="cancel" />
+      </form>
+    </div>
+    <!-- delete -->
+  </body>
+</html>

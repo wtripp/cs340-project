@@ -12,7 +12,7 @@ CREATE OR REPLACE TABLE `Customers` (
     `first_name` varchar(50) NOT NULL,
     `last_name` varchar(50) NOT NULL,
     `phone` varchar(50) DEFAULT NULL,
-    `email` varchar(50) NOT NULL,
+    `email` varchar(50) NOT NULL UNIQUE,
     `address` varchar(200) NOT NULL,
     `city` varchar(30) DEFAULT NULL,
     `state` varchar(30) DEFAULT NULL,
@@ -84,7 +84,8 @@ CREATE OR REPLACE TABLE `Orders` (
     `customer_id` int(11) DEFAULT NULL,
     PRIMARY KEY (order_id),
     FOREIGN KEY (customer_id) REFERENCES Customers(customer_id) ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT UNIQUE(order_id)
+    CONSTRAINT UNIQUE(order_id),
+    CONSTRAINT UNIQUE(customer_id, order_date)
 );
 
 INSERT INTO
@@ -124,12 +125,12 @@ VALUES
         'beware of dog',
         4
     ),
-    ('2023-03-28 00:00:00', NULL, NULL, NULL, 4);
+    ('2023-03-28 00:00:01', NULL, NULL, NULL, 4);
 
 -- Create Memorabilia table and insert data
 CREATE OR REPLACE TABLE `Memorabilia` (
     `item_id` int(11) AUTO_INCREMENT NOT NULL,
-    `description` varchar(100) NOT NULL,
+    `description` varchar(100) NOT NULL UNIQUE,
     `type` enum('script', 'prop', 'wardrobe', 'poster') NOT NULL,
     `condition` enum('new', 'excellent', 'good', 'fair', 'poor') NOT NULL,
     `price` decimal(6, 2) NOT NULL,
@@ -205,7 +206,8 @@ CREATE OR REPLACE TABLE `Movies` (
     `year` year(4) NOT NULL,
     `genre` varchar(20) DEFAULT NULL,
     PRIMARY KEY (movie_id),
-    CONSTRAINT UNIQUE(movie_id)
+    CONSTRAINT UNIQUE(movie_id),
+    CONSTRAINT UNIQUE(title, year)
 );
 
 INSERT INTO
@@ -228,7 +230,8 @@ CREATE OR REPLACE TABLE `MovieItems` (
     PRIMARY KEY (movie_item_id),
     FOREIGN KEY (item_id) REFERENCES Memorabilia(item_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (movie_id) REFERENCES Movies(movie_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT UNIQUE(movie_item_id)
+    CONSTRAINT UNIQUE(movie_item_id),
+    CONSTRAINT UNIQUE(item_id, movie_id)
 );
 
 INSERT INTO
@@ -264,7 +267,8 @@ CREATE OR REPLACE TABLE `Actors` (
     `first_name` varchar(50) NOT NULL,
     `last_name` varchar(50) NOT NULL,
     PRIMARY KEY (actor_id),
-    CONSTRAINT UNIQUE(actor_id)
+    CONSTRAINT UNIQUE(actor_id),
+    CONSTRAINT UNIQUE(first_name, last_name)
 );
 
 INSERT INTO
@@ -286,7 +290,8 @@ CREATE OR REPLACE TABLE `ActorRoles` (
     PRIMARY KEY (actor_role_id),
     FOREIGN KEY (movie_id) REFERENCES Movies(movie_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (actor_id) REFERENCES Actors(actor_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT UNIQUE(actor_role_id)
+    CONSTRAINT UNIQUE(actor_role_id),
+    CONSTRAINT UNIQUE(movie_id, actor_id)
 );
 
 INSERT INTO

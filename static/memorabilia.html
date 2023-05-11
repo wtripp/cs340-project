@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<!-- CITATION:
+          https://www.w3schools.com/html/html_form_elements.asp -->
+
+<html>
+  <head>
+    <title>Memorabilia</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <h1>Memorabilia</h1>
+
+    [
+    <a href="customers.html">Customers</a> |
+    <a href="orders.html">Orders</a> |
+    <a href="memorabilia.html">Memorabilia</a> |
+    <a href="movieitems.html">Movie Items</a> |
+    <a href="movies.html">Movies</a> |
+    <a href="actorroles.html">Actor Roles</a> |
+    <a href="actors.html">Actors</a>
+    ]
+
+    <div id="browse" style="display: block">
+      <p><strong>Browse Memorabilia</strong></p>
+      <table border="1" cellpadding="5">
+        <tr>
+          <th><a href="#">New</a></th>
+          <th></th>
+          <th>Item ID</th>
+          <th>Description</th>
+          <th><label for="type">Type</label></th>
+          <th><label for="condition">Condition</label></th>
+          <th>Price</th>
+          <th>Order ID</th>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>1</td>
+          <td>Batman's Cape</td>
+          <td>Wardrobe</td>
+          <td>Good</td>
+          <td>$2000.00</td>
+          <td>1 - Cordula de Courcey (cdecourcey1@dyndns.org) on 2022-06-22 00:00:00</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>2</td>
+          <td>Godfather script signed by Al Pacino</td>
+          <td>Script</td>
+          <td>Fair</td>
+          <td>$500.00</td>
+          <td>1 - Cordula de Courcey (cdecourcey1@dyndns.org) on 2022-06-22 00:00:00</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>3</td>
+          <td>Pulp Fiction rare movie poster</td>
+          <td>Poster</td>
+          <td>New</td>
+          <td>$50.00</td>
+          <td>2 - Donia Calderhead (dcalderhead2@netscape.com) on 2022-08-14 00:00:00</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>4</td>
+          <td>Jason Voorhees's machete</td>
+          <td>Prop</td>
+          <td>Excellent</td>
+          <td>$1000.00</td>
+          <td>3 - Sarena Vasse (svasse3@gmail.com) on 2022-12-06 00:00:00</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>5</td>
+          <td>Patrick Bateman's business card</td>
+          <td>Prop</td>
+          <td>Good</td>
+          <td>$75.00</td>
+          <td>4 - Liuka Vasse (lfyndon4@gmail.com) on 2023-03-28 00:00:00</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>6</td>
+          <td>The Dude's robe</td>
+          <td>Wardrobe</td>
+          <td>Fair</td>
+          <td>$150.00</td>
+          <td>5 - Liuka Vasse (lfyndon4@gmail.com) on 2023-03-28 00:00:01</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>7</td>
+          <td>Toy Story movie script signed by Tom Hanks</td>
+          <td>Script</td>
+          <td>Poor</td>
+          <td>$100.00</td>
+          <td></td>
+        </tr>
+      </table>
+      <p>&nbsp;</p>
+    </div>
+    <!-- browse -->
+    <div id="insert" style="display: block">
+      <form id="addMemorabilia">
+        <legend><strong>Add Memorabilia</strong></legend>
+        <fieldset class="fields">
+          <label> Description:</label>
+          <input type="text" name="description" required />
+          <label for="type">Type:</label>
+          <select id="type" name="type" required>
+            <option value="defaultSelect1">SELECT</option>
+            <option value="script">Script</option>
+            <option value="prop">Prop</option>
+            <option value="wardrobe">Wardrobe</option>
+            <option value="poster">Poster</option>
+          </select>
+          <label for="condition" required>Condition:</label>
+          <select id="condition" name="condition">
+            <option value="defaultSelect2">SELECT</option>
+            <option value="new">New</option>
+            <option value="excellent">Excellent</option>
+            <option value="good">Good</option>
+            <option value="fair">Fair</option>
+            <option value="poor">Poor</option>
+          </select>
+          <label> Price:</label>
+          <input type="number" required />
+          <label> Order ID:</label>
+          <select name="addItemOrderID" required>
+            <option disabled selected>SELECT</option>
+            <option>1 - Cordula de Courcey (cdecourcey1@dyndns.org) on 2022-06-22 00:00:00</option>
+            <option>2 - Donia Calderhead (dcalderhead2@netscape.com) on 2022-08-14 00:00:00</option>
+            <option>3 - Sarena Vasse (svasse3@gmail.com) on 2022-12-06 00:00:00</option>
+            <option>4 - Liuka Vasse (lfyndon4@gmail.com) on 2023-03-28 00:00:00</option>
+            <option>5 - Liuka Vasse (lfyndon4@gmail.com) on 2023-03-28 00:00:01</option>
+          </select>
+        </fieldset>
+        <input
+          class="btn"
+          type="submit"
+          id="addMemorabiliaButton"
+          value="Add Memorabilia"
+        />
+        <input class="btn" type="button" value="Cancel" />
+      </form>
+      <!--add new Memorabilia-->
+    </div>
+    <!-- insert -->
+
+    <p>&nbsp;</p>
+    <div id="update" style="display: block">
+      <form id="updateMemorabilia">
+        <legend><strong>Update Memorabilia</strong></legend>
+        <fieldset class="fields">
+          <label>Item ID:</label>
+          <input type="number" name="itemID" value="1" disabled/>
+          <label> Description: </label>
+          <input type="text" name="description" value="Batman's Cape" />
+          <label for="updateType">Type:</label>
+          <select id="updateType" name="updateType">
+            <option value="script">Script</option>
+            <option value="prop">Prop</option>
+            <option value="wardrobe" selected>Wardrobe</option>
+            <option value="poster">Poster</option>
+          </select>
+          <label for="updateCondition">Condition:</label>
+          <select id="updateCondition" name="updateCondition">
+            <option value="defaultSelect2">SELECT</option>
+            <option value="new">New</option>
+            <option value="excellent">Excellent</option>
+            <option value="good" selected>Good</option>
+            <option value="fair">Fair</option>
+            <option value="poor">Poor</option>
+          </select>
+          <label> Price: </label>
+          <input type="number" name="price" value="2000.00" step="0.01"/>
+          <label> Order ID: </label>
+          <select name="updateItemOrderID" required>
+            <option selected>1 - Cordula de Courcey (cdecourcey1@dyndns.org) on 2022-06-22 00:00:00</option>
+            <option>2 - Donia Calderhead (dcalderhead2@netscape.com) on 2022-08-14 00:00:00</option>
+            <option>3 - Sarena Vasse (svasse3@gmail.com) on 2022-12-06 00:00:00</option>
+            <option>4 - Liuka Vasse (lfyndon4@gmail.com) on 2023-03-28 00:00:00</option>
+            <option>5 - Liuka Vasse (lfyndon4@gmail.com) on 2023-03-28 00:00:01</option>
+          </select>
+        </fieldset>
+        <input
+          class="btn"
+          type="submit"
+          id="updateMemorabiliaButton"
+          value="Update Memorabilia"
+        />
+        <input class="btn" type="button" value="Cancel" />
+      </form>
+    </div>
+    <!-- update -->
+    <p>&nbsp;</p>
+    <div id="delete" style="display: block">
+      <form id="deleteMemorabilia">
+        <legend><strong>Delete Memorabilia</strong></legend>
+        <fieldset class="fields">
+          <p>Are you sure you wish to delete the following memorabilia item?</p>
+          <label>Item ID:</label>
+          <input type="number" name="deleteMemByItemID" value="1" disabled />
+          <label> Description: </label>
+          <input type="text" name="description" value="Batman's Cape" disabled/>
+          <label for="deleteType">Type:</label>
+          <select id="deleteType" name="updateType" disabled>
+            <option value="script">Script</option>
+            <option value="prop">Prop</option>
+            <option value="wardrobe" selected>Wardrobe</option>
+            <option value="poster">Poster</option>
+          </select>
+          <label for="deleteCondition">Condition:</label>
+          <select id="deleteCondition" name="updateCondition" disabled>
+            <option value="new">New</option>
+            <option value="excellent">Excellent</option>
+            <option value="good" selected>Good</option>
+            <option value="fair">Fair</option>
+            <option value="poor">Poor</option>
+          </select>
+          <label> Price: </label>
+          <input type="number" name="price" value="2000.00" step="0.01" disabled/>
+          <label> Order ID: </label>
+          <select name="deleteItemOrderID" disabled>
+            <option selected>1 - Cordula de Courcey (cdecourcey1@dyndns.org) on 2022-06-22 00:00:00</option>
+            <option>2 - Donia Calderhead (dcalderhead2@netscape.com) on 2022-08-14 00:00:00</option>
+            <option>3 - Sarena Vasse (svasse3@gmail.com) on 2022-12-06 00:00:00</option>
+            <option>4 - Liuka Vasse (lfyndon4@gmail.com) on 2023-03-28 00:00:00</option>
+            <option>5 - Liuka Vasse (lfyndon4@gmail.com) on 2023-03-28 00:00:01</option>
+          </select>
+        </fieldset>
+        <input
+          class="btn"
+          type="submit"
+          id="deleteMemorabiliaButton"
+          value="Delete Memorabilia"
+        />
+        <input class="btn" type="button" value="Cancel" />
+      </form>
+    </div>
+    <!-- delete -->
+  </body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<!-- CITATIONS: These pages are based on the starter code provided at:
+https://canvas.oregonstate.edu/courses/1914747/assignments/9181001 -->
+<!-- Some features (such as drop-down select) based on code at W3schools.com: 
+https://www.w3schools.com/html/html_form_elements.asp
+https://www.w3schools.com/tags/tag_select.asp
+-->
+<html>
+  <head>
+    <title>Orders</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <script src="script.js"></script>
+  </head>
+
+  <body onload="browseOrder()">
+    <h1>Orders</h1>
+
+    [
+    <a href="customers.html">Customers</a> |
+    <a href="orders.html">Orders</a> |
+    <a href="memorabilia.html">Memorabilia</a> |
+    <a href="movieitems.html">Movie Items</a> |
+    <a href="movies.html">Movies</a> |
+    <a href="actorroles.html">Actor Roles</a> |
+    <a href="actors.html">Actors</a>
+    ]
+
+    <div id="browse">
+      <p><a href="#" onClick="showAll()">Display all forms</a></p>
+      <p><strong>Browse Orders</strong></p>
+      <table border="1" cellpadding="5">
+        <tr>
+          <th><a href="#" onClick="newOrder()">New</a></th>
+          <th></th>
+          <th>Order ID</th>
+          <th>Order Date</th>
+          <th>Ship Date</th>
+          <th>Delivered Date</th>
+          <th>Comment</th>
+          <th>Customer ID</th>
+        </tr>
+        <tr>
+          <td><a href="#" onClick="updateOrder('this.OrderID')">Edit</a></td>
+          <td>
+            <a href="#" onclick="deleteOrder('this.OrderID')">Delete</a>
+          </td>
+          <td>1</td>
+          <td>2022-06-22 00:00:00</td>
+          <td>2022-06-23 00:00:00</td>
+          <td>2022-07-01 00:00:00</td>
+          <td>put in backyard</td>
+          <td>1 - Cordula de Courcey (cdecourcey1@dyndns.org)</td>
+        </tr>
+        <tr>
+          <td><a href="#" onClick="updateOrder('this.OrderID')">Edit</a></td>
+          <td>
+            <a href="#" onclick="deleteOrder('this.OrderID')">Delete</a>
+          </td>
+          <td>2</td>
+          <td>2022-08-14 00:00:00</td>
+          <td>2022-08-15 00:00:00</td>
+          <td>2022-08-29 00:00:00</td>
+          <td></td>
+          <td>2 - Donia Calderhead (dcalderhead2@netscape.com)</td>
+        </tr>
+        <tr>
+          <td><a href="#" onClick="updateOrder('this.OrderID')">Edit</a></td>
+          <td>
+            <a href="#" onclick="deleteOrder('this.OrderID')">Delete</a>
+          </td>
+          <td>3</td>
+          <td>2022-12-06 00:00:00</td>
+          <td>2022-12-06 00:00:00</td>
+          <td>2022-12-23 00:00:00</td>
+          <td></td>
+          <td>3 - Sarena Vasse (svasse3@gmail.com)</td>
+        </tr>
+        <tr>
+          <td><a href="#" onClick="updateOrder('this.OrderID')">Edit</a></td>
+          <td>
+            <a href="#" onclick="deleteOrder('this.OrderID')">Delete</a>
+          </td>
+          <td>4</td>
+          <td>2023-03-28 00:00:00</td>
+          <td>2023-03-29 00:00:00</td>
+          <td></td>
+          <td>beware of dog</td>
+          <td>4 - Liuka Vasse (lfyndon4@gmail.com)</td>
+        </tr>
+        <tr>
+          <td><a href="#" onClick="updateOrder('this.OrderID')">Edit</a></td>
+          <td>
+            <a href="#" onclick="deleteOrder('this.OrderID')">Delete</a>
+          </td>
+          <td>5</td>
+          <td>2023-03-28 00:00:01</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>4 - Liuka Vasse (lfyndon4@gmail.com)</td>
+        </tr>
+      </table>
+      <p>&nbsp;</p>
+    </div>
+    <!-- browse -->
+    <div id="insert">
+      <form method="POST" id="addOrder">
+        <legend><strong>Add Order</strong></legend>
+        <fieldset class="fields">
+          <!-- 
+            These are probably the only ones that would make sense to enter manually 
+          -->
+          <label> Order Date:</label>
+          <input type="datetime" name="addOrderDate" required />
+          <label> Ship Date:</label>
+          <input type="datetime" name="addShipDate" required />
+          <label> Delivered Date:</label>
+          <input type="datetime" name="addDeliveredDate" />
+          <label> Comment:</label>
+          <input type="text" name="addOrderComment" />
+          <!-- I think customerID would be required on a manual add.
+          I guess there's an edge case where you would add manually an order
+          for someone who has already been deleted (for archival purposes?) 
+          but that seems very niche -->
+          <label> Customer ID:</label>
+          <select name="addOrderCustomerID" required>
+            <option disabled selected>SELECT</option>
+            <option>1 - Cordula de Courcey (cdecourcey1@dyndns.org)</option>
+            <option>2 - Donia Calderhead (dcalderhead2@netscape.com)</option>
+            <option>3 - Sarena Vasse (svasse3@gmail.com)</option>
+            <option>4 - Liuka Vasse (lfyndon4@gmail.com)</option>
+          </select>
+        </fieldset>
+        <input class="btn" type="submit" id="addOrderButton" value="Add Order" />
+        <input
+          class="btn"
+          type="button"
+          value="Cancel"
+          onClick="browseOrder()"
+        />
+      </form>
+    </div>
+    <!-- insert -->
+    <p>&nbsp;</p>
+    <div id="update">
+      <form method="POST" id="UpdateOrder">
+        <legend><strong>Update Order</strong></legend>
+        <fieldset class="fields">
+          <!-- don't know if you need this -->
+          <!-- <input type="hidden" name="orderID" id="updateOrderID" /> -->
+          <label> Order ID:</label>
+          <input type="number" name="updateOrderID" value="1" disabled/>
+          <label> Order Date:</label>
+          <input type="datetime" name="updateOrderDate" value="2022-06-22 00:00:00"/>
+          <label> Ship Date:</label>
+          <input type="datetime" name="updateShipDate" value="2022-06-23 00:00:00" />
+          <label> Delivered Date:</label>
+          <input type="datetime" name="updateDeliveredDate" value="2022-07-01 00:00:00" />
+          <label> Comment:</label>
+          <input type="datetime" name="updateOrderComment" value="put in backyard"/>
+          <label> Customer ID:</label>
+          <select id="type" name="updateOrderCustomerID" required>
+            <option selected>1 - Cordula de Courcey (cdecourcey1@dyndns.org)</option>
+            <option>2 - Donia Calderhead (dcalderhead2@netscape.com)</option>
+            <option>3 - Sarena Vasse (svasse3@gmail.com)</option>
+            <option>4 - Liuka Vasse (lfyndon4@gmail.com)</option>
+          </select>
+        </fieldset>
+        <input
+          class="btn"
+          type="submit"
+          id="UpdateSaveOrder"
+          value="Update Order"
+        />
+        <input
+          class="btn"
+          type="button"
+          value="Cancel"
+          onClick="browseOrder()"
+        />
+      </form>
+    </div>
+    <!-- update -->
+    <p>&nbsp;</p>
+    <div id="delete" style="display: block">
+      <form method="POST" id="deleteOrder">
+        <legend><strong>Delete Order</strong></legend>
+        <fieldset class="fields">
+          <!-- I don't think delete by comment makes much sense, but
+          all the other criteria make some sense -->
+          <p>Are you sure you want to delete this order?</p>
+          <input type="hidden" name="hideOrderDelete" id="hideOrderDelete" />
+          <label>Order ID:</label>
+          <input type="number" name="deleteOrderByOrderID" value="1" disabled />
+          <label>Order Date:</label>
+          <input type="datetime" name="deleteOrderByOrderDate" value="2022-06-22 00:00:00" disabled />
+          <label>Ship Date:</label>
+          <input type="datetime" name="deleteOrderByShipDate" value="2022-06-23 00:00:00" disabled />
+          <label>Delivered Date:</label>
+          <input type="datetime" name="deleteOrderByDeliveredDate" value="2022-07-01 00:00:00" disabled />
+          <label>Comment:</label>
+          <input name="deleteOrderByComment" value="Put in backyard" disabled />
+          <label>Customer ID:</label>
+          <select name="deleteOrderCustomerID" disabled>
+            <option selected>1 - Cordula de Courcey (cdecourcey1@dyndns.org)</option>
+            <option>2 - Donia Calderhead (dcalderhead2@netscape.com)</option>
+            <option>3 - Sarena Vasse (svasse3@gmail.com)</option>
+            <option>4 - Liuka Vasse (lfyndon4@gmail.com)</option>
+          </select>
+        </fieldset>
+        <input
+          class="btn"
+          type="submit"
+          id="deleteOrderButton"
+          value="Delete Order"
+        />
+        <input
+          class="btn"
+          type="button"
+          value="Cancel"
+          id="cancelOrderDelete"
+          onClick="browseOrder()"
+        />
+      </form>
+    </div>
+    <!-- delete -->
+  </body>
+</html>

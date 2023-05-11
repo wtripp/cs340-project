@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Actors</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <h1>Actors</h1>
+
+    [
+    <a href="customers.html">Customers</a> |
+    <a href="orders.html">Orders</a> |
+    <a href="memorabilia.html">Memorabilia</a> |
+    <a href="movieitems.html">Movie Items</a> |
+    <a href="movies.html">Movies</a> |
+    <a href="actorroles.html">Actor Roles</a> |
+    <a href="actors.html">Actors</a>
+    ]
+
+    <div id="browse" style="display: block">
+      <p><strong>Browse Actors</strong></p>
+      <table border="1" cellpadding="5">
+        <tr>
+          <th><a href="#">New</a></th>
+          <th></th>
+          <th>Actor ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>1</td>
+          <td>Christian</td>
+          <td>Bale</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>2</td>
+          <td>Al</td>
+          <td>Pacino</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>3</td>
+          <td>Uma</td>
+          <td>Thurman</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>4</td>
+          <td>Tom</td>
+          <td>Hanks</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>5</td>
+          <td>Meryl</td>
+          <td>Streep</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>6</td>
+          <td>Jeff</td>
+          <td>Bridges</td>
+        </tr>
+        <tr>
+          <td><a href="#">Edit</a></td>
+          <td><a href="#">Delete</a></td>
+          <td>7</td>
+          <td>Julianne</td>
+          <td>Moore</td>
+        </tr>
+      </table>
+      <p>&nbsp;</p>
+    </div>
+    <!-- browse -->
+    <div id="insert" style="display: block">
+      <form id="addActor">
+        <legend><strong>Add Actor</strong></legend>
+        <fieldset class="fields">
+          <label> First Name:</label>
+          <input type="text" name="firstName" required />
+          <label> Last Name:</label>
+          <input type="text" name="lastName" required />
+        </fieldset>
+        <input class="btn" type="submit" id="addActorButton" value="Add Actor" />
+        <input class="btn" type="button" value="cancel" />
+      </form>
+      <!--add new actor-->
+    </div>
+    <!-- insert -->
+
+    <p>&nbsp;</p>
+    <div id="update" style="display: block">
+      <form id="updateActor">
+        <legend><strong>Update Actor</strong></legend>
+        <fieldset class="fields">
+          <label> Actor ID: </label>
+          <input type="number" name="UpdateActorByID" value="1" disabled />
+          <label> First Name: </label>
+          <input type="text" name="updateActorByFName" value="Christian" />
+          <label> Last Name: </label>
+          <input type="text" name="updateActorByLName" value="Bale" />
+        </fieldset>
+        <input
+          class="btn"
+          type="submit"
+          id="UpdateSaveActor"
+          value="Save Update Actor"
+        />
+        <input class="btn" type="button" value="cancel" />
+      </form>
+    </div>
+    <!-- update -->
+    <p>&nbsp;</p>
+    <div id="delete" style="display: block">
+      <form id="deleteActor">
+        <legend><strong>Delete Actor</strong></legend>
+        <fieldset class="fields">
+          <p>Are you sure you wish to delete this actor?</p>
+          <label> Actor ID: </label>
+          <input type="number" name="deleteActorByID" value="1" disabled/>
+          <label> First Name: </label>
+          <input type="text" name="deleteActorByFname" value="Christian" disabled/>
+          <label> Last Name: </label>
+          <input type="text" name="deleteActorByLname" value="Bale" disabled/>
+        </fieldset>
+        <input
+          class="btn"
+          type="submit"
+          id="deleteActorButton"
+          value="Delete Actor"
+        />
+        <input class="btn" type="button" value="cancel" />
+      </form>
+    </div>
+    <!-- delete -->
+  </body>
+</html>
