@@ -15,7 +15,7 @@ Then, to reset the database, run these commands:
 
 mysql -u cs340_<onid> -h classmysql.engr.oregonstate.edu -p
 use cs340_<onid>
-source util/reset_db.sql
+source database/reset_db.sql
 
 */
 SET FOREIGN_KEY_CHECKS = 0;
@@ -29,4 +29,4 @@ DROP TABLE IF EXISTS `Orders`;
 SET FOREIGN_KEY_CHECKS = 1;
 source DDL.sql
 SHOW TABLES;
-source util/show_tables.sql
+source show_tables.sql

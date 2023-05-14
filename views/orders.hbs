@@ -1,0 +1,51 @@
+<h1>Orders</h1>
+<section>
+    <h2>Browse Orders</h2>
+    <table id="orders-table">
+        <thead>
+            <tr>
+                {{#each data.[0]}}
+                <th>
+                    {{@key}}
+                </th>
+                {{/each}}
+            </tr>
+        </thead>
+        <tbody>
+            {{#each data}}
+            <tr>
+                <td>{{this.order_id}}</td>
+                <td>{{this.order_date}}</td>
+                <td>{{this.ship_date}}</td>
+                <td>{{this.delivered_date}}</td>
+                <td>{{this.comment}}</td>
+                <td>{{this.customer_id}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</section>
+<section>
+    <h2>Add Order</h2>
+    <p>To add an order, enter the following information and click <strong>Submit</strong>.</p>
+    <form id="add-order-form" method="post">
+
+        <label for="input-order-date">Order Date:</label>
+        <input type="date" name="input-order-date" id="input-order-date">
+
+        <label for="input-ship-date">Ship Date:</label>
+        <input type="date" name="input-ship-date" id="input-ship-date">
+
+        <label for="input-delivered-date">Delivered Date:</label>
+        <input type="date" name="input-delivered-date" id="input-delivered-date">
+
+        <label for="input-comment">Comment:</label>
+        <textarea name="input-comment" id="input-comment"></textarea>
+
+        <label for="input-customer-id">Customer ID:</label>
+        <input type="number" name="input-customer-id" id="input-customer-id">
+
+        <input type="submit">
+    </form>
+</section>
+<script src="./js/add_order.js"></script>

@@ -1,0 +1,26 @@
+{
+  "name": "cs340-project",
+  "version": "1.0.0",
+  "description": "Movie Mementos - A Movie Memorabilia Website",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wtripp/cs340-project.git"
+  },
+  "author": "Will Tripp and Seth Stephanz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wtripp/cs340-project/issues"
+  },
+  "homepage": "https://github.com/wtripp/cs340-project#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-handlebars": "^7.0.7",
+    "forever": "^4.0.3",
+    "mysql": "^2.18.1"
+  }
+}

@@ -1,4 +1,4 @@
--- Usage: source util/show_tables.sql
+-- Usage: source database/show_tables.sql
 SELECT * FROM `Customers`;
 SELECT * FROM `Orders`;
 SELECT * FROM `Memorabilia`;
