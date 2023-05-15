@@ -37,9 +37,27 @@ app.get('/', function(req, res) {
 
 app.get('/orders', function(req, res) {
     
-    const query = "SELECT * FROM Orders;";
-    db.pool.query(query, function(error, rows, fields) {
-        res.render('orders', {data:rows});
+    // const selectAllOrders = `SELECT * FROM Orders;`;
+
+    const selectAllOrders = `
+        SELECT o.order_id, o.order_date, o.ship_date, o.delivered_date, o.comment,
+        CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
+        FROM Orders AS o
+        JOIN Customers AS c ON o.customer_id = c.customer_id
+        ORDER BY o.order_date;`
+
+    const selectAllCustomers = `SELECT * FROM Customers;`;
+
+
+
+
+    db.pool.query(selectAllOrders, function(error, rows, fields) {
+        let orders = rows;
+        db.pool.query(selectAllCustomers, function(error, rows, fields) {
+            let customers = rows;
+            res.render('orders', {orders: orders, customers: customers});
+        });
+
     });
 });
 
