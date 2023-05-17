@@ -79,14 +79,32 @@ addRowToTable = (data) => {
     const parsedData = JSON.parse(data);
     const newRow = parsedData[parsedData.length - 1] // last row of data
 
-    // Create a row and 4 cells
+    // Create a row
     const row = document.createElement("tr");
+    let editCell = document.createElement("td");
+    let deleteCell = document.createElement("td");
     let orderIdCell = document.createElement("td");
     let orderDateCell = document.createElement("td");
     let shipDateCell = document.createElement("td");
     let deliveredDateCell = document.createElement("td");
     let commentCell = document.createElement("td");
     let customerIdCell = document.createElement("td");
+
+    // Add buttons
+    let editButton = document.createElement("button");
+    editButton.innerHTML = "Edit";
+    editButton.onclick = function(){
+        editPerson(newRow.id);
+    };
+    editCell.appendChild(editButton);
+
+    let deleteButton = document.createElement("button");
+    deleteButton.innerHTML = "Delete";
+    deleteButton.onclick = function(){
+        deletePerson(newRow.id);
+    };
+    deleteCell.appendChild(deleteButton);
+
 
     // Fill the cells with correct data
     orderIdCell.innerText = newRow.order_id;
@@ -96,7 +114,9 @@ addRowToTable = (data) => {
     commentCell.innerText = newRow.comment;
     customerIdCell.innerText = newRow.customer_id;
 
-    // Add the cells to the row 
+    // Add the cells to the row
+    row.appendChild(editCell);
+    row.appendChild(deleteCell);
     row.appendChild(orderIdCell);
     row.appendChild(orderDateCell);
     row.appendChild(shipDateCell);

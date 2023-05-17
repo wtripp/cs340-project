@@ -4,6 +4,8 @@
     <table id="orders-table">
         <thead>
             <tr>
+                <th>Edit</th>
+                <th>Delete</th>
                 {{#each orders.[0]}}
                 <th>
                     {{@key}}
@@ -13,7 +15,9 @@
         </thead>
         <tbody>
             {{#each orders}}
-            <tr>
+            <tr data-value="{{this.order_id}}">
+                <td><button onclick="editOrder({{this.order_id}})">Edit</button></td>
+                <td><button onclick="deleteOrder({{this.order_id}})">Delete</button></td>
                 <td>{{this.order_id}}</td>
                 <td>{{this.order_date}}</td>
                 <td>{{this.ship_date}}</td>
@@ -30,27 +34,35 @@
     <p>To add an order, enter the following information and click <strong>Submit</strong>.</p>
     <form id="add-order-form" method="post">
 
-        <label for="input-order-date">Order Date:</label>
-        <input type="date" name="input-order-date" id="input-order-date">
+        <label for="input-order-date">Order Date:
+            <input type="datetime-local" name="input-order-date" id="input-order-date">
+        </label>
+        
 
-        <label for="input-ship-date">Ship Date:</label>
-        <input type="date" name="input-ship-date" id="input-ship-date">
+        <label for="input-ship-date">Ship Date:
+            <input type="datetime-local" name="input-ship-date" id="input-ship-date">
+        </label>
 
-        <label for="input-delivered-date">Delivered Date:</label>
-        <input type="date" name="input-delivered-date" id="input-delivered-date">
+        <label for="input-delivered-date">Delivered Date:
+            <input type="datetime-local" name="input-delivered-date" id="input-delivered-date">
+        </label>
 
-        <label for="input-comment">Comment:</label>
-        <textarea name="input-comment" id="input-comment"></textarea>
+        <label for="input-comment">Comment:
+            <textarea name="input-comment" id="input-comment"></textarea>
+        </label>
 
-        <label for="input-customer-id">Customer ID:</label>
-        <select name="input-customer-id" id="input-customer-id">
-            <option value="" disabled selected>Select a Customer</option>
-            {{#each customers}}
-                <option value="{{this.customer_id}}">{{this.customer_id}} - {{this.first_name}} {{this.last_name}} ({{this.email}})</option>
-            {{/each}}
-        </select>
+        <label for="input-customer-id">Customer ID:
+            <select name="input-customer-id" id="input-customer-id">
+                <option value="" disabled selected>Select a Customer</option>
+                {{#each customers}}
+                    <option value="{{this.customer_id}}">{{this.customer_id}} - {{this.first_name}} {{this.last_name}} ({{this.email}})</option>
+                {{/each}}
+            </select>
+        </label>
 
         <input type="submit">
     </form>
 </section>
+
 <script src="./js/add_order.js"></script>
+<script src="./js/delete_order.js"></script>
