@@ -9,8 +9,7 @@
     <h1>Actors</h1>
 
     [
-    <a href="customers.html">Customers</a> |
-    <a href="orders.html">Orders</a> |
+    <a href="customers.html">Customers</a> | <a href="orders.html">Orders</a> |
     <a href="memorabilia.html">Memorabilia</a> |
     <a href="movieitems.html">Movie Items</a> |
     <a href="movies.html">Movies</a> |
@@ -90,7 +89,12 @@
           <label> Last Name:</label>
           <input type="text" name="lastName" required />
         </fieldset>
-        <input class="btn" type="submit" id="addActorButton" value="Add Actor" />
+        <input
+          class="btn"
+          type="submit"
+          id="addActorButton"
+          value="Add Actor"
+        />
         <input class="btn" type="button" value="cancel" />
       </form>
       <!--add new actor-->
@@ -126,11 +130,16 @@
         <fieldset class="fields">
           <p>Are you sure you wish to delete this actor?</p>
           <label> Actor ID: </label>
-          <input type="number" name="deleteActorByID" value="1" disabled/>
+          <input type="number" name="deleteActorByID" disabled />
           <label> First Name: </label>
-          <input type="text" name="deleteActorByFname" value="Christian" disabled/>
+          <input
+            type="text"
+            name="deleteActorByFname"
+            value="Christian"
+            disabled
+          />
           <label> Last Name: </label>
-          <input type="text" name="deleteActorByLname" value="Bale" disabled/>
+          <input type="text" name="deleteActorByLname" disabled />
         </fieldset>
         <input
           class="btn"
