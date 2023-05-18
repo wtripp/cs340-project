@@ -16,14 +16,14 @@
         <tbody>
             {{#each orders}}
             <tr data-value="{{this.order_id}}">
-                <td><button onclick="editOrder({{this.order_id}})">Edit</button></td>
+                <td><button onclick="updateOrder({{this.order_id}})">Edit</button></td>
                 <td><button onclick="deleteOrder({{this.order_id}})">Delete</button></td>
-                <td>{{this.order_id}}</td>
-                <td>{{this.order_date}}</td>
-                <td>{{this.ship_date}}</td>
-                <td>{{this.delivered_date}}</td>
-                <td>{{this.comment}}</td>
-                <td>{{this.customer_id}}</td>
+                <td class="order-id">{{this.order_id}}</td>
+                <td class="order-date">{{this.order_date}}</td>
+                <td class="ship-date">{{this.ship_date}}</td>
+                <td class="delivered-date">{{this.delivered_date}}</td>
+                <td class="comment">{{this.comment}}</td>
+                <td class="customer-id">{{this.customer_id}}</td>
             </tr>
             {{/each}}
         </tbody>
@@ -35,16 +35,15 @@
     <form id="add-order-form" method="post">
 
         <label for="input-order-date">Order Date:
-            <input type="datetime-local" name="input-order-date" id="input-order-date">
+            <input required type="date" name="input-order-date" id="input-order-date">
         </label>
-        
 
         <label for="input-ship-date">Ship Date:
-            <input type="datetime-local" name="input-ship-date" id="input-ship-date">
+            <input type="date" name="input-ship-date" id="input-ship-date">
         </label>
 
         <label for="input-delivered-date">Delivered Date:
-            <input type="datetime-local" name="input-delivered-date" id="input-delivered-date">
+            <input type="date" name="input-delivered-date" id="input-delivered-date">
         </label>
 
         <label for="input-comment">Comment:
@@ -52,8 +51,45 @@
         </label>
 
         <label for="input-customer-id">Customer ID:
-            <select name="input-customer-id" id="input-customer-id">
-                <option value="" disabled selected>Select a Customer</option>
+            <select required name="input-customer-id" id="input-customer-id">
+                <option disabled selected>-- Select a Customer --</option>
+                {{#each customers}}
+                    <option value="{{this.customer_id}}">{{this.customer_id}} - {{this.first_name}} {{this.last_name}} ({{this.email}})</option>
+                {{/each}}
+            </select>
+        </label>
+
+        <input type="submit">
+    </form>
+</section>
+
+<section>
+    <h2>Update Order</h2>
+    <p>In the table above, click <strong>Edit</strong> and edit the order details in these field. Then, click <strong>Submit</strong>.</p>
+    <form id="update-order-form">
+        
+        <label for="update-order-id">Order ID:
+            <input disabled type="number" name="update-order-id" id="update-order-id" value="">
+        </label>
+
+        <label for="update-order-date">Order Date:
+            <input disabled required type="date" name="update-order-date" id="update-order-date" value="">
+        </label>
+
+        <label for="update-ship-date">Ship Date:
+            <input disabled type="date" name="update-ship-date" id="update-ship-date" value="">
+        </label>
+
+        <label for="update-delivered-date">Delivered Date:
+            <input disabled type="date" name="update-delivered-date" id="update-delivered-date" value="">
+        </label>
+
+        <label for="update-comment">Comment:
+            <textarea disabled name="update-comment" id="update-comment" value=""></textarea>
+        </label>
+
+        <label for="update-customer-id">Customer ID:
+            <select disabled required name="update-customer-id" id="update-customer-id">
                 {{#each customers}}
                     <option value="{{this.customer_id}}">{{this.customer_id}} - {{this.first_name}} {{this.last_name}} ({{this.email}})</option>
                 {{/each}}
@@ -66,3 +102,4 @@
 
 <script src="./js/add_order.js"></script>
 <script src="./js/delete_order.js"></script>
+<script src="./js/update_order.js"></script>

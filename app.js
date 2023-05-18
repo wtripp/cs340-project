@@ -23,6 +23,7 @@ app.use(express.static('public'))
 const db = require('./database/db-connector');
 
 // Handlebars
+const Handlebars = require('handlebars');
 const { engine } = require('express-handlebars');
 require('express-handlebars');
 app.engine('.hbs', engine({extname: ".hbs"}));
@@ -36,20 +37,18 @@ app.get('/', function(req, res) {
 });
 
 app.get('/orders', function(req, res) {
-    
-    // const selectAllOrdersQuery = `SELECT * FROM Orders;`;
 
     const selectAllOrdersQuery = `
-        SELECT o.order_id, o.order_date, o.ship_date, o.delivered_date, o.comment,
-        CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
+        SELECT o.order_id,
+               DATE_FORMAT(o.order_date, '%Y-%m-%d') AS order_date,
+               DATE_FORMAT(o.ship_date, '%Y-%m-%d') AS ship_date,
+               DATE_FORMAT(o.delivered_date, '%Y-%m-%d') AS delivered_date,
+               o.comment,
+               CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
         FROM Orders AS o
-        JOIN Customers AS c ON o.customer_id = c.customer_id
-        ORDER BY o.order_date;`
+        JOIN Customers AS c ON o.customer_id = c.customer_id;`;
 
     const selectAllCustomersQuery = `SELECT * FROM Customers;`;
-
-
-
 
     db.pool.query(selectAllOrdersQuery, function(error, rows, fields) {
         let orders = rows;
@@ -89,8 +88,16 @@ app.post('/add-order', function(req, res) {
             console.log(error)
             res.sendStatus(400);
         } else {
-            const selectAllOrdersQuery = `SELECT * FROM Orders;`;
-            db.pool.query(selectAllOrdersQuery, function(error, rows, fields){
+                const selectAllOrdersQuery = `
+                SELECT o.order_id,
+                    DATE_FORMAT(o.order_date, '%Y-%m-%d') AS order_date,
+                    DATE_FORMAT(o.ship_date, '%Y-%m-%d') AS ship_date,
+                    DATE_FORMAT(o.delivered_date, '%Y-%m-%d') AS delivered_date,
+                    o.comment,
+                    CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
+                FROM Orders AS o
+                JOIN Customers AS c ON o.customer_id = c.customer_id;`;
+                db.pool.query(selectAllOrdersQuery, function(error, rows, fields){
 
                 if (error) {
                     console.log(error);
@@ -119,6 +126,56 @@ app.delete('/delete-order', function(req, res) {
             res.sendStatus(204);
         }
     });
+});
+
+
+app.put('/update-order', function(req, res) {
+
+    let data = req.body;
+  
+    let orderID = parseInt(data.orderId);
+    let orderDate = data.orderDate;
+    let shipDate = data.shipDate;
+    let deliveredDate = data.deliveredDate;
+    let comment = data.comment;
+    let customerId = parseInt(data.customerId);
+
+    const updateOrderQuery = `
+    UPDATE Orders
+    SET order_date = ?, ship_date = ?,
+        delivered_date = ?, comment = ?,
+        customer_id = ?
+    WHERE order_id = ?`;
+
+    const selectOrderQuery = `
+        SELECT o.order_id, o.order_date, o.ship_date, o.delivered_date, o.comment,
+        CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
+        FROM Orders AS o
+        JOIN Customers AS c ON o.customer_id = c.customer_id AND o.order_id = ?`;
+
+        // Run the 1st query
+        db.pool.query(updateOrderQuery, [orderDate, shipDate, deliveredDate, comment, customerId, orderID], function(error, rows, fields){
+            if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+            }
+
+            // If there was no error, we run our second query and return that data so we can use it to update the Orders table on the frontend.
+            else
+            {
+                // Run the second query
+                db.pool.query(selectOrderQuery, [orderID], function(error, rows, fields) {
+
+            if (error) {
+                console.log(error);
+                res.sendStatus(400);
+            } else {
+                res.send(rows);
+            }
+        });
+    }});
 });
 
 

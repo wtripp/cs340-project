@@ -3,8 +3,3 @@ table, th, tr, td {
     border-collapse: collapse;
     padding: 5px;
 }
-
-label {
-    display: block;
-    margin-top: 20px;
-}

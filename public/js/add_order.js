@@ -53,7 +53,7 @@ addOrderForm.addEventListener("submit", function (event) {
             inputShipDate.value = '';
             inputDeliveredDate.value = '';
             inputComment.value = '';
-            inputCustomerId.value = '';
+            inputCustomerId.value = '-- Select a Customer --';
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")
@@ -94,23 +94,23 @@ addRowToTable = (data) => {
     let editButton = document.createElement("button");
     editButton.innerHTML = "Edit";
     editButton.onclick = function(){
-        editPerson(newRow.id);
+        updateOrder(newRow.id);
     };
     editCell.appendChild(editButton);
 
     let deleteButton = document.createElement("button");
     deleteButton.innerHTML = "Delete";
     deleteButton.onclick = function(){
-        deletePerson(newRow.id);
+        deleteOrder(newRow.id);
     };
     deleteCell.appendChild(deleteButton);
 
 
     // Fill the cells with correct data
     orderIdCell.innerText = newRow.order_id;
-    orderDateCell.innerText = newRow.order_date;
-    shipDateCell.innerText = newRow.ship_date;
-    deliveredDateCell.innerText = newRow.delivered_date;
+    orderDateCell.innerText = newRow.order_date.substring(0,10);
+    shipDateCell.innerText = newRow.ship_date.substring(0,10);
+    deliveredDateCell.innerText = newRow.delivered_date.substring(0,10);
     commentCell.innerText = newRow.comment;
     customerIdCell.innerText = newRow.customer_id;
 
@@ -126,4 +126,5 @@ addRowToTable = (data) => {
     
     // Add the row to the table
     currentTable.appendChild(row);
+
 }
