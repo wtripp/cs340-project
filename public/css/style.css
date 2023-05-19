@@ -1,5 +1,81 @@
+body {
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: ivory;
+    margin: 0 auto;
+    width: 95%;
+}
+
 table, th, tr, td {
     border: 1px solid black;
     border-collapse: collapse;
-    padding: 5px;
+    padding: 10px;
 }
+
+th {
+    background-color: sandybrown;
+}
+
+tr:nth-child(even) {
+    background-color:white;
+}
+
+tr:nth-child(odd) {
+    background-color:rgb(255, 211, 175);
+
+}
+
+
+section {
+    border-bottom: 1px solid gray;
+    padding-bottom: 40px;
+}
+
+fieldset {
+    display: flex;
+    border: none;
+}
+
+label {
+    margin: 0 20px 20px 0;
+    font-weight: bold;
+}
+
+input, textarea, select {
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+textarea {
+    min-width: 100px;
+    min-height: 100px;
+}
+
+input:hover, textarea:hover, select:hover {
+    background-color: azure;
+}
+
+input:disabled, textarea:disabled, select:disabled {
+    background-color: white;
+}
+
+button {
+    font-weight: bold;
+    font-size: larger;
+    border-radius: 10px;
+    padding: 5px 20px;
+    background-color: lightblue;
+  }
+
+  button:hover {
+    background-color: blue;
+    color: white;
+  }
+
+  th {
+    font-size: 24px;
+  }
+
+  th:first-child {
+    background-color:rgb(135, 65, 4);
+    color:white;
+  }

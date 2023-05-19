@@ -4,8 +4,7 @@
     <table id="orders-table">
         <thead>
             <tr>
-                <th>Edit</th>
-                <th>Delete</th>
+                <th colspan=2>Orders</th>
                 {{#each orders.[0]}}
                 <th>
                     {{@key}}
@@ -31,72 +30,76 @@
 </section>
 <section>
     <h2>Add Order</h2>
-    <p>To add an order, enter the following information and click <strong>Submit</strong>.</p>
+    <p>To add an order, enter the following information and click <strong>Add Order</strong>.</p>
     <form id="add-order-form" method="post">
 
-        <label for="input-order-date">Order Date:
-            <input required type="date" name="input-order-date" id="input-order-date">
-        </label>
+        <fieldset>
+            <label for="input-order-date">Order Date
+                <input required type="date" name="input-order-date" id="input-order-date">
+            </label>
 
-        <label for="input-ship-date">Ship Date:
-            <input type="date" name="input-ship-date" id="input-ship-date">
-        </label>
+            <label for="input-ship-date">Ship Date
+                <input type="date" name="input-ship-date" id="input-ship-date">
+            </label>
 
-        <label for="input-delivered-date">Delivered Date:
-            <input type="date" name="input-delivered-date" id="input-delivered-date">
-        </label>
+            <label for="input-delivered-date">Delivered Date
+                <input type="date" name="input-delivered-date" id="input-delivered-date">
+            </label>
 
-        <label for="input-comment">Comment:
-            <textarea name="input-comment" id="input-comment"></textarea>
-        </label>
+            <label for="input-comment">Comment
+                <textarea name="input-comment" id="input-comment"></textarea>
+            </label>
 
-        <label for="input-customer-id">Customer ID:
-            <select required name="input-customer-id" id="input-customer-id">
-                <option disabled selected>-- Select a Customer --</option>
-                {{#each customers}}
-                    <option value="{{this.customer_id}}">{{this.customer_id}} - {{this.first_name}} {{this.last_name}} ({{this.email}})</option>
-                {{/each}}
-            </select>
-        </label>
+            <label for="input-customer-id">Customer ID
+                <select required name="input-customer-id" id="input-customer-id">
+                    <option disabled selected>-- Select a Customer --</option>
+                    {{#each customers}}
+                        <option value="{{this.customer_id}}">{{this.customer_id}} - {{this.first_name}} {{this.last_name}} ({{this.email}})</option>
+                    {{/each}}
+                </select>
+            </label>
+        </fieldset>
 
-        <input type="submit">
+        <button type="submit">Add Order</button>
     </form>
 </section>
 
 <section>
     <h2>Update Order</h2>
-    <p>In the table above, click <strong>Edit</strong> and edit the order details in these field. Then, click <strong>Submit</strong>.</p>
+    <p>In the table above, click <strong>Edit</strong>. Then, edit the order details in these fields and click <strong>Update Order</strong>.</p>
     <form id="update-order-form">
         
-        <label for="update-order-id">Order ID:
-            <input disabled type="number" name="update-order-id" id="update-order-id" value="">
-        </label>
+        <fieldset>
+            <label for="update-order-id">Order ID
+                <input disabled type="number" name="update-order-id" id="update-order-id" value="">
+            </label>
 
-        <label for="update-order-date">Order Date:
-            <input disabled required type="date" name="update-order-date" id="update-order-date" value="">
-        </label>
+            <label for="update-order-date">Order Date
+                <input disabled required type="date" name="update-order-date" id="update-order-date" value="">
+            </label>
 
-        <label for="update-ship-date">Ship Date:
-            <input disabled type="date" name="update-ship-date" id="update-ship-date" value="">
-        </label>
+            <label for="update-ship-date">Ship Date
+                <input disabled type="date" name="update-ship-date" id="update-ship-date" value="">
+            </label>
 
-        <label for="update-delivered-date">Delivered Date:
-            <input disabled type="date" name="update-delivered-date" id="update-delivered-date" value="">
-        </label>
+            <label for="update-delivered-date">Delivered Date
+                <input disabled type="date" name="update-delivered-date" id="update-delivered-date" value="">
+            </label>
 
-        <label for="update-comment">Comment:
-            <textarea disabled name="update-comment" id="update-comment" value=""></textarea>
-        </label>
+            <label for="update-comment">Comment
+                <textarea disabled name="update-comment" id="update-comment" value=""></textarea>
+            </label>
 
-        <label for="update-customer-id">Customer ID:
-            <select disabled required name="update-customer-id" id="update-customer-id">
-                {{#each customers}}
-                    <option value="{{this.customer_id}}">{{this.customer_id}} - {{this.first_name}} {{this.last_name}} ({{this.email}})</option>
-                {{/each}}
-            </select>
-        </label>
+            <label for="update-customer-id">Customer ID
+                <select disabled required name="update-customer-id" id="update-customer-id">
+                    {{#each customers}}
+                        <option value="{{this.customer_id}}">{{this.customer_id}} - {{this.first_name}} {{this.last_name}} ({{this.email}})</option>
+                    {{/each}}
+                </select>
+            </label>
+        </fieldset>
 
-        <input type="submit">
+        <button type="submit">Update Order</button>
     </form>
 </section>
 
