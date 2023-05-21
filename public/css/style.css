@@ -2,7 +2,35 @@ body {
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     background-color: ivory;
     margin: 0 auto;
-    width: 95%;
+    width: 98%;
+}
+
+header {
+    height: 100px;
+    background-color:rgb(135, 65, 4);
+    color: white;
+    padding: 1%;
+}
+
+h1 > a {
+    text-decoration: none;
+    color: white;
+}
+
+nav > a {
+    font-weight: bold;
+    font-size: larger;
+    border-radius: 10px;
+    padding: 5px 20px;
+    margin-right: 10px;
+    background-color: lightblue;    
+    text-decoration: none;
+    color: black;
+}
+
+nav > a:hover {
+    background-color: blue;
+    color: white;
 }
 
 table, th, tr, td {
@@ -12,18 +40,14 @@ table, th, tr, td {
 }
 
 th {
-    background-color: sandybrown;
+    font-size: 24px;
+    background-color:rgb(135, 65, 4);
+    color: white;
 }
 
-tr:nth-child(even) {
-    background-color:white;
+tr {
+    background-color:rgb(250, 208, 169);
 }
-
-tr:nth-child(odd) {
-    background-color:rgb(255, 211, 175);
-
-}
-
 
 section {
     border-bottom: 1px solid gray;
@@ -36,8 +60,15 @@ fieldset {
 }
 
 label {
-    margin: 0 20px 20px 0;
+    margin: 0 20px 10px 0;
     font-weight: bold;
+    display:block;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    margin-right: 50px;
 }
 
 input, textarea, select {
@@ -69,13 +100,4 @@ button {
   button:hover {
     background-color: blue;
     color: white;
-  }
-
-  th {
-    font-size: 24px;
-  }
-
-  th:first-child {
-    background-color:rgb(135, 65, 4);
-    color:white;
   }

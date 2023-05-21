@@ -1,4 +1,5 @@
 <h1>Orders</h1>
+<hr>
 <section>
     <h2>Browse Orders</h2>
     <table id="orders-table">
@@ -34,30 +35,37 @@
     <form id="add-order-form" method="post">
 
         <fieldset>
-            <label for="input-order-date">Order Date
+
+            <div class="input-container">
+                <label for="input-order-date">Order Date</label>
                 <input required type="date" name="input-order-date" id="input-order-date">
-            </label>
+            </div>
 
-            <label for="input-ship-date">Ship Date
+            <div class="input-container">
+                <label for="input-ship-date">Ship Date</label>
                 <input type="date" name="input-ship-date" id="input-ship-date">
-            </label>
+            </div>
 
-            <label for="input-delivered-date">Delivered Date
+            <div class="input-container">
+                <label for="input-delivered-date">Delivered Date</label>
                 <input type="date" name="input-delivered-date" id="input-delivered-date">
-            </label>
+            </div>
 
-            <label for="input-comment">Comment
+            <div class="input-container">
+                <label for="input-comment">Comment</label>
                 <textarea name="input-comment" id="input-comment"></textarea>
-            </label>
+            </div> 
 
-            <label for="input-customer-id">Customer ID
+            <div class="input-container">
+                <label for="input-customer-id">Customer ID</label>
                 <select required name="input-customer-id" id="input-customer-id">
                     <option disabled selected>-- Select a Customer --</option>
                     {{#each customers}}
                         <option value="{{this.customer_id}}">{{this.customer_id}} - {{this.first_name}} {{this.last_name}} ({{this.email}})</option>
                     {{/each}}
-                </select>
-            </label>
+                </select>                
+            </div>
+
         </fieldset>
 
         <button type="submit">Add Order</button>
@@ -67,36 +75,44 @@
 <section>
     <h2>Update Order</h2>
     <p>In the table above, click <strong>Edit</strong>. Then, edit the order details in these fields and click <strong>Update Order</strong>.</p>
-    <form id="update-order-form">
+    <form id="update-order-form" method="post">
         
         <fieldset>
-            <label for="update-order-id">Order ID
+
+            <div class="input-container">
+                <label for="update-order-id">Order ID</label>
                 <input disabled type="number" name="update-order-id" id="update-order-id" value="">
-            </label>
+            </div>
 
-            <label for="update-order-date">Order Date
+            <div class="input-container">
+                <label for="update-order-date">Order Date</label>
                 <input disabled required type="date" name="update-order-date" id="update-order-date" value="">
-            </label>
+            </div>
 
-            <label for="update-ship-date">Ship Date
+            <div class="input-container">
+                <label for="update-ship-date">Ship Date</label>
                 <input disabled type="date" name="update-ship-date" id="update-ship-date" value="">
-            </label>
+            </div>
 
-            <label for="update-delivered-date">Delivered Date
+            <div class="input-container">
+                <label for="update-delivered-date">Delivered Date</label>
                 <input disabled type="date" name="update-delivered-date" id="update-delivered-date" value="">
-            </label>
+            </div>
 
-            <label for="update-comment">Comment
+            <div class="input-container">
+                <label for="update-comment">Comment</label>
                 <textarea disabled name="update-comment" id="update-comment" value=""></textarea>
-            </label>
+            </div>
 
-            <label for="update-customer-id">Customer ID
+            <div class="input-container">
+            <label for="update-customer-id">Customer ID</label>
                 <select disabled required name="update-customer-id" id="update-customer-id">
                     {{#each customers}}
                         <option value="{{this.customer_id}}">{{this.customer_id}} - {{this.first_name}} {{this.last_name}} ({{this.email}})</option>
                     {{/each}}
                 </select>
-            </label>
+            </div>
+
         </fieldset>
 
         <button type="submit">Update Order</button>

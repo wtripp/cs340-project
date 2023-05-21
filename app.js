@@ -32,8 +32,16 @@ app.set('view engine', '.hbs');
 /*
     ROUTES
 */
+
+
+/* HOME PAGE */
 app.get('/', function(req, res) {
     res.render('index');
+});
+
+/* Customers */
+app.get('/customers', function(req, res) {
+    res.render('customers');
 });
 
 app.get('/orders', function(req, res) {
@@ -178,6 +186,30 @@ app.put('/update-order', function(req, res) {
     }});
 });
 
+/* Memorabilia */
+app.get('/memorabilia', function(req, res) {
+    res.render('memorabilia');
+});
+
+/* Movie Items */
+app.get('/movieitems', function(req, res) {
+    res.render('movieitems');
+});
+
+/* Movies */
+app.get('/movies', function(req, res) {
+    res.render('movies');
+});
+
+/* Actor Roles */
+app.get('/actorroles', function(req, res) {
+    res.render('actorroles');
+});
+
+/* Actors */
+app.get('/actors', function(req, res) {
+    res.render('actors');
+});
 
 /*
     LISTENER
