@@ -25,6 +25,12 @@ addOrderForm.addEventListener("submit", function (event) {
     let commentValue = inputComment.value;
     let customerIdValue = inputCustomerId.value;
 
+    // Validate dates
+    if (!(new Date(orderDateValue) <= new Date(shipDateValue) && new Date(shipDateValue) <= new Date(deliveredDateValue))) {
+        alert("Dates must follow this pattern: Order Date <= Ship Date <= Delivered Date");
+        return;
+    }
+
     // Put our data we want to send in a javascript object
     let data = {
         orderDate: orderDateValue,
