@@ -15,8 +15,7 @@ function updateOrder(orderID) {
 
     const rowToUpdate = document.querySelector(`[data-value="${orderID}"]`);
 
-    let orderId = rowToUpdate.getElementsByClassName("order-id")[0].textContent;
-    document.getElementById("update-order-id").value = orderId;
+    document.getElementById("update-order-id").value = orderID;
 
     let orderDate = rowToUpdate.getElementsByClassName("order-date")[0].textContent;
     document.getElementById("update-order-date").value = orderDate;

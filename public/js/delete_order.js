@@ -1,6 +1,21 @@
 // This file uses starter code adapted from:
 // https://github.com/osu-cs340-ecampus/nodejs-starter-app
 
+
+function confirmDelete(orderID) {
+
+    const row = document.querySelector(`tr[data-value='${orderID}']`);
+
+    const result = confirm(`Are you sure you want to delete order ${orderID}?`);
+
+    if (result) {
+        deleteOrder(orderID);
+    } else {
+        // Do nothing
+    }
+}
+
+
 function deleteOrder(orderID) {
     // Put our data we want to send in a javascript object
     let data = {

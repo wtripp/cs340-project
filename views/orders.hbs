@@ -17,7 +17,7 @@
             {{#each orders}}
             <tr data-value="{{this.order_id}}">
                 <td><button onclick="updateOrder({{this.order_id}})">Edit</button></td>
-                <td><button onclick="deleteOrder({{this.order_id}})">Delete</button></td>
+                <td><button onclick="confirmDelete({{this.order_id}})">Delete</button></td>
                 <td class="order-id">{{this.order_id}}</td>
                 <td class="order-date">{{this.order_date}}</td>
                 <td class="ship-date">{{this.ship_date}}</td>

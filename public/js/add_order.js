@@ -94,15 +94,16 @@ addRowToTable = (data) => {
     let editButton = document.createElement("button");
     editButton.innerHTML = "Edit";
     editButton.onclick = function(){
-        updateOrder(newRow.id);
+        updateOrder(newRow.order_id);
     };
     editCell.appendChild(editButton);
 
     let deleteButton = document.createElement("button");
     deleteButton.innerHTML = "Delete";
     deleteButton.onclick = function(){
-        deleteOrder(newRow.id);
+        confirmDelete(newRow.order_id);
     };
+
     deleteCell.appendChild(deleteButton);
 
 
