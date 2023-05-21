@@ -25,9 +25,14 @@ addOrderForm.addEventListener("submit", function (event) {
     let commentValue = inputComment.value;
     let customerIdValue = inputCustomerId.value;
 
-    // Validate dates
+    // Perform data validation.
     if (!(new Date(orderDateValue) <= new Date(shipDateValue) && new Date(shipDateValue) <= new Date(deliveredDateValue))) {
         alert("Dates must follow this pattern: Order Date <= Ship Date <= Delivered Date");
+        return;
+    }
+
+    if (isNaN(parseInt(customerIdValue))) {
+        alert("Select a customer.");
         return;
     }
 
@@ -97,21 +102,8 @@ addRowToTable = (data) => {
     let customerIdCell = document.createElement("td");
 
     // Add buttons
-    let editButton = document.createElement("button");
-    editButton.innerHTML = "Edit";
-    editButton.onclick = function(){
-        updateOrder(newRow.order_id);
-    };
-    editCell.appendChild(editButton);
-
-    let deleteButton = document.createElement("button");
-    deleteButton.innerHTML = "Delete";
-    deleteButton.onclick = function(){
-        confirmDelete(newRow.order_id);
-    };
-
-    deleteCell.appendChild(deleteButton);
-
+    editCell.innerHTML = `<button onclick=updateOrder(${newRow.order_id})>Edit</button>`;
+    deleteCell.innerHTML = `<button onclick=confirmDelete(${newRow.order_id})>Delete</button>`;
 
     // Fill the cells with correct data
     orderIdCell.innerText = newRow.order_id;

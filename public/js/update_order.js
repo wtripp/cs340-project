@@ -12,6 +12,7 @@ function updateOrder(orderID) {
     document.getElementById("update-delivered-date").removeAttribute("disabled");
     document.getElementById("update-comment").removeAttribute("disabled");
     document.getElementById("update-customer-id").removeAttribute("disabled");
+    document.getElementById("update-order-button").removeAttribute("disabled");
 
     const rowToUpdate = document.querySelector(`[data-value="${orderID}"]`);
 
