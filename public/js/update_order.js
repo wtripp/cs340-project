@@ -56,6 +56,13 @@ function updateOrder(orderID) {
         let commentValue = updateComment.value;
         let customerIdValue = updateCustomerId.value;
         
+
+        // Perform data validation.
+        if (!(new Date(orderDateValue) <= new Date(shipDateValue) && new Date(shipDateValue) <= new Date(deliveredDateValue))) {
+            alert("Dates must follow this pattern: Order Date <= Ship Date <= Delivered Date");
+            return;
+        }
+
         /* The Orders table allows customerId to be NULL, but that might not be the case for all tables.
         Adapt this code in other tables so we can abort if passed a NULL value.
         if (isNaN(customerIdValue)) 
@@ -63,6 +70,7 @@ function updateOrder(orderID) {
             return;
         }
         */
+
 
         // Put our data we want to send in a Javascript object
         let data = {
