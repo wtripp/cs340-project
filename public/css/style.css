@@ -97,7 +97,7 @@ button {
     background-color: lightblue;
   }
 
-  button:hover {
+  button:hover:not(:disabled) {
     background-color: blue;
     color: white;
   }
