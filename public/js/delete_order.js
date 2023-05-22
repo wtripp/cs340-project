@@ -34,6 +34,42 @@ function deleteOrder(orderID) {
             // Add the new data to the table
             deleteRow(orderID);
 
+            // Clear any row that contained updates
+            updateOrderId = document.getElementById("update-order-id");
+            if (updateOrderId.value == orderID) {
+                updateOrderId.value = '';
+                updateOrderId.setAttribute("disabled","disabled");
+
+                updateOrderDate = document.getElementById("update-order-date");
+                updateOrderDate.value = '';
+                updateOrderDate.setAttribute("disabled","disabled");
+
+                updateShipDate = document.getElementById("update-ship-date");
+                updateShipDate.value = '';
+                updateShipDate.setAttribute("disabled","disabled");
+
+                updateDeliveredDate = document.getElementById("update-delivered-date");
+                updateDeliveredDate.value = '';
+                updateDeliveredDate.setAttribute("disabled","disabled");
+
+                updateComment = document.getElementById("update-comment");
+                updateComment.value = '';
+                updateComment.setAttribute("disabled","disabled");
+
+                updateCustomerId = document.getElementById("update-customer-id");
+                updateCustomerId.value = '-- Select a Customer --';
+                updateCustomerId.setAttribute("disabled","disabled");
+            }
+
+            /*
+            document.getElementById("update-order-id").value = '';
+            document.getElementById(setAttribute("disabled");
+            inputShipDate.value = '';
+            inputDeliveredDate.value = '';
+            inputComment.value = '';
+            inputCustomerId.value = '-- Select a Customer --';
+            */
+
         }
         else if (xhttp.readyState == 4 && xhttp.status != 204) {
             console.log("There was an error with the input.")
