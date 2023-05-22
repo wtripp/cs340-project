@@ -107,6 +107,7 @@
             <div class="input-container">
             <label for="update-customer-id">Customer ID</label>
                 <select disabled required name="update-customer-id" id="update-customer-id">
+                    <option disabled selected>-- Select a Customer --</option>
                     {{#each customers}}
                         <option value="{{this.customer_id}}">{{this.customer_id}} - {{this.first_name}} {{this.last_name}} ({{this.email}})</option>
                     {{/each}}

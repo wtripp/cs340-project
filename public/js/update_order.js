@@ -31,7 +31,7 @@ function updateOrder(orderID) {
     document.getElementById("update-comment").value = comment;
 
     let customerId = rowToUpdate.getElementsByClassName("customer-id")[0].textContent;
-    document.getElementById("update-customer-id").value = customerId;
+    document.getElementById("update-customer-id").value = parseInt(customerId); // Gets ID from "ID - FirstName LastName (email)"
 
 
     // Modify the objects we need
