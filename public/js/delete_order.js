@@ -61,15 +61,6 @@ function deleteOrder(orderID) {
                 updateCustomerId.setAttribute("disabled","disabled");
             }
 
-            /*
-            document.getElementById("update-order-id").value = '';
-            document.getElementById(setAttribute("disabled");
-            inputShipDate.value = '';
-            inputDeliveredDate.value = '';
-            inputComment.value = '';
-            inputCustomerId.value = '-- Select a Customer --';
-            */
-
         }
         else if (xhttp.readyState == 4 && xhttp.status != 204) {
             console.log("There was an error with the input.")
