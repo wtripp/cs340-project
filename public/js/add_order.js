@@ -83,8 +83,9 @@ addOrderForm.addEventListener("submit", function (event) {
 // where data is the response that includes all records, including the newly created one.
 addRowToTable = (data) => {
 
-    // Get a reference to the current table on the page and clear it out.
+    // Get a reference to the current table on the page.
     let currentTable = document.getElementById("orders-table");
+    let tbody = currentTable.getElementsByTagName("tbody")[0];
 
     // Get a reference to the new row from the database query (last object)
     const parsedData = JSON.parse(data);
@@ -92,18 +93,20 @@ addRowToTable = (data) => {
 
     // Create a row
     const row = document.createElement("tr");
+    row.setAttribute("data-value", `${newRow.order_id}`);
+
     let editCell = document.createElement("td");
+    editCell.innerHTML = `<button onclick=updateOrder(${newRow.order_id})>Edit</button>`;
+
     let deleteCell = document.createElement("td");
+    deleteCell.innerHTML = `<button onclick=confirmDelete(${newRow.order_id})>Delete</button>`;
+
     let orderIdCell = document.createElement("td");
     let orderDateCell = document.createElement("td");
     let shipDateCell = document.createElement("td");
     let deliveredDateCell = document.createElement("td");
     let commentCell = document.createElement("td");
     let customerIdCell = document.createElement("td");
-
-    // Add buttons
-    editCell.innerHTML = `<button onclick=updateOrder(${newRow.order_id})>Edit</button>`;
-    deleteCell.innerHTML = `<button onclick=confirmDelete(${newRow.order_id})>Delete</button>`;
 
     // Fill the cells with correct data
     orderIdCell.innerText = newRow.order_id;
@@ -124,6 +127,5 @@ addRowToTable = (data) => {
     row.appendChild(customerIdCell);
     
     // Add the row to the table
-    currentTable.appendChild(row);
-
+    tbody.appendChild(row);
 }
