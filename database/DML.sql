@@ -42,35 +42,17 @@ DELETE FROM Customers WHERE customer_id = :customer_id_selected_for_edit_or_dele
 -- ORDERS PAGE --
 
 -- Browse Orders
-SELECT o.order_id, o.order_date, o.ship_date, o.delivered_date, o.comment,
-       CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
+SELECT o.order_id,
+        DATE_FORMAT(o.order_date, '%Y-%m-%d') AS order_date,
+        DATE_FORMAT(o.ship_date, '%Y-%m-%d') AS ship_date,
+        DATE_FORMAT(o.delivered_date, '%Y-%m-%d') AS delivered_date,
+        o.comment,
+        CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
 FROM Orders AS o
-JOIN Customers AS c ON o.customer_id = c.customer_id
-ORDER BY o.order_date;
-/*
-+----------+---------------------+---------------------+---------------------+-----------------+--------------------------------------------------+
-| order_id | order_date          | ship_date           | delivered_date      | comment         | customer_id                                      |
-+----------+---------------------+---------------------+---------------------+-----------------+--------------------------------------------------+
-|        1 | 2022-06-22 00:00:00 | 2022-06-23 00:00:00 | 2022-07-01 00:00:00 | put in backyard | 1 - Cordula de Courcey (cdecourcey1@dyndns.org)  |
-|        2 | 2022-08-14 00:00:00 | 2022-08-15 00:00:00 | 2022-08-29 00:00:00 | NULL            | 2 - Donia Calderhead (dcalderhead2@netscape.com) |
-|        3 | 2022-12-06 00:00:00 | 2022-12-06 00:00:00 | 2022-12-23 00:00:00 | NULL            | 3 - Sarena Vasse (svasse3@gmail.com)             |
-|        4 | 2023-03-28 00:00:00 | 2023-03-29 00:00:00 | NULL                | beware of dog   | 4 - Liuka Vasse (lfyndon4@gmail.com)             |
-|        5 | 2023-03-28 00:00:01 | NULL                | NULL                | NULL            | 4 - Liuka Vasse (lfyndon4@gmail.com)             |
-+----------+---------------------+---------------------+---------------------+-----------------+--------------------------------------------------+
-*/
+JOIN Customers AS c ON o.customer_id = c.customer_id;
 
 -- Helper: Select customer data used to populate the dropdown that associates a customer with an order. 
-SELECT customer_id, CONCAT(first_name, ' ', last_name, ' (', email, ')') AS customer_dropdown_display FROM Customers;
-/*
-+-------------+----------------------------------------------+
-| customer_id | customer_dropdown_display                    |
-+-------------+----------------------------------------------+
-|           1 | Cordula de Courcey (cdecourcey1@dyndns.org)  |
-|           2 | Donia Calderhead (dcalderhead2@netscape.com) |
-|           3 | Sarena Vasse (svasse3@gmail.com)             |
-|           4 | Liuka Vasse (lfyndon4@gmail.com)             |
-+-------------+----------------------------------------------+
-*/
+SELECT * FROM Customers;
 
 -- Add Order
 INSERT INTO Orders (order_date, ship_date, delivered_date, comment, customer_id)
@@ -80,8 +62,7 @@ VALUES (:order_date_input, :ship_date_input, :delivered_date_input, :comment_inp
 SELECT o.order_id, o.order_date, o.ship_date, o.delivered_date, o.comment,
        CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
 FROM Orders AS o
-JOIN Customers AS c ON o.customer_id = c.customer_id
-WHERE order_id = :order_id_selected_for_edit_or_delete;
+JOIN Customers AS c ON o.customer_id = c.customer_id AND order_id = :order_id_selected_for_edit_or_delete;
 
 -- Update Order
 UPDATE Orders
