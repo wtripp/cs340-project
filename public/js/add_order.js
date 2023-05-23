@@ -102,11 +102,22 @@ addRowToTable = (data) => {
     deleteCell.innerHTML = `<button onclick=confirmDelete(${newRow.order_id})>Delete</button>`;
 
     let orderIdCell = document.createElement("td");
+    orderIdCell.className = "order-id";
+
     let orderDateCell = document.createElement("td");
+    orderDateCell.className = "order-date";
+
     let shipDateCell = document.createElement("td");
+    shipDateCell.className = "ship-date";
+
     let deliveredDateCell = document.createElement("td");
+    deliveredDateCell.className = "delivered-date";
+
     let commentCell = document.createElement("td");
+    commentCell.className = "comment";
+
     let customerIdCell = document.createElement("td");
+    customerIdCell.className = "customer-id";
 
     // Fill the cells with correct data
     orderIdCell.innerText = newRow.order_id;
