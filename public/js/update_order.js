@@ -58,8 +58,18 @@ function updateOrder(orderID) {
         
 
         // Perform data validation.
-        if (!(new Date(orderDateValue) <= new Date(shipDateValue) && new Date(shipDateValue) <= new Date(deliveredDateValue))) {
-            alert("Dates must follow this pattern: Order Date <= Ship Date <= Delivered Date");
+        if (shipDateValue && new Date(orderDateValue) > new Date(shipDateValue)) {
+            alert("Ship date must be later than or equal to order date.");
+            return;
+        }
+    
+        if (!shipDateValue && deliveredDateValue) {
+            alert("If delivered date is specified, then ship date must be specified too.");
+            return;
+        }
+    
+        if (shipDateValue && deliveredDateValue && new Date(shipDateValue) > new Date(deliveredDateValue)) {
+            alert("Delivered date must be later than or equal to ship date.");
             return;
         }
 
@@ -93,6 +103,7 @@ function updateOrder(orderID) {
 
                 // Add the new data to the table
                 updateRow(xhttp.response, orderIdValue);
+                alert(`Updated order ${orderIdValue}`);
 
             }
             else if (xhttp.readyState == 4 && xhttp.status != 200) {

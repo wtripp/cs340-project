@@ -26,8 +26,18 @@ addOrderForm.addEventListener("submit", function (event) {
     let customerIdValue = inputCustomerId.value;
 
     // Perform data validation.
-    if (!(new Date(orderDateValue) <= new Date(shipDateValue) && new Date(shipDateValue) <= new Date(deliveredDateValue))) {
-        alert("Dates must follow this pattern: Order Date <= Ship Date <= Delivered Date");
+    if (shipDateValue && new Date(orderDateValue) > new Date(shipDateValue)) {
+        alert("Ship date must be later than or equal to order date.");
+        return;
+    }
+
+    if (!shipDateValue && deliveredDateValue) {
+        alert("If delivered date is specified, then ship date must be specified too.");
+        return;
+    }
+
+    if (shipDateValue && deliveredDateValue && new Date(shipDateValue) > new Date(deliveredDateValue)) {
+        alert("Delivered date must be later than or equal to ship date.");
         return;
     }
 
@@ -122,8 +132,8 @@ addRowToTable = (data) => {
     // Fill the cells with correct data
     orderIdCell.innerText = newRow.order_id;
     orderDateCell.innerText = newRow.order_date.substring(0,10);
-    shipDateCell.innerText = newRow.ship_date.substring(0,10);
-    deliveredDateCell.innerText = newRow.delivered_date.substring(0,10);
+    shipDateCell.innerText = newRow.ship_date !== '0000-00-00' ? newRow.ship_date.substring(0,10) : '';
+    deliveredDateCell.innerText = newRow.delivered_date !== '0000-00-00' ? newRow.delivered_date.substring(0,10) : '';
     commentCell.innerText = newRow.comment;
     customerIdCell.innerText = newRow.customer_id;
 

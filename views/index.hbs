@@ -8,12 +8,11 @@
     <h3>Bugs and Enhancements</h3>
     <ul>
         <li>Bug: "Ship Date" and "Delivered Date" should be optional fields.</li>
-        <li>Enhancement: Add a dialog to notify when an order is updated.</li>
-        <li>Enhancement: Add error-checking for UNIQUE constraints.</li>
     </ul>
-    <h3>Fixed Since Step 4 Submission</h3>
+    <h3>Fixed Since Step 4 Draft Submission</h3>
     <ul>
-        <li>Removed UNQIUE constraint on order_date + customer_id.</li>
-        <li>Bug: Some INSERTs do not update correctly until you refresh. This was because the table was not sorted by order_id. "Add Order" expected the new order to be the last row in the table, but it wasn't.</li>
+        <li>Bug Fix: Removed UNQIUE constraint on order_date + customer_id, which was causing unexpected INSERT failures.</li>
+        <li>Bug Fix: Some INSERTs do not update correctly until you refresh. This was because the table was not sorted by order_id. "Add Order" expected the new order to be the last row in the table, but it wasn't.</li>
+        <li>Enhancement: Added a dialog to notify when an order is updated.</li>
     </ul>
 </section>
