@@ -49,7 +49,8 @@ SELECT o.order_id,
         o.comment,
         CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
 FROM Orders AS o
-JOIN Customers AS c ON o.customer_id = c.customer_id;
+JOIN Customers AS c ON o.customer_id = c.customer_id
+ORDER BY o.order_id;
 
 -- Helper: Select customer data used to populate the dropdown that associates a customer with an order. 
 SELECT * FROM Customers;

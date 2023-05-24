@@ -54,7 +54,8 @@ app.get('/orders', function(req, res) {
                o.comment,
                CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
         FROM Orders AS o
-        JOIN Customers AS c ON o.customer_id = c.customer_id;`;
+        JOIN Customers AS c ON o.customer_id = c.customer_id
+        ORDER BY o.order_id;`;
 
     const selectAllCustomersQuery = `SELECT * FROM Customers;`;
 
@@ -104,7 +105,8 @@ app.post('/add-order', function(req, res) {
                     o.comment,
                     CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
                 FROM Orders AS o
-                JOIN Customers AS c ON o.customer_id = c.customer_id;`;
+                JOIN Customers AS c ON o.customer_id = c.customer_id
+                ORDER BY o.order_id;`;
                 db.pool.query(selectAllOrdersQuery, function(error, rows, fields){
 
                 if (error) {
