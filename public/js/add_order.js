@@ -132,8 +132,8 @@ addRowToTable = (data) => {
     // Fill the cells with correct data
     orderIdCell.innerText = newRow.order_id;
     orderDateCell.innerText = newRow.order_date.substring(0,10);
-    shipDateCell.innerText = newRow.ship_date !== '0000-00-00' ? newRow.ship_date.substring(0,10) : '';
-    deliveredDateCell.innerText = newRow.delivered_date !== '0000-00-00' ? newRow.delivered_date.substring(0,10) : '';
+    shipDateCell.innerText = newRow.ship_date.substring(0,10);
+    deliveredDateCell.innerText = newRow.delivered_date.substring(0,10);
     commentCell.innerText = newRow.comment;
     customerIdCell.innerText = newRow.customer_id;
 

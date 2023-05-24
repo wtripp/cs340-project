@@ -48,9 +48,9 @@ app.get('/orders', function(req, res) {
 
     const selectAllOrdersQuery = `
         SELECT o.order_id,
-               DATE_FORMAT(o.order_date, '%Y-%m-%d') AS order_date,
-               DATE_FORMAT(o.ship_date, '%Y-%m-%d') AS ship_date,
-               DATE_FORMAT(o.delivered_date, '%Y-%m-%d') AS delivered_date,
+               IF(o.order_date = '0000-00-00', '', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_date,
+               IF(o.ship_date = '0000-00-00', '', DATE_FORMAT(o.ship_date, '%Y-%m-%d')) AS ship_date,
+               IF(o.delivered_date = '0000-00-00', '', DATE_FORMAT(o.delivered_date, '%Y-%m-%d')) AS delivered_date,
                o.comment,
                CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
         FROM Orders AS o
@@ -99,9 +99,9 @@ app.post('/add-order', function(req, res) {
         } else {
                 const selectAllOrdersQuery = `
                 SELECT o.order_id,
-                    DATE_FORMAT(o.order_date, '%Y-%m-%d') AS order_date,
-                    DATE_FORMAT(o.ship_date, '%Y-%m-%d') AS ship_date,
-                    DATE_FORMAT(o.delivered_date, '%Y-%m-%d') AS delivered_date,
+                    IF(o.order_date = '0000-00-00', '', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_date,
+                    IF(o.ship_date = '0000-00-00', '', DATE_FORMAT(o.ship_date, '%Y-%m-%d')) AS ship_date,
+                    IF(o.delivered_date = '0000-00-00', '', DATE_FORMAT(o.delivered_date, '%Y-%m-%d')) AS delivered_date,
                     o.comment,
                     CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
                 FROM Orders AS o

@@ -43,11 +43,11 @@ DELETE FROM Customers WHERE customer_id = :customer_id_selected_for_edit_or_dele
 
 -- Browse Orders
 SELECT o.order_id,
-        DATE_FORMAT(o.order_date, '%Y-%m-%d') AS order_date,
-        DATE_FORMAT(o.ship_date, '%Y-%m-%d') AS ship_date,
-        DATE_FORMAT(o.delivered_date, '%Y-%m-%d') AS delivered_date,
-        o.comment,
-        CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
+    IF(o.order_date = '0000-00-00', '', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_date,
+    IF(o.ship_date = '0000-00-00', '', DATE_FORMAT(o.ship_date, '%Y-%m-%d')) AS ship_date,
+    IF(o.delivered_date = '0000-00-00', '', DATE_FORMAT(o.delivered_date, '%Y-%m-%d')) AS delivered_date,
+    o.comment,
+    CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
 FROM Orders AS o
 JOIN Customers AS c ON o.customer_id = c.customer_id
 ORDER BY o.order_id;
