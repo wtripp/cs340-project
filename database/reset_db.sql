@@ -27,6 +27,6 @@ DROP TABLE IF EXISTS `MovieItems`;
 DROP TABLE IF EXISTS `Movies`;
 DROP TABLE IF EXISTS `Orders`;
 SET FOREIGN_KEY_CHECKS = 1;
-source DDL.sql
+source ./database/DDL.sql
 SHOW TABLES;
 source show_tables.sql

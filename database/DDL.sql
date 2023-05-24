@@ -84,8 +84,7 @@ CREATE OR REPLACE TABLE `Orders` (
     `customer_id` int(11) DEFAULT NULL,
     PRIMARY KEY (order_id),
     FOREIGN KEY (customer_id) REFERENCES Customers(customer_id) ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT UNIQUE(order_id),
-    CONSTRAINT UNIQUE(customer_id, order_date)
+    CONSTRAINT UNIQUE(order_id)
 );
 
 INSERT INTO
