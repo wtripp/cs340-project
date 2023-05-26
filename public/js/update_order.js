@@ -3,6 +3,8 @@
 
 function updateOrder(orderID) {
 
+    window.scrollTo(0, document.body.scrollHeight);
+
     // Get the objects we need to modify
     let updateOrderForm = document.getElementById('update-order-form');
 
@@ -104,6 +106,8 @@ function updateOrder(orderID) {
                 // Add the new data to the table
                 updateRow(xhttp.response, orderIdValue);
                 alert(`Updated order ${orderIdValue}`);
+                window.scrollTo(document.body.scrollHeight, 0);
+
 
             }
             else if (xhttp.readyState == 4 && xhttp.status != 200) {

@@ -7,10 +7,12 @@
 
     <h3>Open Bugs and Enhancement Requests</h3>
     <ul>
-        <li>None</li>
+        <li>Enhancement request: Make table smaller so you can see the column headers of the table when scrolled down in the Add/Update section.</li>
+        <li>Search feature for browsing entities.</li>
     </ul>
     <h3>Fixed Since Step 4 Draft Submission</h3>
     <ul>
+        <li>Enhancement: Improved editing experience by scrolling page to bottom when clicking "Edit", then scroll back to the top after saving the edits.</li>
         <li>Bug Fix: Removed UNQIUE constraint on order_date + customer_id, which was causing unexpected INSERT failures.</li>
         <li>Bug Fix: Some INSERTs do not update correctly until you refresh. This was because the table was not sorted by order_id. "Add Order" expected the new order to be the last row in the table, but it wasn't.</li>
         <li>Enhancement: Added a dialog to notify when an order is updated.</li>
