@@ -132,10 +132,10 @@ function updateRow(data, orderID){
     orderDate[0].innerText = parsedData[0].order_date.substring(0,10);
 
     let shipDate = updateRow.getElementsByClassName("ship-date")
-    shipDate[0].innerText = parsedData[0].ship_date.substring(0,10);
+    shipDate[0].innerText = parsedData[0].ship_date === "0000-00-00 00:00:00" ? '' : parsedData[0].ship_date.substring(0,10);
 
     let deliveredDate = updateRow.getElementsByClassName("delivered-date")
-    deliveredDate[0].innerText = parsedData[0].delivered_date.substring(0,10);
+    deliveredDate[0].innerText = parsedData[0].delivered_date === "0000-00-00 00:00:00" ? '' : parsedData[0].delivered_date.substring(0,10);
 
     let comment = updateRow.getElementsByClassName("comment")
     comment[0].innerText = parsedData[0].comment;

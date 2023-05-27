@@ -15,16 +15,16 @@
         </thead>
         <tbody>
             {{#each orders}}
-            <tr data-value="{{this.order_id}}">
-                <td><button onclick="updateOrder({{this.order_id}})">Edit</button></td>
-                <td><button onclick="confirmDelete({{this.order_id}})">Delete</button></td>
-                <td class="order-id">{{this.order_id}}</td>
-                <td class="order-date">{{this.order_date}}</td>
-                <td class="ship-date">{{this.ship_date}}</td>
-                <td class="delivered-date">{{this.delivered_date}}</td>
-                <td class="comment">{{this.comment}}</td>
-                <td class="customer-id">{{this.customer_id}}</td>
-            </tr>
+                <tr data-value="{{this.order_id}}">
+                    <td><button onclick="updateOrder({{this.order_id}})">Edit</button></td>
+                    <td><button onclick="confirmDelete({{this.order_id}})">Delete</button></td>
+                    <td class="order-id">{{this.order_id}}</td>
+                    <td class="order-date">{{this.order_date}}</td>
+                    <td class="ship-date">{{this.ship_date}}</td>
+                    <td class="delivered-date">{{this.delivered_date}}</td>
+                    <td class="comment">{{this.comment}}</td>
+                    <td class="customer-id">{{this.customer_id}}</td>
+                </tr>
             {{/each}}
         </tbody>
     </table>
@@ -59,7 +59,7 @@
             <div class="input-container">
                 <label for="input-customer-id">Customer ID</label>
                 <select required name="input-customer-id" id="input-customer-id">
-                    <option disabled selected>-- Select a Customer --</option>
+                    <option selected></option>
                     {{#each customers}}
                         <option value="{{this.customer_id}}">{{this.customer_id}} - {{this.first_name}} {{this.last_name}} ({{this.email}})</option>
                     {{/each}}
@@ -107,7 +107,7 @@
             <div class="input-container">
             <label for="update-customer-id">Customer ID</label>
                 <select disabled required name="update-customer-id" id="update-customer-id">
-                    <option disabled selected>-- Select a Customer --</option>
+                    <option selected></option>
                     {{#each customers}}
                         <option value="{{this.customer_id}}">{{this.customer_id}} - {{this.first_name}} {{this.last_name}} ({{this.email}})</option>
                     {{/each}}

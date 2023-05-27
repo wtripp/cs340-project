@@ -57,12 +57,10 @@ app.get('/orders', function(req, res) {
         JOIN Customers AS c ON o.customer_id = c.customer_id
         ORDER BY o.order_id;`;
 
-    const selectAllCustomersQuery = `SELECT * FROM Customers;`;
+    const selectAllCustomersQuery = `SELECT customer_id, first_name, last_name, email FROM Customers;`;
 
-    db.pool.query(selectAllOrdersQuery, function(error, rows, fields) {
-        let orders = rows;
-        db.pool.query(selectAllCustomersQuery, function(error, rows, fields) {
-            let customers = rows;
+    db.pool.query(selectAllOrdersQuery, function(error, orders, fields) {
+        db.pool.query(selectAllCustomersQuery, function(error, customers, fields) {
             res.render('orders', {orders: orders, customers: customers});
         });
 
@@ -73,12 +71,13 @@ app.post('/add-order', function(req, res) {
 
     let data = req.body;
 
+    /*
     // Capture NULL values
     let customer_id = parseInt(data.customer_id);
     if (isNaN(customer_id))
     {
         customer_id = 'NULL';
-    }
+    } */
 
     // Create the query and run it on the database
     const insertOrderQuery = `
@@ -190,8 +189,87 @@ app.put('/update-order', function(req, res) {
 
 /* Memorabilia */
 app.get('/memorabilia', function(req, res) {
-    res.render('memorabilia');
+
+    const selectAllItemsQuery = `
+        SELECT items.item_id,
+            items.description,
+            items.type,
+            items.condition,
+            items.price,
+            CONCAT(o.order_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ') on ', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_id
+        FROM Memorabilia AS items
+        LEFT JOIN Orders AS o ON items.order_id = o.order_id
+        LEFT JOIN Customers AS c ON o.customer_id = c.customer_id
+        ORDER BY items.item_id;`;
+
+    const selectAllOrdersQuery = `
+        SELECT o.order_id,
+            DATE_FORMAT(o.order_date, '%Y-%m-%d') AS order_date,
+            CONCAT(c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer
+        FROM Orders AS o
+        JOIN Customers AS c ON o.customer_id = c.customer_id
+        ORDER BY o.order_id;`;
+
+    db.pool.query(selectAllItemsQuery, function(error, items, fields) {
+        db.pool.query(selectAllOrdersQuery, function(error, orders, fields) {
+            res.render('memorabilia', {items: items, orders: orders});
+        });
+    });
 });
+
+app.post('/add-memorabilia', function(req, res) {
+
+    let data = req.body;
+
+    
+    // Capture NULL values
+    let order = parseInt(data.orderId);
+    if (isNaN(order))
+    {
+        order = 'NULL';
+    }
+
+    // Create the query and run it on the database
+    const insertItemQuery = `
+    INSERT INTO Memorabilia (description, type, \`condition\`, price, order_id)
+    VALUES
+    (
+        '${data.description}',
+        '${data.type}',
+        '${data.condition}',
+        '${data.price}',
+        ${order}
+    );`;
+    db.pool.query(insertItemQuery, function(error, rows, fields) {
+        
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        } else {
+                const selectAllItemsQuery = `
+                SELECT items.item_id,
+                    items.description,
+                    items.type,
+                    items.condition,
+                    items.price,
+                    CONCAT(o.order_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ') on ', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_id
+                FROM Memorabilia AS items
+                LEFT JOIN Orders AS o ON items.order_id = o.order_id
+                LEFT JOIN Customers AS c ON o.customer_id = c.customer_id
+                ORDER BY items.item_id;`;
+                db.pool.query(selectAllItemsQuery, function(error, rows, fields){
+
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    res.send(rows);
+                }
+            });
+        }
+    });
+});
+
 
 /* Movie Items */
 app.get('/movieitems', function(req, res) {

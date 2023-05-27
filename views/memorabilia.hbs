@@ -1,3 +1,91 @@
 <h1>Memorabilia</h1>
 <hr>
-TODO
+<section>
+    <h2>Browse Memorabilia</h2>
+    <table id="memorabilia-table">
+        <thead>
+            <tr>
+                <th colspan=2>Memorabilia</th>
+                {{#each items.[0]}}
+                <th>
+                    {{@key}}
+                </th>
+                {{/each}}
+            </tr>
+        </thead>
+        <tbody>
+            {{#each items}}
+                <tr data-value="{{this.item_id}}">
+                    <td><button onclick="updateItem({{this.item_id}})">Edit</button></td>
+                    <td><button onclick="confirmDelete({{this.item_id}})">Delete</button></td>
+                    <td class="item-id">{{this.item_id}}</td>
+                    <td class="description">{{this.description}}</td>
+                    <td class="type">{{this.type}}</td>
+                    <td class="condition">{{this.condition}}</td>
+                    <td class="price">{{this.price}}</td>
+                    <td class="order-id">{{this.order_id}}</td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</section>
+
+<section>
+    <h2>Add Memorabilia Item</h2>
+    <p>To add a memorabilia item, enter the following information and click <strong>Add Item</strong>.</p>
+    <form id="add-item-form" method="post">
+
+        <fieldset>
+
+            <div class="input-container">
+                <label for="input-description">Description</label>
+                <textarea required name="input-description" id="input-description"></textarea>
+            </div>
+
+            <div class="input-container">
+                <label for="input-type">Type</label>
+                <select required name="input-type" id="input-type">
+                    <option selected></option>
+                    <option>script</option>
+                    <option>prop</option>
+                    <option>wardrobe</option>
+                    <option>poster</option>
+                </select>
+            </div>
+
+            <div class="input-container">
+                <label for="input-condition">Condition</label>
+                <select required name="input-condition" id="input-condition">
+                    <option selected></option>
+                    <option>new</option>
+                    <option>excellent</option>
+                    <option>good</option>
+                    <option>fair</option>
+                    <option>poor</option>
+                </select>
+            </div>
+
+            <div class="input-container">
+                <label for="input-price">Price ($)</label>
+                <input required step="0.01" min="0.00" type="number" name="input-price" id="input-price">
+            </div>
+
+            <div class="input-container">
+                <label for="input-order-id">Order ID</label>
+                <select name="input-order-id" id="input-order-id">
+                    <option selected></option>
+                    {{#each orders}}
+                        <option value="{{this.order_id}}">{{this.order_id}} - {{this.customer}} on {{this.order_date}}</option>
+                    {{/each}}
+                </select>                
+            </div>
+
+        </fieldset>
+
+        <button id="add-item-button" type="submit">Add Item</button>
+    </form>
+</section>
+
+
+
+<script src="./js/add_memorabilia.js"></script>

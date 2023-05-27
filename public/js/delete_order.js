@@ -57,7 +57,7 @@ function deleteOrder(orderID) {
                 updateComment.setAttribute("disabled","disabled");
 
                 updateCustomerId = document.getElementById("update-customer-id");
-                updateCustomerId.value = '-- Select a Customer --';
+                updateCustomerId.value = '';
                 updateCustomerId.setAttribute("disabled","disabled");
             }
 

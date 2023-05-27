@@ -53,7 +53,7 @@ JOIN Customers AS c ON o.customer_id = c.customer_id
 ORDER BY o.order_id;
 
 -- Helper: Select customer data used to populate the dropdown that associates a customer with an order. 
-SELECT * FROM Customers;
+SELECT customer_id, first_name, last_name, email FROM Customers;
 
 -- Add Order
 INSERT INTO Orders (order_date, ship_date, delivered_date, comment, customer_id)
@@ -81,41 +81,24 @@ DELETE FROM Orders WHERE order_id = :order_id_selected_for_edit_or_delete;
 -- MEMORABILIA PAGE --
 
 -- Browse Memorabilia
-SELECT items.item_id, items.description, items.type, items.`condition`, items.price,
-        CONCAT(o.order_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ') on ', o.order_date) AS customer_order
+SELECT items.item_id,
+    items.description,
+    items.type,
+    items.condition,
+    items.price,
+    CONCAT(o.order_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ') on ', o.order_date) AS order_id
 FROM Memorabilia AS items
 LEFT JOIN Orders AS o ON items.order_id = o.order_id
 LEFT JOIN Customers AS c ON o.customer_id = c.customer_id
-ORDER by customer_order;
-/*
-+---------+--------------------------------------------+----------+-----------+---------+-------------------------------------------------------------------------+
-| item_id | description                                | type     | condition | price   | customer_order                                                          |
-+---------+--------------------------------------------+----------+-----------+---------+-------------------------------------------------------------------------+
-|       1 | Batman's cape                              | wardrobe | good      | 2000.00 | 1 - Cordula de Courcey (cdecourcey1@dyndns.org) on 2022-06-22 00:00:00  |
-|       2 | Godfather script signed by Al Pacino       | script   | fair      |  500.00 | 1 - Cordula de Courcey (cdecourcey1@dyndns.org) on 2022-06-22 00:00:00  |
-|       3 | Pulp Fiction rare movie poster             | poster   | new       |   50.00 | 2 - Donia Calderhead (dcalderhead2@netscape.com) on 2022-08-14 00:00:00 |
-|       4 | Jason Voorhees's machete                   | prop     | excellent | 1000.00 | 3 - Sarena Vasse (svasse3@gmail.com) on 2022-12-06 00:00:00             |
-|       5 | Patrick Bateman's business card            | prop     | good      |   75.00 | 4 - Liuka Vasse (lfyndon4@gmail.com) on 2023-03-28 00:00:00             |
-|       6 | The Dude's robe                            | wardrobe | fair      |  150.00 | 5 - Liuka Vasse (lfyndon4@gmail.com) on 2023-03-28 00:00:01             |
-|       7 | Toy Story movie script signed by Tom Hanks | script   | poor      |  100.00 | NULL                                                                    |
-+---------+--------------------------------------------+----------+-----------+---------+-------------------------------------------------------------------------+
-*/
+ORDER BY items.item_id;
 
 -- Helper: Select order data used to populate the dropdown that associates a memorabilia item with an order. 
-SELECT o.order_id, CONCAT(c.first_name, ' ', c.last_name, ' (', c.email, ') on ', o.order_date) AS customer_order
+SELECT o.order_id,
+    DATE_FORMAT(o.order_date, '%Y-%m-%d') AS order_date,
+    CONCAT(c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer
 FROM Orders AS o
-JOIN Customers as c ON o.customer_id = c.customer_id;
-/*
-+----------+---------------------------------------------------------------------+
-| order_id | customer_order                                                      |
-+----------+---------------------------------------------------------------------+
-|        1 | Cordula de Courcey (cdecourcey1@dyndns.org) on 2022-06-22 00:00:00  |
-|        2 | Donia Calderhead (dcalderhead2@netscape.com) on 2022-08-14 00:00:00 |
-|        3 | Sarena Vasse (svasse3@gmail.com) on 2022-12-06 00:00:00             |
-|        4 | Liuka Vasse (lfyndon4@gmail.com) on 2023-03-28 00:00:00             |
-|        5 | Liuka Vasse (lfyndon4@gmail.com) on 2023-03-28 00:00:01             |
-+----------+---------------------------------------------------------------------+
-*/
+JOIN Customers AS c ON o.customer_id = c.customer_id
+ORDER BY o.order_id;
 
 -- Add Memorabilia
 INSERT INTO Memorabilia (description, type, `condition`, price, order_id)
@@ -123,7 +106,7 @@ VALUES (:description_input, :type_input, :condition_input, :price_input, :order_
 
 -- Helper: Get memorabilia data when user clicks "Edit" or "Delete".
 SELECT item_id, items.description, items.type, items.`condition`, items.price,
-        CONCAT(o.order_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ') on ', o.order_date) AS order_id
+        CONCAT(o.order_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ') on ', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_id
 FROM Memorabilia AS items
 LEFT JOIN Orders AS o ON items.order_id = o.order_id
 LEFT JOIN Customers AS c ON o.customer_id = c.customer_id

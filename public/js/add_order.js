@@ -41,11 +41,6 @@ addOrderForm.addEventListener("submit", function (event) {
         return;
     }
 
-    if (isNaN(parseInt(customerIdValue))) {
-        alert("Select a customer.");
-        return;
-    }
-
     // Put our data we want to send in a javascript object
     let data = {
         orderDate: orderDateValue,
@@ -74,7 +69,7 @@ addOrderForm.addEventListener("submit", function (event) {
             inputShipDate.value = '';
             inputDeliveredDate.value = '';
             inputComment.value = '';
-            inputCustomerId.value = '-- Select a Customer --';
+            inputCustomerId.value = '';
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")
@@ -82,8 +77,6 @@ addOrderForm.addEventListener("submit", function (event) {
     }
 
     // Send the request and wait for the response
-
-    console.log("Sending the request...");
     xhttp.send(JSON.stringify(data));
 
 });
