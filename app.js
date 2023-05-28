@@ -115,10 +115,10 @@ app.delete('/delete-order', function(req, res) {
 
     let data = req.body;
 
-    let orderID = parseInt(data.id);
+    let orderId = parseInt(data.id);
     let deleteOrderQuery = `DELETE FROM Orders WHERE order_id = ?`;
     
-    db.pool.query(deleteOrderQuery, [orderID], function(error, rows, fields) {
+    db.pool.query(deleteOrderQuery, [orderId], function(error, rows, fields) {
         if (error) {
             console.log(error);
             res.sendStatus(400);
@@ -133,7 +133,7 @@ app.put('/update-order', function(req, res) {
 
     let data = req.body;
   
-    let orderID = parseInt(data.orderId);
+    let orderId = parseInt(data.orderId);
     let orderDate = data.orderDate;
     let shipDate = data.shipDate;
     let deliveredDate = data.deliveredDate;
@@ -154,7 +154,7 @@ app.put('/update-order', function(req, res) {
         JOIN Customers AS c ON o.customer_id = c.customer_id AND o.order_id = ?`;
 
         // Run the 1st query
-        db.pool.query(updateOrderQuery, [orderDate, shipDate, deliveredDate, comment, customerId, orderID], function(error, rows, fields){
+        db.pool.query(updateOrderQuery, [orderDate, shipDate, deliveredDate, comment, customerId, orderId], function(error, rows, fields){
             if (error) {
 
             // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
@@ -166,7 +166,7 @@ app.put('/update-order', function(req, res) {
             else
             {
                 // Run the second query
-                db.pool.query(selectOrderQuery, [orderID], function(error, rows, fields) {
+                db.pool.query(selectOrderQuery, [orderId], function(error, rows, fields) {
                 if (error) {
                     console.log(error);
                     res.sendStatus(400);
@@ -320,7 +320,7 @@ app.put('/update-memorabilia', function(req, res) {
             res.sendStatus(400);
             }
 
-            // If there was no error, we run our second query and return that data so we can use it to update the Orders table on the frontend.
+            // If there was no error, we run our second query and return that data so we can use it to update the Memorabilia table on the frontend.
             else
             {
                 // Run the second query
@@ -400,7 +400,6 @@ app.post('/add-movie-item', function(req, res) {
     });
 });
 
-// TODO
 app.delete('/delete-movie-item', function(req, res) {
 
     let data = req.body;
@@ -418,33 +417,28 @@ app.delete('/delete-movie-item', function(req, res) {
     });
 });
 
-// TODO
 app.put('/update-movie-item', function(req, res) {
 
     let data = req.body;
   
-    let orderID = parseInt(data.orderId);
-    let orderDate = data.orderDate;
-    let shipDate = data.shipDate;
-    let deliveredDate = data.deliveredDate;
-    let comment = data.comment;
-    let customerId = parseInt(data.customerId);
+    let movieItemId = parseInt(data.movieItemId);
+    let itemId = parseInt(data.itemId);
+    let movieId = parseInt(data.movieId);
 
-    const updateOrderQuery = `
-    UPDATE Orders
-    SET order_date = ?, ship_date = ?,
-        delivered_date = ?, comment = ?,
-        customer_id = ?
-    WHERE order_id = ?`;
+    const updateMovieItemQuery = `
+    UPDATE MovieItems SET item_id = ?, movie_id = ? WHERE movie_item_id = ?`;
 
-    const selectOrderQuery = `
-        SELECT o.order_id, o.order_date, o.ship_date, o.delivered_date, o.comment,
-            CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
-        FROM Orders AS o
-        JOIN Customers AS c ON o.customer_id = c.customer_id AND o.order_id = ?`;
+    const selectMovieItemQuery = `
+        SELECT mi.movie_item_id,
+            CONCAT(i.item_id, ' - ', i.description) AS item_id,
+            CONCAT(m.movie_id, ' - ', m.title, ' (', m.year, ')') AS movie_id
+        FROM MovieItems AS mi
+        JOIN Memorabilia AS i ON i.item_id = mi.item_id
+        JOIN Movies AS m ON m.movie_id = mi.movie_id
+        WHERE mi.movie_item_id = ?;`;
 
         // Run the 1st query
-        db.pool.query(updateOrderQuery, [orderDate, shipDate, deliveredDate, comment, customerId, orderID], function(error, rows, fields){
+        db.pool.query(updateMovieItemQuery, [itemId, movieId, movieItemId], function(error, rows, fields) {
             if (error) {
 
             // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
@@ -452,11 +446,11 @@ app.put('/update-movie-item', function(req, res) {
             res.sendStatus(400);
             }
 
-            // If there was no error, we run our second query and return that data so we can use it to update the Orders table on the frontend.
+            // If there was no error, we run our second query and return that data so we can use it to update the Movie Items table on the frontend.
             else
             {
                 // Run the second query
-                db.pool.query(selectOrderQuery, [orderID], function(error, rows, fields) {
+                db.pool.query(selectMovieItemQuery, [movieItemId], function(error, rows, fields) {
                 if (error) {
                     console.log(error);
                     res.sendStatus(400);

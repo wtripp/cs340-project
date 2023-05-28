@@ -75,15 +75,6 @@ function updateOrder(orderID) {
             return;
         }
 
-        /* The Orders table allows customerId to be NULL, but that might not be the case for all tables.
-        Adapt this code in other tables so we can abort if passed a NULL value.
-        if (isNaN(customerIdValue)) 
-        {
-            return;
-        }
-        */
-
-
         // Put our data we want to send in a Javascript object
         let data = {
             orderId: orderIdValue,

@@ -16,7 +16,7 @@
         <tbody>
             {{#each movieItems}}
                 <tr data-value="{{this.movie_item_id}}">
-                    <td><button onclick="updateItem({{this.movie_item_id}})">Edit</button></td>
+                    <td><button onclick="updateMovieItem({{this.movie_item_id}})">Edit</button></td>
                     <td><button onclick="confirmDelete({{this.movie_item_id}})">Delete</button></td>
                     <td class="movie-item-id">{{this.movie_item_id}}</td>
                     <td class="item-id">{{this.item_id}}</td>
@@ -60,5 +60,44 @@
     </form>
 </section>
 
+<section>
+    <h2>Update Movie Item</h2>
+    <p>In the table above, click <strong>Edit</strong>. Then, edit the movie item details in these fields and click <strong>Update Movie Item</strong>.</p>
+    <form id="update-movie-item-form" method="post">
+        
+        <fieldset>
+
+            <div class="input-container">
+                <label for="update-movie-item-id">Movie Item ID</label>
+                <input disabled type="number" name="update-movie-item-id" id="update-movie-item-id" value="">
+            </div>
+
+            <div class="input-container">
+                <label for="update-item-id">Memorabilia Item ID</label>
+                <select disabled required name="update-item-id" id="update-item-id">
+                    <option selected></option>
+                    {{#each memorabilia}}
+                        <option value="{{this.item_id}}">{{this.item_id}} - {{this.description}}</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <div class="input-container">
+                <label for="update-movie-id">Movie ID</label>
+                <select disabled required name="update-movie-id" id="update-movie-id">
+                    <option selected></option>
+                    {{#each movies}}
+                        <option value="{{this.movie_id}}">{{this.movie_id}} - {{this.movie}}</option>
+                    {{/each}}
+                </select>
+            </div>
+
+        </fieldset>
+
+        <button id="update-movie-items-button" disabled>Update Movie Item</button>
+    </form>
+</section>
+
 <script src="./js/add_movie_item.js"></script>
 <script src="./js/delete_movie_item.js"></script>
+<script src="./js/update_movie_item.js"></script>

@@ -27,11 +27,8 @@ addMovieItemForm.addEventListener("submit", function (event) {
         // Returns array of ID combos extracted from table, e.g., ['1-2', '3-4', ...]
         return item.textContent.match(/\d+/)[0] + "-" + movie.textContent.match(/\d+/)[0];
     });
-
-    // Combine IDs and check if already in table.
-    let movieItemIdValue = itemIdValue + "-" + movieIdValue;
-    let isDuplicate = movieItemIds.includes(movieItemIdValue);
-
+    
+    let isDuplicate = movieItemIds.includes(itemIdValue + "-" + movieIdValue);
     if (isDuplicate) {
         alert("Memorabilia item ID and movie ID combination must be unique.");
         return;

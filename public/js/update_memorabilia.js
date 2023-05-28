@@ -57,17 +57,6 @@ function updateItem(itemID) {
         let conditionValue = updateCondition.value;
         let priceValue = updatePrice.value;
         let orderIdValue = updateOrderId.value;
-        
-
-        // Data validation normally goes here, but for this form, all validation is handled in HTML.
-
-        /* The Memorabilia table allows orderId to be NULL, but that might not be the case for all tables.
-        Adapt this code in other tables so we can abort if passed a NULL value.
-        if (isNaN(orderIdValue)) 
-        {
-            return;
-        }
-        */
 
         // Put our data we want to send in a Javascript object
         let data = {
