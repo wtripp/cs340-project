@@ -27,3 +27,32 @@
         </tbody>
     </table>
 </section>
+<section>
+    <h2>Add Movie</h2>
+    <p>To add a movie, enter the following information and click <strong>Add Movie</strong>.</p>
+    <form id="add-movie-form" method="post">
+
+        <fieldset>
+
+            <div class="input-container">
+                <label for="input-title">Title</label>
+                <input required type="text" maxlength="100" name="input-title" id="input-title">
+            </div>
+
+            <div class="input-container">
+                <label for="input-year">Year</label>
+                <input type="number" min="1900" max="2100" value="2000" step="1" name="input-year" id="input-year">
+            </div>
+
+            <div class="input-container">
+                <label for="input-genre">Genre</label>
+                <input type="text" maxlength="20" name="input-genre" id="input-genre">
+            </div>
+
+        </fieldset>
+
+        <button id="add-movie-button" type="submit">Add Movie</button>
+    </form>
+</section>
+
+<script src="./js/add_movie.js"></script>

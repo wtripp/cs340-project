@@ -465,38 +465,21 @@ app.get('/movies', function(req, res) {
     });
 });
 
-app.post('/add-order', function(req, res) {
+app.post('/add-movie', function(req, res) {
 
     let data = req.body;
 
     // Create the query and run it on the database
-    const insertOrderQuery = `
-    INSERT INTO Orders (order_date, ship_date, delivered_date, comment, customer_id)
-    VALUES
-    (
-        '${data.orderDate}',
-        '${data.shipDate}',
-        '${data.deliveredDate}',
-        '${data.comment}',
-        '${data.customerId}'
-    );`;
-    db.pool.query(insertOrderQuery, function(error, rows, fields) {
+    const insertMovieQuery = `
+    INSERT INTO Movies (title, year, genre) VALUES ('${data.title}', '${data.year}', '${data.genre}');`;
+    db.pool.query(insertMovieQuery, function(error, rows, fields) {
         
         if (error) {
             console.log(error)
             res.sendStatus(400);
         } else {
-                const selectAllOrdersQuery = `
-                SELECT o.order_id,
-                    IF(o.order_date = '0000-00-00', '', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_date,
-                    IF(o.ship_date = '0000-00-00', '', DATE_FORMAT(o.ship_date, '%Y-%m-%d')) AS ship_date,
-                    IF(o.delivered_date = '0000-00-00', '', DATE_FORMAT(o.delivered_date, '%Y-%m-%d')) AS delivered_date,
-                    o.comment,
-                    CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
-                FROM Orders AS o
-                JOIN Customers AS c ON o.customer_id = c.customer_id
-                ORDER BY o.order_id;`;
-                db.pool.query(selectAllOrdersQuery, function(error, rows, fields) {
+                const selectAllMoviesQuery = `SELECT movie_id, title, year, genre FROM Movies ORDER BY movie_id;`;
+                db.pool.query(selectAllMoviesQuery, function(error, rows, fields) {
 
                 if (error) {
                     console.log(error);
