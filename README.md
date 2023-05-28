@@ -27,7 +27,7 @@ This will add all the dependencies in the node_modules folder, which is huge and
 
 
 ## Start the App
-You can start the app locally using Node.
+You can start the app locally using Node. I recommend using this while things are in progress, because you can see the SQL errors in the terminal.
 ```
 node app.js
 ```
