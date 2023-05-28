@@ -1,23 +1,19 @@
 <section>
     <h2>Welcome!</h2>
-    <p>Currently, only these pages have CRUD operations working:
-    <ul>
-        <li><a href="/orders">Orders</a></li>
-        <li><a href="/memorabilia">Memorabilia</a></li>
-        <li><a href="/movieitems">Movie Items</a></li>
-    </ul>
+    <p><i>Movie Mementos</i> is a website that sells movie memorabilia from Hollywood movies from the last 100 years. The site will have more than 5,000 memorabilia items for sale, from autographed posters and scripts to authentic props and costumes used in the movies, along with new items. Annual revenues are expected to exceed $1 million in its first year. The backend database for this website records Orders from Customers for various Memorabilia. Customers can look up available memorabilia items for specific Movies or for the Actors of those movies. Shipping will be US-only at first.</p>
 
-    <h3>Open Bugs and Enhancement Requests</h3>
+    <h3>Completed Pages</h3>
     <ul>
-        <li>Enhancement Request: Search feature for browsing entities.</li>
+        <li><p><a href="/orders">Orders</a> &mdash; Browse, add, update, or delete memorabilia orders.</p></li>
+        <li><p><a href="/memorabilia">Memorabilia</a> &mdash; Browse, add, update, or delete memorabilia.</p></li>
+        <li><p><a href="/movieitems">Movie Items</a> &mdash; Browse, add, update, or delete associations between memorabilia and the movies they're used in.</p></li> 
+        <li><p><a href="/movies">Movies</a> &mdash; Browse, add, update, or delete movies that contain memorabilia.</p></li>
     </ul>
-    <h3>Fixed Since Step 4 Draft Submission</h3>
+    <h3>Pages Not Ready</h3>
     <ul>
-        <li>Enhancement: Decreased padding on table, textarea, and section to make page more compact you can see the table column headers when scrolled down in the Add/Update section.</li>
-        <li>Enhancement: Improved editing experience by scrolling page to bottom when clicking "Edit", then scroll back to the top after saving the edits.</li>
-        <li>Bug Fix: Removed UNQIUE constraint on order_date + customer_id, which was causing unexpected INSERT failures.</li>
-        <li>Bug Fix: Some INSERTs do not update correctly until you refresh. This was because the table was not sorted by order_id. "Add Order" expected the new order to be the last row in the table, but it wasn't.</li>
-        <li>Enhancement: Added a dialog to notify when an order is updated.</li>
-        <li>Bug Fix: Made "Ship Date" and "Delivered Date" optional fields.</li>
+        <li><p><a href="/customers">Customers</a> &mdash; Browse, add, update, or delete customers who purchased memorabilia.</p></li>
+        <li><p><a href="/actors">Actors</a> &mdash; Browse, add, update, or delete actors who appeared in movies containing memorabilia.</p></li>
+        <li><p><a href="/actorroles">Actor Roles</a> &mdash; Browse, add, update, or delete associations between actors and the movies they were in.</p></li> 
+    </ul>
     </ul>
 </section>
