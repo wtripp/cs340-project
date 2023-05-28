@@ -51,6 +51,7 @@ Then, kill that process.
 ```
 kill <PID>
 ```
+
 ## Resetting the Database
 Use this procedure if you need to reset the database, such as to remove test data you added or if you change the schema.
 First, make a backup of the database.
@@ -74,4 +75,15 @@ This script does the following:
 2. Drops all tables in the project from the cs340_<onid> database. If you have other tables you don't want in there, you'll have to delete them manually using DROP TABLE <table_name>.
 3. Re-enables foreign key checks.
 4. Runs the database/DDL.sql that re-creates all tables in the schema and adds sample rows.
-5. Displays all tables and all the contents of each table. 
+5. Displays all tables and all the contents of each table.
+
+## Open Bugs and Enhancement Requests
+- Enhancement Request: Search feature for browsing entities.
+
+## Fixed Since Step 4 Draft Submission
+- Enhancement: Decreased padding on table, textarea, and section to make page more compact you can see the table column headers when scrolled down in the Add/Update section.
+- Enhancement: Improved editing experience by scrolling page to bottom when clicking "Edit", then scroll back to the top after saving the edits.
+- Bug Fix: Removed UNQIUE constraint on order_date + customer_id, which was causing unexpected INSERT failures.
+- Bug Fix: Some INSERTs do not update correctly until you refresh. This was because the table was not sorted by order_id. "Add Order" expected the new order to be the last row in the table, but it wasn't.
+- Enhancement: Added a dialog to notify when an order is updated.
+- Bug Fix: Made "Ship Date" and "Delivered Date" optional fields.

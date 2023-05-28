@@ -511,32 +511,20 @@ app.delete('/delete-movie', function(req, res) {
 });
 
 
-app.put('/update-order', function(req, res) {
+app.put('/update-movie', function(req, res) {
 
     let data = req.body;
   
-    let orderId = parseInt(data.orderId);
-    let orderDate = data.orderDate;
-    let shipDate = data.shipDate;
-    let deliveredDate = data.deliveredDate;
-    let comment = data.comment;
-    let customerId = parseInt(data.customerId);
+    let movieId = parseInt(data.movieId);
+    let title = data.title;
+    let year = data.year;
+    let genre = data.genre;
 
-    const updateOrderQuery = `
-    UPDATE Orders
-    SET order_date = ?, ship_date = ?,
-        delivered_date = ?, comment = ?,
-        customer_id = ?
-    WHERE order_id = ?`;
-
-    const selectOrderQuery = `
-        SELECT o.order_id, o.order_date, o.ship_date, o.delivered_date, o.comment,
-            CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
-        FROM Orders AS o
-        JOIN Customers AS c ON o.customer_id = c.customer_id AND o.order_id = ?`;
+    const updateMovieQuery = `UPDATE Movies SET title = ?, year = ?, genre = ? WHERE movie_id = ?;`;
+    const selectMovieQuery = `SELECT movie_id, title, year, genre FROM Movies WHERE movie_id = ?;`;
 
         // Run the 1st query
-        db.pool.query(updateOrderQuery, [orderDate, shipDate, deliveredDate, comment, customerId, orderId], function(error, rows, fields){
+        db.pool.query(updateMovieQuery, [title, year, genre, movieId], function(error, rows, fields) {
             if (error) {
 
             // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
@@ -548,7 +536,7 @@ app.put('/update-order', function(req, res) {
             else
             {
                 // Run the second query
-                db.pool.query(selectOrderQuery, [orderId], function(error, rows, fields) {
+                db.pool.query(selectMovieQuery, [movieId], function(error, rows, fields) {
                 if (error) {
                     console.log(error);
                     res.sendStatus(400);
@@ -558,19 +546,6 @@ app.put('/update-order', function(req, res) {
         });
     }});
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /* Actor Roles */

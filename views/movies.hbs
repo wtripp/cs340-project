@@ -41,7 +41,7 @@
 
             <div class="input-container">
                 <label for="input-year">Year</label>
-                <input type="number" min="1900" max="2100" value="2000" step="1" name="input-year" id="input-year">
+                <input required type="number" min="1900" max="2100" value="2000" step="1" name="input-year" id="input-year">
             </div>
 
             <div class="input-container">
@@ -54,6 +54,39 @@
         <button id="add-movie-button" type="submit">Add Movie</button>
     </form>
 </section>
+<section>
+    <h2>Update Movie</h2>
+    <p>In the table above, click <strong>Edit</strong>. Then, edit the movie details in these fields and click <strong>Update Movie</strong>.</p>
+    <form id="update-movie-form" method="post">
+        
+        <fieldset>
+
+            <div class="input-container">
+                <label for="update-movie-id">Movie ID</label>
+                <input disabled type="number" name="update-movie-id" id="update-movie-id" value="">
+            </div>
+
+            <div class="input-container">
+                <label for="update-title">Title</label>
+                <input disabled required type="text" maxlength="100" name="update-title" id="update-title" value="">
+            </div>
+
+            <div class="input-container">
+                <label for="update-year">Year</label>
+                <input disabled required type="number" min="1900" max="2100" step="1" name="update-year" id="update-year" value="">
+            </div>
+
+            <div class="input-container">
+                <label for="update-genre">Genre</label>
+                <input disabled type="text" maxlength="20" name="update-genre" id="update-genre" value="">
+            </div>
+
+        </fieldset>
+
+        <button id="update-movie-button" disabled>Update Movie</button>
+    </form>
+</section>
 
 <script src="./js/add_movie.js"></script>
 <script src="./js/delete_movie.js"></script>
+<script src="./js/update_movie.js"></script>
