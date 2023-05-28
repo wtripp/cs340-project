@@ -203,9 +203,6 @@ WHERE movie_item_id = :movie_item_id_selected_for_edit_or_delete;
 DELETE FROM MovieItems WHERE movie_item_id = :movie_item_id_selected_for_edit_or_delete;
 
 
-
-
-
 -- END MOVIE-ITEMS PAGE --
 
 

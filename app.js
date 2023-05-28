@@ -345,10 +345,175 @@ app.put('/update-memorabilia', function(req, res) {
 });
 
 
+
+
+
+
+
 /* Movie Items */
 app.get('/movieitems', function(req, res) {
-    res.render('movieitems');
+
+    const selectAllMovieItemsQuery = `
+    SELECT mi.movie_item_id,
+        CONCAT(i.item_id, ' - ', i.description) AS item_id,
+        CONCAT(m.movie_id, ' - ', m.title, ' (', m.year, ')') AS movie_id
+    FROM MovieItems AS mi
+    JOIN Memorabilia AS i ON mi.item_id = i.item_id
+    JOIN Movies AS m ON m.movie_id = mi.movie_id;`;
+
+    const selectAllMemorabiliaQuery = `SELECT item_id, description FROM Memorabilia ORDER BY item_id;`;
+    const selectAllMoviesQuery = `movie_id, CONCAT(title, ' (', year, ')') AS movie FROM Movies ORDER BY movie_id;`;
+
+    db.pool.query(selectAllMovieItemsQuery, function(error, movieItems, fields) {
+        db.pool.query(selectAllMemorabiliaQuery, function(error, memorabilia, fields) {
+            db.pool.query(selectAllMoviesQuery, function(error, movies, fields) {
+                res.render('movieitems', {movieItems: movieItems, memorabilia: memorabilia, movies: movies});
+            });
+        });
+    });
 });
+
+
+
+
+// TODO
+app.post('/add-movie-item', function(req, res) {
+
+    let data = req.body;
+
+    /*
+    // Capture NULL values
+    let customer_id = parseInt(data.customer_id);
+    if (isNaN(customer_id))
+    {
+        customer_id = 'NULL';
+    } */
+
+    // Create the query and run it on the database
+    const insertOrderQuery = `
+    INSERT INTO Orders (order_date, ship_date, delivered_date, comment, customer_id)
+    VALUES
+    (
+        '${data.orderDate}',
+        '${data.shipDate}',
+        '${data.deliveredDate}',
+        '${data.comment}',
+        '${data.customerId}'
+    );`;
+    db.pool.query(insertOrderQuery, function(error, rows, fields) {
+        
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        } else {
+                const selectAllOrdersQuery = `
+                SELECT o.order_id,
+                    IF(o.order_date = '0000-00-00', '', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_date,
+                    IF(o.ship_date = '0000-00-00', '', DATE_FORMAT(o.ship_date, '%Y-%m-%d')) AS ship_date,
+                    IF(o.delivered_date = '0000-00-00', '', DATE_FORMAT(o.delivered_date, '%Y-%m-%d')) AS delivered_date,
+                    o.comment,
+                    CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
+                FROM Orders AS o
+                JOIN Customers AS c ON o.customer_id = c.customer_id
+                ORDER BY o.order_id;`;
+                db.pool.query(selectAllOrdersQuery, function(error, rows, fields){
+
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    res.send(rows);
+                }
+            });
+        }
+    });
+});
+
+// TODO
+app.delete('/delete-movie-item', function(req, res) {
+
+    let data = req.body;
+
+    let orderID = parseInt(data.id);
+    let deleteOrderQuery = `DELETE FROM Orders WHERE order_id = ?`;
+    
+    db.pool.query(deleteOrderQuery, [orderID], function(error, rows, fields) {
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
+        }
+    });
+});
+
+// TODO
+app.put('/update-movie-item', function(req, res) {
+
+    let data = req.body;
+  
+    let orderID = parseInt(data.orderId);
+    let orderDate = data.orderDate;
+    let shipDate = data.shipDate;
+    let deliveredDate = data.deliveredDate;
+    let comment = data.comment;
+    let customerId = parseInt(data.customerId);
+
+    const updateOrderQuery = `
+    UPDATE Orders
+    SET order_date = ?, ship_date = ?,
+        delivered_date = ?, comment = ?,
+        customer_id = ?
+    WHERE order_id = ?`;
+
+    const selectOrderQuery = `
+        SELECT o.order_id, o.order_date, o.ship_date, o.delivered_date, o.comment,
+        CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
+        FROM Orders AS o
+        JOIN Customers AS c ON o.customer_id = c.customer_id AND o.order_id = ?`;
+
+        // Run the 1st query
+        db.pool.query(updateOrderQuery, [orderDate, shipDate, deliveredDate, comment, customerId, orderID], function(error, rows, fields){
+            if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+            }
+
+            // If there was no error, we run our second query and return that data so we can use it to update the Orders table on the frontend.
+            else
+            {
+                // Run the second query
+                db.pool.query(selectOrderQuery, [orderID], function(error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    res.send(rows);
+                }
+        });
+    }});
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* Movies */
 app.get('/movies', function(req, res) {
