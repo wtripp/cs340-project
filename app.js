@@ -270,6 +270,28 @@ app.post('/add-memorabilia', function(req, res) {
     });
 });
 
+app.delete('/delete-memorabilia', function(req, res) {
+
+    let data = req.body;
+
+    let itemId = parseInt(data.id);
+    let deleteItemQuery = `DELETE FROM Memorabilia WHERE item_id = ?`;
+    
+    db.pool.query(deleteItemQuery, [itemId], function(error, rows, fields) {
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
+        }
+    });
+});
+
+
+
+
+
+
 
 /* Movie Items */
 app.get('/movieitems', function(req, res) {
