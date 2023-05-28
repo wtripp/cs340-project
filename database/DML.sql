@@ -170,21 +170,7 @@ DELETE FROM MovieItems WHERE movie_item_id = :movie_item_id_selected_for_edit_or
 -- MOVIES PAGE --
 
 -- Browse Movies
-SELECT movie_id, title, year, genre FROM Movies;
-/*
-+----------+------------------+------+-----------+
-| movie_id | title            | year | genre     |
-+----------+------------------+------+-----------+
-|        1 | Batman Begins    | 2005 | action    |
-|        2 | The Dark Knight  | 2008 | action    |
-|        3 | The Godfather    | 1972 | drama     |
-|        4 | Pulp Fiction     | 1994 | NULL      |
-|        5 | Friday the 13th  | 1980 | horror    |
-|        6 | American Psycho  | 2000 | thriller  |
-|        7 | The Big Lebowski | 1998 | comedy    |
-|        8 | Toy Story        | 1995 | animation |
-+----------+------------------+------+-----------+
-*/
+SELECT movie_id, title, year, genre FROM Movies ORDER BY movie_id;
 
 -- Add Movie
 INSERT INTO Movies (title, year, genre) VALUES (:title_input, :year_input, :genre_input);

@@ -336,11 +336,6 @@ app.put('/update-memorabilia', function(req, res) {
 });
 
 
-
-
-
-
-
 /* Movie Items */
 app.get('/movieitems', function(req, res) {
 
@@ -461,29 +456,139 @@ app.put('/update-movie-item', function(req, res) {
     }});
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Movies */
 app.get('/movies', function(req, res) {
-    res.render('movies');
+
+    const selectAllMoviesQuery = `SELECT movie_id, title, year, genre FROM Movies ORDER BY movie_id;`;
+    db.pool.query(selectAllMoviesQuery, function(error, movies, fields) {
+        res.render('movies', {movies: movies});
+    });
 });
+
+app.post('/add-order', function(req, res) {
+
+    let data = req.body;
+
+    // Create the query and run it on the database
+    const insertOrderQuery = `
+    INSERT INTO Orders (order_date, ship_date, delivered_date, comment, customer_id)
+    VALUES
+    (
+        '${data.orderDate}',
+        '${data.shipDate}',
+        '${data.deliveredDate}',
+        '${data.comment}',
+        '${data.customerId}'
+    );`;
+    db.pool.query(insertOrderQuery, function(error, rows, fields) {
+        
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        } else {
+                const selectAllOrdersQuery = `
+                SELECT o.order_id,
+                    IF(o.order_date = '0000-00-00', '', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_date,
+                    IF(o.ship_date = '0000-00-00', '', DATE_FORMAT(o.ship_date, '%Y-%m-%d')) AS ship_date,
+                    IF(o.delivered_date = '0000-00-00', '', DATE_FORMAT(o.delivered_date, '%Y-%m-%d')) AS delivered_date,
+                    o.comment,
+                    CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
+                FROM Orders AS o
+                JOIN Customers AS c ON o.customer_id = c.customer_id
+                ORDER BY o.order_id;`;
+                db.pool.query(selectAllOrdersQuery, function(error, rows, fields) {
+
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    res.send(rows);
+                }
+            });
+        }
+    });
+});
+
+
+app.delete('/delete-order', function(req, res) {
+
+    let data = req.body;
+
+    let orderId = parseInt(data.id);
+    let deleteOrderQuery = `DELETE FROM Orders WHERE order_id = ?`;
+    
+    db.pool.query(deleteOrderQuery, [orderId], function(error, rows, fields) {
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
+        }
+    });
+});
+
+
+app.put('/update-order', function(req, res) {
+
+    let data = req.body;
+  
+    let orderId = parseInt(data.orderId);
+    let orderDate = data.orderDate;
+    let shipDate = data.shipDate;
+    let deliveredDate = data.deliveredDate;
+    let comment = data.comment;
+    let customerId = parseInt(data.customerId);
+
+    const updateOrderQuery = `
+    UPDATE Orders
+    SET order_date = ?, ship_date = ?,
+        delivered_date = ?, comment = ?,
+        customer_id = ?
+    WHERE order_id = ?`;
+
+    const selectOrderQuery = `
+        SELECT o.order_id, o.order_date, o.ship_date, o.delivered_date, o.comment,
+            CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
+        FROM Orders AS o
+        JOIN Customers AS c ON o.customer_id = c.customer_id AND o.order_id = ?`;
+
+        // Run the 1st query
+        db.pool.query(updateOrderQuery, [orderDate, shipDate, deliveredDate, comment, customerId, orderId], function(error, rows, fields){
+            if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+            }
+
+            // If there was no error, we run our second query and return that data so we can use it to update the Orders table on the frontend.
+            else
+            {
+                // Run the second query
+                db.pool.query(selectOrderQuery, [orderId], function(error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    res.send(rows);
+                }
+        });
+    }});
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* Actor Roles */
 app.get('/actorroles', function(req, res) {

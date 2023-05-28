@@ -1,3 +1,29 @@
 <h1>Movies</h1>
 <hr>
-TODO
+<section>
+    <h2>Browse Movies</h2>
+    <table id="movies-table">
+        <thead>
+            <tr>
+                <th colspan=2>Movies</th>
+                {{#each movies.[0]}}
+                <th>
+                    {{@key}}
+                </th>
+                {{/each}}
+            </tr>
+        </thead>
+        <tbody>
+            {{#each movies}}
+                <tr data-value="{{this.movie_id}}">
+                    <td><button onclick="updateMovie({{this.movie_id}})">Edit</button></td>
+                    <td><button onclick="confirmDelete({{this.movie_id}})">Delete</button></td>
+                    <td class="movie-id">{{this.movie_id}}</td>
+                    <td class="title">{{this.title}}</td>
+                    <td class="year">{{this.year}}</td>
+                    <td class="genre">{{this.genre}}</td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</section>
