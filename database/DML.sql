@@ -129,57 +129,18 @@ DELETE FROM Memorabilia WHERE item_id = :item_id_selected_for_edit_or_delete;
 
 -- Browse Movie Items
 SELECT mi.movie_item_id,
-       CONCAT(i.item_id, ' - ', i.description) AS item_id,
-       CONCAT(m.movie_id, ' - ', m.title, ' (', m.year, ')') AS movie_id
+    CONCAT(i.item_id, ' - ', i.description) AS item_id,
+    CONCAT(m.movie_id, ' - ', m.title, ' (', m.year, ')') AS movie_id
 FROM MovieItems AS mi
 JOIN Memorabilia AS i ON mi.item_id = i.item_id
-JOIN Movies AS m ON m.movie_id = mi.movie_id;
-/*
-+---------------+------------------------------------------------+-----------------------------+
-| movie_item_id | item_id                                        | movie_id                    |
-+---------------+------------------------------------------------+-----------------------------+
-|             1 | 1 - Batman's cape                              | 1 - Batman Begins (2005)    |
-|             2 | 1 - Batman's cape                              | 2 - The Dark Knight (2008)  |
-|             3 | 2 - Godfather script signed by Al Pacino       | 3 - The Godfather (1972)    |
-|             5 | 4 - Jason Voorhees's machete                   | 5 - Friday the 13th (1980)  |
-|             6 | 5 - Patrick Bateman's business card            | 6 - American Psycho (2000)  |
-|             4 | 3 - Pulp Fiction rare movie poster             | 4 - Pulp Fiction (1994)     |
-|             7 | 6 - The Dude's robe                            | 7 - The Big Lebowski (1998) |
-|             8 | 7 - Toy Story movie script signed by Tom Hanks | 8 - Toy Story (1995)        |
-+---------------+------------------------------------------------+-----------------------------+*/
+JOIN Movies AS m ON m.movie_id = mi.movie_id
+ORDER BY mi.movie_item_id;
 
 -- Helper: Select item data used to populate the item-movie association dropdown. 
 SELECT item_id, description FROM Memorabilia ORDER BY item_id;
-/*
-+---------+--------------------------------------------+
-| item_id | description                                |
-+---------+--------------------------------------------+
-|       1 | Batman's cape                              |
-|       2 | Godfather script signed by Al Pacino       |
-|       3 | Pulp Fiction rare movie poster             |
-|       4 | Jason Voorhees's machete                   |
-|       5 | Patrick Bateman's business card            |
-|       6 | The Dude's robe                            |
-|       7 | Toy Story movie script signed by Tom Hanks |
-+---------+--------------------------------------------+
-*/
 
 -- Helper: Select movie data used to populate the item-movie association dropdown. 
 SELECT movie_id, CONCAT(title, ' (', year, ')') AS movie FROM Movies ORDER BY movie_id;
-/*
-+----------+-------------------------+
-| movie_id | movie                   |
-+----------+-------------------------+
-|        1 | Batman Begins (2005)    |
-|        2 | The Dark Knight (2008)  |
-|        3 | The Godfather (1972)    |
-|        4 | Pulp Fiction (1994)     |
-|        5 | Friday the 13th (1980)  |
-|        6 | American Psycho (2000)  |
-|        7 | The Big Lebowski (1998) |
-|        8 | Toy Story (1995)        |
-+----------+-------------------------+
-*/
 
 -- Add Movie Item
 INSERT INTO MovieItems (item_id, movie_id)

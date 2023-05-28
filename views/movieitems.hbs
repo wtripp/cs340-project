@@ -26,3 +26,38 @@
         </tbody>
     </table>
 </section>
+
+<section>
+    <h2>Add Movie Item</h2>
+    <p>To associate a memorabilia item with a movie, enter the following information and click <strong>Add Movie Item</strong>.</p>
+    <form id="add-movie-item-form" method="post">
+
+        <fieldset>
+
+            <div class="input-container">
+                <label for="input-item-id">Memorabilia Item ID</label>
+                <select required name="input-item-id" id="input-item-id">
+                    <option selected></option>
+                    {{#each memorabilia}}
+                        <option value="{{this.item_id}}">{{this.item_id}} - {{this.description}}</option>
+                    {{/each}}
+                </select>                
+            </div>
+
+            <div class="input-container">
+                <label for="input-movie-id">Movie ID</label>
+                <select required name="input-movie-id" id="input-movie-id">
+                    <option selected></option>
+                    {{#each movies}}
+                        <option value="{{this.movie_id}}">{{this.movie_id}} - {{this.movie}}</option>
+                    {{/each}}
+                </select>                
+            </div>
+
+        </fieldset>
+
+        <button id="add-movie-item-button" type="submit">Add Movie Item</button>
+    </form>
+</section>
+
+<script src="./js/add_movie_item.js"></script>

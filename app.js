@@ -1,4 +1,3 @@
-'use strict';
 // App.js
 
 // This file uses starter code adapted from:
@@ -71,14 +70,6 @@ app.post('/add-order', function(req, res) {
 
     let data = req.body;
 
-    /*
-    // Capture NULL values
-    let customer_id = parseInt(data.customer_id);
-    if (isNaN(customer_id))
-    {
-        customer_id = 'NULL';
-    } */
-
     // Create the query and run it on the database
     const insertOrderQuery = `
     INSERT INTO Orders (order_date, ship_date, delivered_date, comment, customer_id)
@@ -106,7 +97,7 @@ app.post('/add-order', function(req, res) {
                 FROM Orders AS o
                 JOIN Customers AS c ON o.customer_id = c.customer_id
                 ORDER BY o.order_id;`;
-                db.pool.query(selectAllOrdersQuery, function(error, rows, fields){
+                db.pool.query(selectAllOrdersQuery, function(error, rows, fields) {
 
                 if (error) {
                     console.log(error);
@@ -158,7 +149,7 @@ app.put('/update-order', function(req, res) {
 
     const selectOrderQuery = `
         SELECT o.order_id, o.order_date, o.ship_date, o.delivered_date, o.comment,
-        CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
+            CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
         FROM Orders AS o
         JOIN Customers AS c ON o.customer_id = c.customer_id AND o.order_id = ?`;
 
@@ -258,7 +249,7 @@ app.post('/add-memorabilia', function(req, res) {
                 LEFT JOIN Orders AS o ON items.order_id = o.order_id
                 LEFT JOIN Customers AS c ON o.customer_id = c.customer_id
                 ORDER BY items.item_id;`;
-                db.pool.query(selectAllItemsQuery, function(error, rows, fields){
+                db.pool.query(selectAllItemsQuery, function(error, rows, fields) {
 
                 if (error) {
                     console.log(error);
@@ -314,7 +305,7 @@ app.put('/update-memorabilia', function(req, res) {
 
     const selectItemQuery = `
         SELECT items.item_id, items.description, items.type, items.\`condition\`, items.price,
-        CONCAT(o.order_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ') on ', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_id
+            CONCAT(o.order_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ') on ', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_id
         FROM Memorabilia AS items
         LEFT JOIN Orders AS o ON items.order_id = o.order_id
         LEFT JOIN Customers AS c ON o.customer_id = c.customer_id
@@ -359,10 +350,11 @@ app.get('/movieitems', function(req, res) {
         CONCAT(m.movie_id, ' - ', m.title, ' (', m.year, ')') AS movie_id
     FROM MovieItems AS mi
     JOIN Memorabilia AS i ON mi.item_id = i.item_id
-    JOIN Movies AS m ON m.movie_id = mi.movie_id;`;
+    JOIN Movies AS m ON m.movie_id = mi.movie_id
+    ORDER BY mi.movie_item_id;`;
 
     const selectAllMemorabiliaQuery = `SELECT item_id, description FROM Memorabilia ORDER BY item_id;`;
-    const selectAllMoviesQuery = `movie_id, CONCAT(title, ' (', year, ')') AS movie FROM Movies ORDER BY movie_id;`;
+    const selectAllMoviesQuery = `SELECT movie_id, CONCAT(title, ' (', year, ')') AS movie FROM Movies ORDER BY movie_id;`;
 
     db.pool.query(selectAllMovieItemsQuery, function(error, movieItems, fields) {
         db.pool.query(selectAllMemorabiliaQuery, function(error, memorabilia, fields) {
@@ -373,50 +365,29 @@ app.get('/movieitems', function(req, res) {
     });
 });
 
-
-
-
-// TODO
 app.post('/add-movie-item', function(req, res) {
 
     let data = req.body;
 
-    /*
-    // Capture NULL values
-    let customer_id = parseInt(data.customer_id);
-    if (isNaN(customer_id))
-    {
-        customer_id = 'NULL';
-    } */
-
     // Create the query and run it on the database
-    const insertOrderQuery = `
-    INSERT INTO Orders (order_date, ship_date, delivered_date, comment, customer_id)
-    VALUES
-    (
-        '${data.orderDate}',
-        '${data.shipDate}',
-        '${data.deliveredDate}',
-        '${data.comment}',
-        '${data.customerId}'
-    );`;
-    db.pool.query(insertOrderQuery, function(error, rows, fields) {
+    const insertMovieItemQuery = `
+    INSERT INTO MovieItems (item_id, movie_id) VALUES ('${data.itemId}','${data.movieId}');`;
+
+    db.pool.query(insertMovieItemQuery, function(error, rows, fields) {
         
         if (error) {
             console.log(error)
             res.sendStatus(400);
         } else {
-                const selectAllOrdersQuery = `
-                SELECT o.order_id,
-                    IF(o.order_date = '0000-00-00', '', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_date,
-                    IF(o.ship_date = '0000-00-00', '', DATE_FORMAT(o.ship_date, '%Y-%m-%d')) AS ship_date,
-                    IF(o.delivered_date = '0000-00-00', '', DATE_FORMAT(o.delivered_date, '%Y-%m-%d')) AS delivered_date,
-                    o.comment,
-                    CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
-                FROM Orders AS o
-                JOIN Customers AS c ON o.customer_id = c.customer_id
-                ORDER BY o.order_id;`;
-                db.pool.query(selectAllOrdersQuery, function(error, rows, fields){
+                const selectAllMovieItemsQuery = `
+                SELECT mi.movie_item_id,
+                    CONCAT(i.item_id, ' - ', i.description) AS item_id,
+                    CONCAT(m.movie_id, ' - ', m.title, ' (', m.year, ')') AS movie_id
+                FROM MovieItems AS mi
+                JOIN Memorabilia AS i ON mi.item_id = i.item_id
+                JOIN Movies AS m ON m.movie_id = mi.movie_id
+                ORDER BY mi.movie_item_id;`;
+                db.pool.query(selectAllMovieItemsQuery, function(error, rows, fields) {
 
                 if (error) {
                     console.log(error);
@@ -468,7 +439,7 @@ app.put('/update-movie-item', function(req, res) {
 
     const selectOrderQuery = `
         SELECT o.order_id, o.order_date, o.ship_date, o.delivered_date, o.comment,
-        CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
+            CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
         FROM Orders AS o
         JOIN Customers AS c ON o.customer_id = c.customer_id AND o.order_id = ?`;
 
