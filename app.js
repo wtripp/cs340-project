@@ -405,10 +405,10 @@ app.delete('/delete-movie-item', function(req, res) {
 
     let data = req.body;
 
-    let orderID = parseInt(data.id);
-    let deleteOrderQuery = `DELETE FROM Orders WHERE order_id = ?`;
+    let movieItemID = parseInt(data.id);
+    let deleteMovieItemQuery = `DELETE FROM MovieItems WHERE movie_item_id = ?`;
     
-    db.pool.query(deleteOrderQuery, [orderID], function(error, rows, fields) {
+    db.pool.query(deleteMovieItemQuery, [movieItemID], function(error, rows, fields) {
         if (error) {
             console.log(error);
             res.sendStatus(400);
