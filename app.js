@@ -493,14 +493,14 @@ app.post('/add-movie', function(req, res) {
 });
 
 
-app.delete('/delete-order', function(req, res) {
+app.delete('/delete-movie', function(req, res) {
 
     let data = req.body;
 
-    let orderId = parseInt(data.id);
-    let deleteOrderQuery = `DELETE FROM Orders WHERE order_id = ?`;
+    let movieId = parseInt(data.id);
+    let deleteMovieQuery = `DELETE FROM Movies WHERE movie_id = ?`;
     
-    db.pool.query(deleteOrderQuery, [orderId], function(error, rows, fields) {
+    db.pool.query(deleteMovieQuery, [movieId], function(error, rows, fields) {
         if (error) {
             console.log(error);
             res.sendStatus(400);
