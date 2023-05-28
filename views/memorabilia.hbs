@@ -67,7 +67,7 @@
 
             <div class="input-container">
                 <label for="input-price">Price ($)</label>
-                <input required step="0.01" min="0.00" type="number" name="input-price" id="input-price">
+                <input required step="0.01" min="0.00" max="9999.99" type="number" name="input-price" id="input-price">
             </div>
 
             <div class="input-container">
@@ -86,5 +86,68 @@
     </form>
 </section>
 
+
+<section>
+    <h2>Update Memorabilia Item</h2>
+    <p>In the table above, click <strong>Edit</strong>. Then, edit the memorabilia item details in these fields and click <strong>Update Item</strong>.</p>
+    <form id="update-item-form" method="post">
+        
+        <fieldset>
+
+            <div class="input-container">
+                <label for="update-item-id">Item ID</label>
+                <input disabled type="number" name="update-item-id" id="update-item-id" value="">
+            </div>
+
+            <div class="input-container">
+                <label for="update-description">Description</label>
+                <textarea disabled required name="update-description" id="update-description" value=""></textarea>
+            </div>
+
+            <div class="input-container">
+                <label for="update-type">Type</label>
+                <select disabled required name="update-type" id="update-type" value="">
+                    <option selected></option>
+                    <option>script</option>
+                    <option>prop</option>
+                    <option>wardrobe</option>
+                    <option>poster</option>
+                </select>
+            </div>
+
+            <div class="input-container">
+                <label for="update-condition">Condition</label>
+                <select disabled required name="update-condition" id="update-condition" value="">
+                    <option selected></option>
+                    <option>new</option>
+                    <option>excellent</option>
+                    <option>good</option>
+                    <option>fair</option>
+                    <option>poor</option>
+                </select>
+            </div>
+
+            <div class="input-container">
+                <label for="update-price">Price ($)</label>
+                <input disabled required step="0.01" min="0.00" max="9999.99" type="number" name="update-price" id="update-price" value="">
+            </div>
+
+            <div class="input-container">
+                <label for="update-order-id">Order ID</label>
+                <select disabled name="update-order-id" id="update-order-id">
+                    <option selected></option>
+                    {{#each orders}}
+                        <option value="{{this.order_id}}">{{this.order_id}} - {{this.customer}} on {{this.order_date}}</option>
+                    {{/each}}
+                </select>
+            </div>
+
+        </fieldset>
+
+        <button id="update-item-button" disabled>Update Item</button>
+    </form>
+</section>
+
 <script src="./js/add_memorabilia.js"></script>
 <script src="./js/delete_memorabilia.js"></script>
+<script src="./js/update_memorabilia.js"></script>

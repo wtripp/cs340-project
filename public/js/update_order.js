@@ -39,8 +39,8 @@ function updateOrder(orderID) {
     // Modify the objects we need
     updateOrderForm.addEventListener("submit", function (event) {
     
-        // Prevent the form from submitting
-        event.preventDefault();
+        event.preventDefault(); // prevent form from submitting
+        event.stopImmediatePropagation(); // prevent mulitple unintended submissions and dialog box messages
 
         // Get form fields we need to get data from
         let updateOrderId = document.getElementById("update-order-id");
@@ -124,7 +124,7 @@ function updateOrder(orderID) {
 function updateRow(data, orderID){
     let parsedData = JSON.parse(data);
 
-    // Get the location of the row where we found the matching order ID
+    // Get the location of the row where we found the matching ID
     let updateRow = document.querySelector(`[data-value='${orderID}'`);
 
     // Reassign values in the table.
@@ -142,5 +142,4 @@ function updateRow(data, orderID){
     
     let customerId = updateRow.getElementsByClassName("customer-id")
     customerId[0].innerText = parsedData[0].customer_id;
-
 }

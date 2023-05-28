@@ -176,16 +176,16 @@ app.put('/update-order', function(req, res) {
             {
                 // Run the second query
                 db.pool.query(selectOrderQuery, [orderID], function(error, rows, fields) {
-
-            if (error) {
-                console.log(error);
-                res.sendStatus(400);
-            } else {
-                res.send(rows);
-            }
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    res.send(rows);
+                }
         });
     }});
 });
+
 
 /* Memorabilia */
 app.get('/memorabilia', function(req, res) {
@@ -217,16 +217,17 @@ app.get('/memorabilia', function(req, res) {
     });
 });
 
+
 app.post('/add-memorabilia', function(req, res) {
 
     let data = req.body;
 
     
     // Capture NULL values
-    let order = parseInt(data.orderId);
-    if (isNaN(order))
+    let orderId = parseInt(data.orderId);
+    if (isNaN(orderId))
     {
-        order = 'NULL';
+        orderId = 'NULL';
     }
 
     // Create the query and run it on the database
@@ -238,7 +239,7 @@ app.post('/add-memorabilia', function(req, res) {
         '${data.type}',
         '${data.condition}',
         '${data.price}',
-        ${order}
+        ${orderId}
     );`;
     db.pool.query(insertItemQuery, function(error, rows, fields) {
         
@@ -270,6 +271,7 @@ app.post('/add-memorabilia', function(req, res) {
     });
 });
 
+
 app.delete('/delete-memorabilia', function(req, res) {
 
     let data = req.body;
@@ -288,9 +290,59 @@ app.delete('/delete-memorabilia', function(req, res) {
 });
 
 
+app.put('/update-memorabilia', function(req, res) {
 
+    let data = req.body;
+  
+    let itemId = parseInt(data.itemId);
+    let description = data.description;
+    let type = data.type;
+    let condition = data.condition;
+    let price = data.price;
+    let orderId = parseInt(data.orderId);
+    if (isNaN(orderId))
+    {
+        orderId = null;
+    }
 
+    const updateMemorabiliaQuery = `
+    UPDATE Memorabilia
+    SET description = ?, type = ?,
+        \`condition\` = ?, price = ?,
+        order_id = ?
+    WHERE item_id = ?`;
 
+    const selectItemQuery = `
+        SELECT items.item_id, items.description, items.type, items.\`condition\`, items.price,
+        CONCAT(o.order_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ') on ', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_id
+        FROM Memorabilia AS items
+        LEFT JOIN Orders AS o ON items.order_id = o.order_id
+        LEFT JOIN Customers AS c ON o.customer_id = c.customer_id
+        WHERE items.item_id = ?`;
+
+        // Run the 1st query
+        db.pool.query(updateMemorabiliaQuery, [description, type, condition, price, orderId, itemId], function(error, rows, fields){
+            if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+            }
+
+            // If there was no error, we run our second query and return that data so we can use it to update the Orders table on the frontend.
+            else
+            {
+                // Run the second query
+                db.pool.query(selectItemQuery, [itemId], function(error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    res.send(rows);
+                }
+        });
+    }});
+});
 
 
 /* Movie Items */

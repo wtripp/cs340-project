@@ -34,31 +34,31 @@ function deleteItem(itemID) {
             // Add the new data to the table
             deleteRow(itemID);
 
-            // Clear any row that contained updates // TODO - Update this when adding UPDATE functionality 
-            updateOrderId = document.getElementById("update-order-id");
-            if (updateOrderId.value == orderID) {
+            // Clear any row that contained updates 
+            updateItemId = document.getElementById("update-item-id");
+            if (updateItemId.value == itemID) {
+                updateItemId.value = '';
+                updateItemId.setAttribute("disabled","disabled");
+
+                updateDescription = document.getElementById("update-description");
+                updateDescription.value = '';
+                updateDescription.setAttribute("disabled","disabled");
+
+                updateType = document.getElementById("update-type");
+                updateType.value = '';
+                updateType.setAttribute("disabled","disabled");
+
+                updateCondition = document.getElementById("update-condition");
+                updateCondition.value = '';
+                updateCondition.setAttribute("disabled","disabled");
+
+                updatePrice = document.getElementById("update-price");
+                updatePrice.value = '';
+                updatePrice.setAttribute("disabled","disabled");
+
+                updateOrderId = document.getElementById("update-order-id");
                 updateOrderId.value = '';
                 updateOrderId.setAttribute("disabled","disabled");
-
-                updateOrderDate = document.getElementById("update-order-date");
-                updateOrderDate.value = '';
-                updateOrderDate.setAttribute("disabled","disabled");
-
-                updateShipDate = document.getElementById("update-ship-date");
-                updateShipDate.value = '';
-                updateShipDate.setAttribute("disabled","disabled");
-
-                updateDeliveredDate = document.getElementById("update-delivered-date");
-                updateDeliveredDate.value = '';
-                updateDeliveredDate.setAttribute("disabled","disabled");
-
-                updateComment = document.getElementById("update-comment");
-                updateComment.value = '';
-                updateComment.setAttribute("disabled","disabled");
-
-                updateCustomerId = document.getElementById("update-customer-id");
-                updateCustomerId.value = '';
-                updateCustomerId.setAttribute("disabled","disabled");
             }
 
         }

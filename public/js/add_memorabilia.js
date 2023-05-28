@@ -85,7 +85,7 @@ addRowToTable = (data) => {
     row.setAttribute("data-value", `${newRow.item_id}`);
 
     let editCell = document.createElement("td");
-    editCell.innerHTML = `<button onclick=updateOrder(${newRow.item_id})>Edit</button>`;
+    editCell.innerHTML = `<button onclick=updateItem(${newRow.item_id})>Edit</button>`;
 
     let deleteCell = document.createElement("td");
     deleteCell.innerHTML = `<button onclick=confirmDelete(${newRow.item_id})>Delete</button>`;
