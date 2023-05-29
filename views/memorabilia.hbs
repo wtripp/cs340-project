@@ -38,12 +38,12 @@
         <fieldset>
 
             <div class="input-container">
-                <label for="input-description">Description</label>
+                <label class="required" for="input-description">Description</label>
                 <textarea required name="input-description" id="input-description"></textarea>
             </div>
 
             <div class="input-container">
-                <label for="input-type">Type</label>
+                <label class="required" for="input-type">Type</label>
                 <select required name="input-type" id="input-type">
                     <option selected></option>
                     <option>script</option>
@@ -54,7 +54,7 @@
             </div>
 
             <div class="input-container">
-                <label for="input-condition">Condition</label>
+                <label class="required" for="input-condition">Condition</label>
                 <select required name="input-condition" id="input-condition">
                     <option selected></option>
                     <option>new</option>
@@ -66,7 +66,7 @@
             </div>
 
             <div class="input-container">
-                <label for="input-price">Price ($)</label>
+                <label class="required" for="input-price">Price ($)</label>
                 <input required step="0.01" min="0.00" max="9999.99" type="number" name="input-price" id="input-price">
             </div>
 
@@ -100,12 +100,12 @@
             </div>
 
             <div class="input-container">
-                <label for="update-description">Description</label>
+                <label class="required" for="update-description">Description</label>
                 <textarea disabled required name="update-description" id="update-description" value=""></textarea>
             </div>
 
             <div class="input-container">
-                <label for="update-type">Type</label>
+                <label class="required" for="update-type">Type</label>
                 <select disabled required name="update-type" id="update-type" value="">
                     <option selected></option>
                     <option>script</option>
@@ -116,7 +116,7 @@
             </div>
 
             <div class="input-container">
-                <label for="update-condition">Condition</label>
+                <label class="required" for="update-condition">Condition</label>
                 <select disabled required name="update-condition" id="update-condition" value="">
                     <option selected></option>
                     <option>new</option>
@@ -128,7 +128,7 @@
             </div>
 
             <div class="input-container">
-                <label for="update-price">Price ($)</label>
+                <label class="required" for="update-price">Price ($)</label>
                 <input disabled required step="0.01" min="0.00" max="9999.99" type="number" name="update-price" id="update-price" value="">
             </div>
 

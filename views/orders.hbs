@@ -37,7 +37,7 @@
         <fieldset>
 
             <div class="input-container">
-                <label for="input-order-date">Order Date</label>
+                <label class="required" for="input-order-date">Order Date</label>
                 <input required type="date" name="input-order-date" id="input-order-date">
             </div>
 
@@ -57,7 +57,7 @@
             </div> 
 
             <div class="input-container">
-                <label for="input-customer-id">Customer ID</label>
+                <label class="required" for="input-customer-id">Customer ID</label>
                 <select required name="input-customer-id" id="input-customer-id">
                     <option selected></option>
                     {{#each customers}}
@@ -84,7 +84,7 @@
             </div>
 
             <div class="input-container">
-                <label for="update-order-date">Order Date</label>
+                <label class="required" for="update-order-date">Order Date</label>
                 <input disabled required type="date" name="update-order-date" id="update-order-date" value="">
             </div>
 
@@ -104,7 +104,7 @@
             </div>
 
             <div class="input-container">
-                <label for="update-customer-id">Customer ID</label>
+                <label class="required" for="update-customer-id">Customer ID</label>
                 <select disabled required name="update-customer-id" id="update-customer-id">
                     <option selected></option>
                     {{#each customers}}

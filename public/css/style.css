@@ -76,6 +76,11 @@ input, textarea, select {
     border-radius: 10px;
 }
 
+.required::after {
+    content: " *";
+    color: red;
+}
+
 textarea {
     min-width: 50px;
     min-height: 50px;
