@@ -47,6 +47,7 @@ app.get('/customers', function (req, res) {
 
 app.post('/add-customer', function (req, res) {
   let data = req.body;
+
   // Create the query and run it on the database
   const insertCustomerQuery = `
     INSERT INTO Customers (first_name, last_name, phone, email, address, city, state, postal_code)
@@ -80,9 +81,7 @@ app.post('/add-customer', function (req, res) {
 });
 
 app.delete('/delete-customer', function (req, res) {
-
   let data = req.body;
-
   let customerID = parseInt(data.id);
   let deleteCustomerQuery = `DELETE FROM Customers WHERE customer_id = ? `;
 
@@ -96,19 +95,61 @@ app.delete('/delete-customer', function (req, res) {
   });
 });
 
+app.put('/update-customer', function (req, res) {
+
+  let data = req.body;
+  console.log(data);
+  let customerID = parseInt(data.customer_id);
+  let firstName = data.first_name;
+  let lastName = data.last_name;
+  let phone = data.phone;
+  let email = data.email;
+  let address = data.address;
+  let city = data.city;
+  let state = data.state;
+  let pcode = data.postal_code;
+
+  const updateCustomerQuery = `UPDATE Customers SET first_name = ?, last_name = ?, phone = ?, email = ?, address = ?, city = ?, state = ?, postal_code = ? WHERE customer_id = ?;`;
+
+  const selectCustomerQuery = `SELECT first_name, last_name, phone, email, address, city, state, postal_code FROM Customers;`
+  // const selectCustomerQuery = `SELECT first_name FROM Customers;`
+
+  // Run the 1st query
+  db.pool.query(updateCustomerQuery, [firstName, lastName, phone, email, address, city, state, pcode, customerID], function (error, rows, fields) {
+    // db.pool.query(updateCustomerQuery, [firstName, lastName, phone, email, address, city, state, pcode, customerID], function (error, rows, fields) {
+    if (error) {
+      // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+      console.log(error);
+      res.sendStatus(400);
+    }
+    // If there was no error, we run our second query and return that data so we can use it to update the Orders table on the frontend.
+    else {
+      // Run the second query
+      db.pool.query(selectCustomerQuery, [customerID], function (error, rows, fields) {
+        if (error) {
+          console.log(error);
+          res.sendStatus(400);
+        } else {
+          res.send(rows);
+        }
+      });
+    }
+  });
+});
+
 // Orders
 
 app.get('/orders', function (req, res) {
   const selectAllOrdersQuery = `
-            SELECT o.order_id,
-                IF(o.order_date = '0000-00-00', '', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_date,
-                    IF(o.ship_date = '0000-00-00', '', DATE_FORMAT(o.ship_date, '%Y-%m-%d')) AS ship_date,
-                        IF(o.delivered_date = '0000-00-00', '', DATE_FORMAT(o.delivered_date, '%Y-%m-%d')) AS delivered_date,
-                            o.comment,
-                            CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
-            FROM Orders AS o
-            JOIN Customers AS c ON o.customer_id = c.customer_id
-            ORDER BY o.order_id; `;
+  SELECT o.order_id,
+    IF(o.order_date = '0000-00-00', '', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_date,
+      IF(o.ship_date = '0000-00-00', '', DATE_FORMAT(o.ship_date, '%Y-%m-%d')) AS ship_date,
+        IF(o.delivered_date = '0000-00-00', '', DATE_FORMAT(o.delivered_date, '%Y-%m-%d')) AS delivered_date,
+          o.comment,
+          CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
+  FROM Orders AS o
+  JOIN Customers AS c ON o.customer_id = c.customer_id
+  ORDER BY o.order_id; `;
 
   const selectAllCustomersQuery = `SELECT customer_id, first_name, last_name, email FROM Customers; `;
 
@@ -123,15 +164,15 @@ app.post('/add-order', function (req, res) {
   let data = req.body;
   // Create the query and run it on the database
   const insertOrderQuery = `
-            INSERT INTO Orders(order_date, ship_date, delivered_date, comment, customer_id)
-            VALUES
-                (
-                    '${data.orderDate}',
-                    '${data.shipDate}',
-                    '${data.deliveredDate}',
-                    '${data.comment}',
-                    '${data.customerId}'
-                ); `;
+  INSERT INTO Orders(order_date, ship_date, delivered_date, comment, customer_id)
+  VALUES
+    (
+      '${data.orderDate}',
+      '${data.shipDate}',
+      '${data.deliveredDate}',
+      '${data.comment}',
+      '${data.customerId}'
+    ); `;
   db.pool.query(insertOrderQuery, function (error, rows, fields) {
 
     if (error) {
@@ -139,15 +180,15 @@ app.post('/add-order', function (req, res) {
       res.sendStatus(400);
     } else {
       const selectAllOrdersQuery = `
-            SELECT o.order_id,
-                IF(o.order_date = '0000-00-00', '', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_date,
-                    IF(o.ship_date = '0000-00-00', '', DATE_FORMAT(o.ship_date, '%Y-%m-%d')) AS ship_date,
-                        IF(o.delivered_date = '0000-00-00', '', DATE_FORMAT(o.delivered_date, '%Y-%m-%d')) AS delivered_date,
-                            o.comment,
-                            CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
-            FROM Orders AS o
-            JOIN Customers AS c ON o.customer_id = c.customer_id
-            ORDER BY o.order_id; `;
+  SELECT o.order_id,
+    IF(o.order_date = '0000-00-00', '', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_date,
+      IF(o.ship_date = '0000-00-00', '', DATE_FORMAT(o.ship_date, '%Y-%m-%d')) AS ship_date,
+        IF(o.delivered_date = '0000-00-00', '', DATE_FORMAT(o.delivered_date, '%Y-%m-%d')) AS delivered_date,
+          o.comment,
+          CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
+  FROM Orders AS o
+  JOIN Customers AS c ON o.customer_id = c.customer_id
+  ORDER BY o.order_id; `;
       db.pool.query(selectAllOrdersQuery, function (error, rows, fields) {
         if (error) {
           console.log(error);
@@ -159,7 +200,6 @@ app.post('/add-order', function (req, res) {
     }
   });
 });
-
 
 app.delete('/delete-order', function (req, res) {
 
@@ -178,7 +218,6 @@ app.delete('/delete-order', function (req, res) {
   });
 });
 
-
 app.put('/update-order', function (req, res) {
 
   let data = req.body;
@@ -192,16 +231,16 @@ app.put('/update-order', function (req, res) {
 
   const updateOrderQuery = `
     UPDATE Orders
-            SET order_date = ?, ship_date = ?,
-                delivered_date = ?, comment = ?,
-                customer_id = ?
-                    WHERE order_id = ? `;
+  SET order_date = ?, ship_date = ?,
+    delivered_date = ?, comment = ?,
+    customer_id = ?
+      WHERE order_id = ? `;
 
   const selectOrderQuery = `
         SELECT o.order_id, o.order_date, o.ship_date, o.delivered_date, o.comment,
-                CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
-            FROM Orders AS o
-            JOIN Customers AS c ON o.customer_id = c.customer_id AND o.order_id = ? `;
+    CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
+  FROM Orders AS o
+  JOIN Customers AS c ON o.customer_id = c.customer_id AND o.order_id = ? `;
 
   // Run the 1st query
   db.pool.query(updateOrderQuery, [orderDate, shipDate, deliveredDate, comment, customerId, orderId], function (error, rows, fields) {
@@ -233,23 +272,23 @@ app.get('/memorabilia', function (req, res) {
 
   const selectAllItemsQuery = `
         SELECT items.item_id,
-                items.description,
-                items.type,
-                items.condition,
-                items.price,
-                CONCAT(o.order_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ') on ', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_id
-            FROM Memorabilia AS items
-            LEFT JOIN Orders AS o ON items.order_id = o.order_id
-            LEFT JOIN Customers AS c ON o.customer_id = c.customer_id
-            ORDER BY items.item_id; `;
+    items.description,
+    items.type,
+    items.condition,
+    items.price,
+    CONCAT(o.order_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ') on ', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_id
+  FROM Memorabilia AS items
+  LEFT JOIN Orders AS o ON items.order_id = o.order_id
+  LEFT JOIN Customers AS c ON o.customer_id = c.customer_id
+  ORDER BY items.item_id; `;
 
   const selectAllOrdersQuery = `
-            SELECT o.order_id,
-                DATE_FORMAT(o.order_date, '%Y-%m-%d') AS order_date,
-                    CONCAT(c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer
-            FROM Orders AS o
-            JOIN Customers AS c ON o.customer_id = c.customer_id
-            ORDER BY o.order_id; `;
+  SELECT o.order_id,
+    DATE_FORMAT(o.order_date, '%Y-%m-%d') AS order_date,
+      CONCAT(c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer
+  FROM Orders AS o
+  JOIN Customers AS c ON o.customer_id = c.customer_id
+  ORDER BY o.order_id; `;
 
   db.pool.query(selectAllItemsQuery, function (error, items, fields) {
     db.pool.query(selectAllOrdersQuery, function (error, orders, fields) {
@@ -272,7 +311,7 @@ app.post('/add-memorabilia', function (req, res) {
 
   // Create the query and run it on the database
   const insertItemQuery = `
-            INSERT INTO Memorabilia(description, type, \`condition\`, price, order_id)
+  INSERT INTO Memorabilia(description, type, \`condition\`, price, order_id)
     VALUES
     (
         '${data.description}',
