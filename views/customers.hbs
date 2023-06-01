@@ -1,3 +1,79 @@
 <h1>Customers</h1>
 <hr>
-TODO
+<section>
+    <h2>Customers</h2>
+    <table id="customers-table">
+        <thead>
+            <tr>
+                <th colspan=2>Customers</th>
+                {{#each customers.[0]}}
+                <th>
+                    {{@key}}
+                </th>
+                {{/each}}
+            </tr>
+        </thead>
+        <tbody>
+            {{#each customers}}
+            <tr data-value="{{this.customer_id}}">
+                <td><button onclick="updateOrder({{this.customer_id}})">Edit</button></td>
+                <td><button onclick="confirmDelete({{this.customer_id}})">Delete</button></td>
+                <td class="customer-id">{{this.customer_id}}</td>
+                <td class="customer-fname">{{this.first_name}}</td>
+                <td class="customer-lname">{{this.last_name}}</td>
+                <td class="customer-phone">{{this.phone}}</td>
+                <td class="customer-email">{{this.email}}</td>
+                <td class="customer-address">{{this.address}}</td>
+                <td class="customer-city">{{this.city}}</td>
+                <td class="customer-state">{{this.state}}</td>
+                <td class="customer-pcode">{{this.postal_code}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</section>
+<section>
+    <h2>Add Customer</h2>
+    <p>To add a customer, enter the following information and click <strong>Add Customer</strong>.</p>
+    <form id="add-customer-form" method="post">
+        <fieldset>
+            <div class="input-container">
+                <label class="required" for="input-customer-fname">First Name</label>
+                <input required type="text" name="input-customer-fname" id="input-customer-fname">
+            </div>
+            <div class="input-container">
+                <label class="required" for="input-customer-lname">Last Name</label>
+                <input required type="text" name="input-customer-lname" id="input-customer-lname">
+            </div>
+            <div class="input-container">
+                <label class="required" for="input-customer-phone">Phone</label>
+                <input type="tel" name="input-customer-phone" id="input-customer-phone">
+            </div>
+            <div class="input-container">
+                <label class="required" for="input-customer-email">Email</label>
+                <input required type="email" name="input-customer-email" id="input-customer-email">
+            </div>
+            <div class="input-container">
+                <label class="required" for="input-customer-address">Address</label>
+                <input required type="text" name="input-customer-address" id="input-customer-address">
+            </div>
+            <div class="input-container">
+                <label class="required" for="input-customer-city">City</label>
+                <input type="text" name="input-customer-city" id="input-customer-city">
+            </div>
+            <div class="input-container">
+                <label class="required" for="input-customer-state">State</label>
+                <input type="text" name="input-customer-state" id="input-customer-state">
+            </div>
+            <div class="input-container">
+                <label class="required" for="input-customer-pcode">Postal Code</label>
+                <input required type="number" name="input-customer-pcode" id="input-customer-pcode">
+            </div>
+        </fieldset>
+        <button id="add-customer-button" type="submit">Add Customer</button>
+    </form>
+</section>
+
+<script src="./js/add_customer.js"></script>
+<script src="./js/delete_customer.js"></script>
+{{!-- <script src="./js/update_order.js"></script> --}}
