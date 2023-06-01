@@ -8,37 +8,44 @@
 */
 
 // Port
-require("dotenv").config();
+require('dotenv').config();
 const PORT = process.env.PORT;
 
 // Express
-const express = require("express");
+const express = require('express');
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(express.static('public'))
 
 // Database
-const db = require("./database/db-connector");
+const db = require('./database/db-connector');
 
 // Handlebars
-const Handlebars = require("handlebars");
-const { engine } = require("express-handlebars");
-require("express-handlebars");
-app.engine(".hbs", engine({ extname: ".hbs" }));
-app.set("view engine", ".hbs");
+const Handlebars = require('handlebars');
+const { engine } = require('express-handlebars');
+require('express-handlebars');
+app.engine('.hbs', engine({ extname: ".hbs" }));
+app.set('view engine', '.hbs');
 
 /*
     ROUTES
 */
 
 /* HOME PAGE */
-app.get("/", function (req, res) {
-  res.render("index");
+app.get('/', function (req, res) {
+  res.render('index');
 });
 
 /* Customers */
-app.post("/add-customer", function (req, res) {
+app.get('/customers', function (req, res) {
+  let selectAllCustomersQuery = "SELECT customer_id, first_name, last_name, phone, email, address, city, state, postal_code FROM Customers;";               // Define our query
+  db.pool.query(selectAllCustomersQuery, function (error, customers, fields) {    // Execute the query
+    res.render('customers', { customers: customers });                  // Render the index.hbs file, and also send the renderer
+  })                                                      // an object where 'data' is equal to the 'rows' we
+});
+
+app.post('/add-customer', function (req, res) {
   let data = req.body;
   // Create the query and run it on the database
   const insertCustomerQuery = `
@@ -56,11 +63,10 @@ app.post("/add-customer", function (req, res) {
     );`;
   db.pool.query(insertCustomerQuery, function (error, rows, fields) {
     if (error) {
-      console.log(error);
+      console.log(error)
       res.sendStatus(400);
     } else {
-      res.sendStatus(400);
-      const selectAllCustomersQuery = `INSERT INTO Customers (first_name, last_name, phone, email, address, city, state, postal_code) VALUES (:first_name_input, :last_name_input, :phone_input, :email_input, :address_input, :city_input, :state_input, :postal_code_input);`;
+      const selectAllCustomersQuery = `SELECT customer_id, first_name, last_name, phone, email, address, city, state, postal_code FROM Customers;`
       db.pool.query(selectAllCustomersQuery, function (error, rows, fields) {
         if (error) {
           console.log(error);
@@ -73,78 +79,75 @@ app.post("/add-customer", function (req, res) {
   });
 });
 
-app.delete("/delete-customer", function (req, res) {
+app.delete('/delete-customer', function (req, res) {
+
   let data = req.body;
 
   let customerID = parseInt(data.id);
   let deleteCustomerQuery = `DELETE FROM Customers WHERE customer_id = ? `;
 
-  db.pool.query(
-    deleteCustomerQuery,
-    [customerID],
-    function (error, rows, fields) {
-      if (error) {
-        console.log(error);
-        res.sendStatus(400);
-      } else {
-        res.sendStatus(204);
-      }
-    }
-  );
-});
-
-/* Orders */
-
-app.get("/orders", function (req, res) {
-  const selectAllOrdersQuery = `
-        SELECT o.order_id,
-               IF(o.order_date = '0000-00-00', '', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_date,
-               IF(o.ship_date = '0000-00-00', '', DATE_FORMAT(o.ship_date, '%Y-%m-%d')) AS ship_date,
-               IF(o.delivered_date = '0000-00-00', '', DATE_FORMAT(o.delivered_date, '%Y-%m-%d')) AS delivered_date,
-               o.comment,
-               CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
-        FROM Orders AS o
-        JOIN Customers AS c ON o.customer_id = c.customer_id
-        ORDER BY o.order_id;`;
-
-  const selectAllCustomersQuery = `SELECT customer_id, first_name, last_name, email FROM Customers;`;
-
-  db.pool.query(selectAllOrdersQuery, function (error, orders, fields) {
-    db.pool.query(selectAllCustomersQuery, function (error, customers, fields) {
-      res.render("orders", { orders: orders, customers: customers });
-    });
-  });
-});
-
-app.post("/add-order", function (req, res) {
-  let data = req.body;
-
-  // Create the query and run it on the database
-  const insertOrderQuery = `
-    INSERT INTO Orders (order_date, ship_date, delivered_date, comment, customer_id)
-    VALUES
-    (
-        '${data.orderDate}',
-        '${data.shipDate}',
-        '${data.deliveredDate}',
-        '${data.comment}',
-        '${data.customerId}'
-    );`;
-  db.pool.query(insertOrderQuery, function (error, rows, fields) {
+  db.pool.query(deleteCustomerQuery, [customerID], function (error, rows, fields) {
     if (error) {
       console.log(error);
       res.sendStatus(400);
     } else {
-      const selectAllOrdersQuery = `
-                SELECT o.order_id,
-                    IF(o.order_date = '0000-00-00', '', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_date,
+      res.sendStatus(204);
+    }
+  });
+});
+
+// Orders
+
+app.get('/orders', function (req, res) {
+  const selectAllOrdersQuery = `
+            SELECT o.order_id,
+                IF(o.order_date = '0000-00-00', '', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_date,
                     IF(o.ship_date = '0000-00-00', '', DATE_FORMAT(o.ship_date, '%Y-%m-%d')) AS ship_date,
-                    IF(o.delivered_date = '0000-00-00', '', DATE_FORMAT(o.delivered_date, '%Y-%m-%d')) AS delivered_date,
-                    o.comment,
-                    CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
-                FROM Orders AS o
-                JOIN Customers AS c ON o.customer_id = c.customer_id
-                ORDER BY o.order_id;`;
+                        IF(o.delivered_date = '0000-00-00', '', DATE_FORMAT(o.delivered_date, '%Y-%m-%d')) AS delivered_date,
+                            o.comment,
+                            CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
+            FROM Orders AS o
+            JOIN Customers AS c ON o.customer_id = c.customer_id
+            ORDER BY o.order_id; `;
+
+  const selectAllCustomersQuery = `SELECT customer_id, first_name, last_name, email FROM Customers; `;
+
+  db.pool.query(selectAllOrdersQuery, function (error, orders, fields) {
+    db.pool.query(selectAllCustomersQuery, function (error, customers, fields) {
+      res.render('orders', { orders: orders, customers: customers });
+    });
+  });
+});
+
+app.post('/add-order', function (req, res) {
+  let data = req.body;
+  // Create the query and run it on the database
+  const insertOrderQuery = `
+            INSERT INTO Orders(order_date, ship_date, delivered_date, comment, customer_id)
+            VALUES
+                (
+                    '${data.orderDate}',
+                    '${data.shipDate}',
+                    '${data.deliveredDate}',
+                    '${data.comment}',
+                    '${data.customerId}'
+                ); `;
+  db.pool.query(insertOrderQuery, function (error, rows, fields) {
+
+    if (error) {
+      console.log(error)
+      res.sendStatus(400);
+    } else {
+      const selectAllOrdersQuery = `
+            SELECT o.order_id,
+                IF(o.order_date = '0000-00-00', '', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_date,
+                    IF(o.ship_date = '0000-00-00', '', DATE_FORMAT(o.ship_date, '%Y-%m-%d')) AS ship_date,
+                        IF(o.delivered_date = '0000-00-00', '', DATE_FORMAT(o.delivered_date, '%Y-%m-%d')) AS delivered_date,
+                            o.comment,
+                            CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
+            FROM Orders AS o
+            JOIN Customers AS c ON o.customer_id = c.customer_id
+            ORDER BY o.order_id; `;
       db.pool.query(selectAllOrdersQuery, function (error, rows, fields) {
         if (error) {
           console.log(error);
@@ -157,11 +160,13 @@ app.post("/add-order", function (req, res) {
   });
 });
 
-app.delete("/delete-order", function (req, res) {
+
+app.delete('/delete-order', function (req, res) {
+
   let data = req.body;
 
   let orderId = parseInt(data.id);
-  let deleteOrderQuery = `DELETE FROM Orders WHERE order_id = ?`;
+  let deleteOrderQuery = `DELETE FROM Orders WHERE order_id = ? `;
 
   db.pool.query(deleteOrderQuery, [orderId], function (error, rows, fields) {
     if (error) {
@@ -173,7 +178,9 @@ app.delete("/delete-order", function (req, res) {
   });
 });
 
-app.put("/update-order", function (req, res) {
+
+app.put('/update-order', function (req, res) {
+
   let data = req.body;
 
   let orderId = parseInt(data.orderId);
@@ -185,89 +192,87 @@ app.put("/update-order", function (req, res) {
 
   const updateOrderQuery = `
     UPDATE Orders
-    SET order_date = ?, ship_date = ?,
-        delivered_date = ?, comment = ?,
-        customer_id = ?
-    WHERE order_id = ?`;
+            SET order_date = ?, ship_date = ?,
+                delivered_date = ?, comment = ?,
+                customer_id = ?
+                    WHERE order_id = ? `;
 
   const selectOrderQuery = `
         SELECT o.order_id, o.order_date, o.ship_date, o.delivered_date, o.comment,
-            CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
-        FROM Orders AS o
-        JOIN Customers AS c ON o.customer_id = c.customer_id AND o.order_id = ?`;
+                CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
+            FROM Orders AS o
+            JOIN Customers AS c ON o.customer_id = c.customer_id AND o.order_id = ? `;
 
   // Run the 1st query
-  db.pool.query(
-    updateOrderQuery,
-    [orderDate, shipDate, deliveredDate, comment, customerId, orderId],
-    function (error, rows, fields) {
-      if (error) {
-        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-        console.log(error);
-        res.sendStatus(400);
-      }
+  db.pool.query(updateOrderQuery, [orderDate, shipDate, deliveredDate, comment, customerId, orderId], function (error, rows, fields) {
+    if (error) {
 
-      // If there was no error, we run our second query and return that data so we can use it to update the Orders table on the frontend.
-      else {
-        // Run the second query
-        db.pool.query(
-          selectOrderQuery,
-          [orderId],
-          function (error, rows, fields) {
-            if (error) {
-              console.log(error);
-              res.sendStatus(400);
-            } else {
-              res.send(rows);
-            }
-          }
-        );
-      }
+      // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+      console.log(error);
+      res.sendStatus(400);
     }
-  );
+
+    // If there was no error, we run our second query and return that data so we can use it to update the Orders table on the frontend.
+    else {
+      // Run the second query
+      db.pool.query(selectOrderQuery, [orderId], function (error, rows, fields) {
+        if (error) {
+          console.log(error);
+          res.sendStatus(400);
+        } else {
+          res.send(rows);
+        }
+      });
+    }
+  });
 });
 
+
 /* Memorabilia */
-app.get("/memorabilia", function (req, res) {
+app.get('/memorabilia', function (req, res) {
+
   const selectAllItemsQuery = `
         SELECT items.item_id,
-            items.description,
-            items.type,
-            items.condition,
-            items.price,
-            CONCAT(o.order_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ') on ', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_id
-        FROM Memorabilia AS items
-        LEFT JOIN Orders AS o ON items.order_id = o.order_id
-        LEFT JOIN Customers AS c ON o.customer_id = c.customer_id
-        ORDER BY items.item_id;`;
+                items.description,
+                items.type,
+                items.condition,
+                items.price,
+                CONCAT(o.order_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ') on ', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_id
+            FROM Memorabilia AS items
+            LEFT JOIN Orders AS o ON items.order_id = o.order_id
+            LEFT JOIN Customers AS c ON o.customer_id = c.customer_id
+            ORDER BY items.item_id; `;
 
   const selectAllOrdersQuery = `
-        SELECT o.order_id,
-            DATE_FORMAT(o.order_date, '%Y-%m-%d') AS order_date,
-            CONCAT(c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer
-        FROM Orders AS o
-        JOIN Customers AS c ON o.customer_id = c.customer_id
-        ORDER BY o.order_id;`;
+            SELECT o.order_id,
+                DATE_FORMAT(o.order_date, '%Y-%m-%d') AS order_date,
+                    CONCAT(c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer
+            FROM Orders AS o
+            JOIN Customers AS c ON o.customer_id = c.customer_id
+            ORDER BY o.order_id; `;
 
   db.pool.query(selectAllItemsQuery, function (error, items, fields) {
     db.pool.query(selectAllOrdersQuery, function (error, orders, fields) {
-      res.render("memorabilia", { items: items, orders: orders });
+      res.render('memorabilia', { items: items, orders: orders });
     });
   });
 });
 
-app.post("/add-memorabilia", function (req, res) {
+
+app.post('/add-memorabilia', function (req, res) {
+
   let data = req.body;
+
 
   // Capture NULL values
   let orderId = parseInt(data.orderId);
   if (isNaN(orderId)) {
-    orderId = "NULL";
+    orderId = 'NULL';
   }
 
   // Create the query and run it on the database
   const insertItemQuery = `
-    INSERT INTO Memorabilia (description, type, \`condition\`, price, order_id)
+            INSERT INTO Memorabilia(description, type, \`condition\`, price, order_id)
     VALUES
     (
         '${data.description}',
@@ -277,8 +282,9 @@ app.post("/add-memorabilia", function (req, res) {
         ${orderId}
     );`;
   db.pool.query(insertItemQuery, function (error, rows, fields) {
+
     if (error) {
-      console.log(error);
+      console.log(error)
       res.sendStatus(400);
     } else {
       const selectAllItemsQuery = `
@@ -293,6 +299,7 @@ app.post("/add-memorabilia", function (req, res) {
                 LEFT JOIN Customers AS c ON o.customer_id = c.customer_id
                 ORDER BY items.item_id;`;
       db.pool.query(selectAllItemsQuery, function (error, rows, fields) {
+
         if (error) {
           console.log(error);
           res.sendStatus(400);
@@ -304,7 +311,9 @@ app.post("/add-memorabilia", function (req, res) {
   });
 });
 
-app.delete("/delete-memorabilia", function (req, res) {
+
+app.delete('/delete-memorabilia', function (req, res) {
+
   let data = req.body;
 
   let itemId = parseInt(data.id);
@@ -320,7 +329,9 @@ app.delete("/delete-memorabilia", function (req, res) {
   });
 });
 
-app.put("/update-memorabilia", function (req, res) {
+
+app.put('/update-memorabilia', function (req, res) {
+
   let data = req.body;
 
   let itemId = parseInt(data.itemId);
@@ -349,38 +360,33 @@ app.put("/update-memorabilia", function (req, res) {
         WHERE items.item_id = ?`;
 
   // Run the 1st query
-  db.pool.query(
-    updateMemorabiliaQuery,
-    [description, type, condition, price, orderId, itemId],
-    function (error, rows, fields) {
-      if (error) {
-        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-        console.log(error);
-        res.sendStatus(400);
-      }
+  db.pool.query(updateMemorabiliaQuery, [description, type, condition, price, orderId, itemId], function (error, rows, fields) {
+    if (error) {
 
-      // If there was no error, we run our second query and return that data so we can use it to update the Memorabilia table on the frontend.
-      else {
-        // Run the second query
-        db.pool.query(
-          selectItemQuery,
-          [itemId],
-          function (error, rows, fields) {
-            if (error) {
-              console.log(error);
-              res.sendStatus(400);
-            } else {
-              res.send(rows);
-            }
-          }
-        );
-      }
+      // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+      console.log(error);
+      res.sendStatus(400);
     }
-  );
+
+    // If there was no error, we run our second query and return that data so we can use it to update the Memorabilia table on the frontend.
+    else {
+      // Run the second query
+      db.pool.query(selectItemQuery, [itemId], function (error, rows, fields) {
+        if (error) {
+          console.log(error);
+          res.sendStatus(400);
+        } else {
+          res.send(rows);
+        }
+      });
+    }
+  });
 });
 
+
 /* Movie Items */
-app.get("/movieitems", function (req, res) {
+app.get('/movieitems', function (req, res) {
+
   const selectAllMovieItemsQuery = `
     SELECT mi.movie_item_id,
         CONCAT(i.item_id, ' - ', i.description) AS item_id,
@@ -394,22 +400,16 @@ app.get("/movieitems", function (req, res) {
   const selectAllMoviesQuery = `SELECT movie_id, CONCAT(title, ' (', year, ')') AS movie FROM Movies ORDER BY movie_id;`;
 
   db.pool.query(selectAllMovieItemsQuery, function (error, movieItems, fields) {
-    db.pool.query(
-      selectAllMemorabiliaQuery,
-      function (error, memorabilia, fields) {
-        db.pool.query(selectAllMoviesQuery, function (error, movies, fields) {
-          res.render("movieitems", {
-            movieItems: movieItems,
-            memorabilia: memorabilia,
-            movies: movies,
-          });
-        });
-      }
-    );
+    db.pool.query(selectAllMemorabiliaQuery, function (error, memorabilia, fields) {
+      db.pool.query(selectAllMoviesQuery, function (error, movies, fields) {
+        res.render('movieitems', { movieItems: movieItems, memorabilia: memorabilia, movies: movies });
+      });
+    });
   });
 });
 
-app.post("/add-movie-item", function (req, res) {
+app.post('/add-movie-item', function (req, res) {
+
   let data = req.body;
 
   // Create the query and run it on the database
@@ -417,8 +417,9 @@ app.post("/add-movie-item", function (req, res) {
     INSERT INTO MovieItems (item_id, movie_id) VALUES ('${data.itemId}','${data.movieId}');`;
 
   db.pool.query(insertMovieItemQuery, function (error, rows, fields) {
+
     if (error) {
-      console.log(error);
+      console.log(error)
       res.sendStatus(400);
     } else {
       const selectAllMovieItemsQuery = `
@@ -430,6 +431,7 @@ app.post("/add-movie-item", function (req, res) {
                 JOIN Movies AS m ON m.movie_id = mi.movie_id
                 ORDER BY mi.movie_item_id;`;
       db.pool.query(selectAllMovieItemsQuery, function (error, rows, fields) {
+
         if (error) {
           console.log(error);
           res.sendStatus(400);
@@ -441,27 +443,25 @@ app.post("/add-movie-item", function (req, res) {
   });
 });
 
-app.delete("/delete-movie-item", function (req, res) {
+app.delete('/delete-movie-item', function (req, res) {
+
   let data = req.body;
 
   let movieItemID = parseInt(data.id);
   let deleteMovieItemQuery = `DELETE FROM MovieItems WHERE movie_item_id = ?`;
 
-  db.pool.query(
-    deleteMovieItemQuery,
-    [movieItemID],
-    function (error, rows, fields) {
-      if (error) {
-        console.log(error);
-        res.sendStatus(400);
-      } else {
-        res.sendStatus(204);
-      }
+  db.pool.query(deleteMovieItemQuery, [movieItemID], function (error, rows, fields) {
+    if (error) {
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      res.sendStatus(204);
     }
-  );
+  });
 });
 
-app.put("/update-movie-item", function (req, res) {
+app.put('/update-movie-item', function (req, res) {
+
   let data = req.body;
 
   let movieItemId = parseInt(data.movieItemId);
@@ -481,57 +481,18 @@ app.put("/update-movie-item", function (req, res) {
         WHERE mi.movie_item_id = ?;`;
 
   // Run the 1st query
-  db.pool.query(
-    updateMovieItemQuery,
-    [itemId, movieId, movieItemId],
-    function (error, rows, fields) {
-      if (error) {
-        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-        console.log(error);
-        res.sendStatus(400);
-      }
-
-      // If there was no error, we run our second query and return that data so we can use it to update the Movie Items table on the frontend.
-      else {
-        // Run the second query
-        db.pool.query(
-          selectMovieItemQuery,
-          [movieItemId],
-          function (error, rows, fields) {
-            if (error) {
-              console.log(error);
-              res.sendStatus(400);
-            } else {
-              res.send(rows);
-            }
-          }
-        );
-      }
-    }
-  );
-});
-
-/* Movies */
-app.get("/movies", function (req, res) {
-  const selectAllMoviesQuery = `SELECT movie_id, title, year, genre FROM Movies ORDER BY movie_id;`;
-  db.pool.query(selectAllMoviesQuery, function (error, movies, fields) {
-    res.render("movies", { movies: movies });
-  });
-});
-
-app.post("/add-movie", function (req, res) {
-  let data = req.body;
-
-  // Create the query and run it on the database
-  const insertMovieQuery = `
-    INSERT INTO Movies (title, year, genre) VALUES ('${data.title}', '${data.year}', '${data.genre}');`;
-  db.pool.query(insertMovieQuery, function (error, rows, fields) {
+  db.pool.query(updateMovieItemQuery, [itemId, movieId, movieItemId], function (error, rows, fields) {
     if (error) {
+
+      // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
       console.log(error);
       res.sendStatus(400);
-    } else {
-      const selectAllMoviesQuery = `SELECT movie_id, title, year, genre FROM Movies ORDER BY movie_id;`;
-      db.pool.query(selectAllMoviesQuery, function (error, rows, fields) {
+    }
+
+    // If there was no error, we run our second query and return that data so we can use it to update the Movie Items table on the frontend.
+    else {
+      // Run the second query
+      db.pool.query(selectMovieItemQuery, [movieItemId], function (error, rows, fields) {
         if (error) {
           console.log(error);
           res.sendStatus(400);
@@ -543,7 +504,45 @@ app.post("/add-movie", function (req, res) {
   });
 });
 
-app.delete("/delete-movie", function (req, res) {
+/* Movies */
+app.get('/movies', function (req, res) {
+
+  const selectAllMoviesQuery = `SELECT movie_id, title, year, genre FROM Movies ORDER BY movie_id;`;
+  db.pool.query(selectAllMoviesQuery, function (error, movies, fields) {
+    res.render('movies', { movies: movies });
+  });
+});
+
+app.post('/add-movie', function (req, res) {
+
+  let data = req.body;
+
+  // Create the query and run it on the database
+  const insertMovieQuery = `
+    INSERT INTO Movies (title, year, genre) VALUES ('${data.title}', '${data.year}', '${data.genre}');`;
+  db.pool.query(insertMovieQuery, function (error, rows, fields) {
+
+    if (error) {
+      console.log(error)
+      res.sendStatus(400);
+    } else {
+      const selectAllMoviesQuery = `SELECT movie_id, title, year, genre FROM Movies ORDER BY movie_id;`;
+      db.pool.query(selectAllMoviesQuery, function (error, rows, fields) {
+
+        if (error) {
+          console.log(error);
+          res.sendStatus(400);
+        } else {
+          res.send(rows);
+        }
+      });
+    }
+  });
+});
+
+
+app.delete('/delete-movie', function (req, res) {
+
   let data = req.body;
 
   let movieId = parseInt(data.id);
@@ -559,7 +558,9 @@ app.delete("/delete-movie", function (req, res) {
   });
 });
 
-app.put("/update-movie", function (req, res) {
+
+app.put('/update-movie', function (req, res) {
+
   let data = req.body;
 
   let movieId = parseInt(data.movieId);
@@ -571,53 +572,43 @@ app.put("/update-movie", function (req, res) {
   const selectMovieQuery = `SELECT movie_id, title, year, genre FROM Movies WHERE movie_id = ?;`;
 
   // Run the 1st query
-  db.pool.query(
-    updateMovieQuery,
-    [title, year, genre, movieId],
-    function (error, rows, fields) {
-      if (error) {
-        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-        console.log(error);
-        res.sendStatus(400);
-      }
+  db.pool.query(updateMovieQuery, [title, year, genre, movieId], function (error, rows, fields) {
+    if (error) {
 
-      // If there was no error, we run our second query and return that data so we can use it to update the Orders table on the frontend.
-      else {
-        // Run the second query
-        db.pool.query(
-          selectMovieQuery,
-          [movieId],
-          function (error, rows, fields) {
-            if (error) {
-              console.log(error);
-              res.sendStatus(400);
-            } else {
-              res.send(rows);
-            }
-          }
-        );
-      }
+      // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+      console.log(error);
+      res.sendStatus(400);
     }
-  );
+
+    // If there was no error, we run our second query and return that data so we can use it to update the Orders table on the frontend.
+    else {
+      // Run the second query
+      db.pool.query(selectMovieQuery, [movieId], function (error, rows, fields) {
+        if (error) {
+          console.log(error);
+          res.sendStatus(400);
+        } else {
+          res.send(rows);
+        }
+      });
+    }
+  });
 });
 
+
 /* Actor Roles */
-app.get("/actorroles", function (req, res) {
-  res.render("actorroles");
+app.get('/actorroles', function (req, res) {
+  res.render('actorroles');
 });
 
 /* Actors */
-app.get("/actors", function (req, res) {
-  res.render("actors");
+app.get('/actors', function (req, res) {
+  res.render('actors');
 });
 
 /*
     LISTENER
 */
 app.listen(PORT, function () {
-  console.log(
-    "Express started on http://localhost:" +
-      PORT +
-      "; press Ctrl-C to terminate."
-  );
+  console.log('Express started on http://localhost:' + PORT + '; press Ctrl-C to terminate.')
 });
