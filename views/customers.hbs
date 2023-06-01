@@ -16,7 +16,7 @@
         <tbody>
             {{#each customers}}
             <tr data-value="{{this.customer_id}}">
-                <td><button onclick="updateOrder({{this.customer_id}})">Edit</button></td>
+                <td><button onclick="updateCustomer({{this.customer_id}})">Edit</button></td>
                 <td><button onclick="confirmDelete({{this.customer_id}})">Delete</button></td>
                 <td class="customer-id">{{this.customer_id}}</td>
                 <td class="customer-fname">{{this.first_name}}</td>
@@ -46,7 +46,7 @@
                 <input required type="text" name="input-customer-lname" id="input-customer-lname">
             </div>
             <div class="input-container">
-                <label class="required" for="input-customer-phone">Phone</label>
+                <label for="input-customer-phone">Phone</label>
                 <input type="tel" name="input-customer-phone" id="input-customer-phone">
             </div>
             <div class="input-container">
@@ -58,11 +58,11 @@
                 <input required type="text" name="input-customer-address" id="input-customer-address">
             </div>
             <div class="input-container">
-                <label class="required" for="input-customer-city">City</label>
+                <label for="input-customer-city">City</label>
                 <input type="text" name="input-customer-city" id="input-customer-city">
             </div>
             <div class="input-container">
-                <label class="required" for="input-customer-state">State</label>
+                <label for="input-customer-state">State</label>
                 <input type="text" name="input-customer-state" id="input-customer-state">
             </div>
             <div class="input-container">
@@ -73,7 +73,53 @@
         <button id="add-customer-button" type="submit">Add Customer</button>
     </form>
 </section>
+<section>
+    <h2>Update Customer</h2>
+    <p>In the table above, click <strong>Edit</strong>. Then, edit the customer details in these fields and click
+        <strong>Update Customer</strong>.</p>
+    <form id="update-customer-form" method="post">
+        <fieldset>
+            <div class="input-container">
+                <label class='required' for="update-customer-id">Customer ID</label>
+                <input disabled type="number" name="update-customer-id" id="update-customer-id" value="">
+            </div>
+            <div class="input-container">
+                <label for="update-customer-fname">First Name</label>
+                <input disabled required type="text" name="update-customer-fname" id="update-customer-fname" value="">
+            </div>
+            <div class="input-container">
+                <label for="update-customer-lname">Last Name</label>
+                <input disabled type="text" name="update-customer-lname" id="update-customer-lname" value="">
+            </div>
+            <div class="input-container">
+                <label for="update-customer-phone">Phone</label>
+                <input disabled type="tel" name="update-customer-phone" id="update-customer-phone" value="">
+            </div>
+            <div class="input-container">
+                <label for="update-customer-email">Email</label>
+                <input disabled type="email" name="update-customer-email" id="update-customer-email" value="">
+            </div>
+            <div class="input-container">
+                <label for="update-customer-address">Address</label>
+                <input disabled type="text" name="update-customer-address" id="update-customer-address" value="">
+            </div>
+            <div class="input-container">
+                <label for="update-customer-city">City</label>
+                <input disabled type="text" name="update-customer-city" id="update-customer-city" value="">
+            </div>
+            <div class="input-container">
+                <label for="update-customer-state">State</label>
+                <input disabled type="text" name="update-customer-state" id="update-customer-state" value="">
+            </div>
+            <div class="input-container">
+                <label for="update-customer-pcode">Postal Code</label>
+                <input disabled type="num" name="update-customer-pcode" id="update-customer-pcode" value="">
+            </div>
+        </fieldset>
+        <button id="update-customer-button">Update Order</button>
+    </form>
+</section>
 
 <script src="./js/add_customer.js"></script>
 <script src="./js/delete_customer.js"></script>
-{{!-- <script src="./js/update_order.js"></script> --}}
+<script src="./js/update_customer.js"></script>
