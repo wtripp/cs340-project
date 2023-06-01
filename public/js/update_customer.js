@@ -2,6 +2,7 @@
 // https://github.com/osu-cs340-ecampus/nodejs-starter-app
 
 function updateCustomer(customerID) {
+
     window.scrollTo(0, document.body.scrollHeight);
 
     // Get the objects we need to modify
@@ -46,9 +47,6 @@ function updateCustomer(customerID) {
     let customerPcode = rowToUpdate.getElementsByClassName("customer-pcode")[0].textContent;
     document.getElementById("update-customer-pcode").value = customerPcode;
 
-    // let customerId = rowToUpdate.getElementsByClassName("customer-id")[0].textContent;
-    // document.getElementById("update-customer-id").value = parseInt(customerId); // Gets ID from "ID - FirstName LastName (email)"
-
     // Modify the objects we need
     updateCustomerForm.addEventListener("submit", function (event) {
 
@@ -80,12 +78,6 @@ function updateCustomer(customerID) {
 
         // Put our data we want to send in a Javascript object
         let data = {
-            // orderId: orderIdValue,
-            // orderDate: orderDateValue,
-            // shipDate: shipDateValue,
-            // deliveredDate: deliveredDateValue,
-            // comment: commentValue,
-            // customerId: customerIdValue
             customer_id: updateCustomerIdValue,
             first_name: updateCustomerFnameValue,
             last_name: updateCustomerLnameValue,
@@ -106,8 +98,8 @@ function updateCustomer(customerID) {
         xhttp.onreadystatechange = () => {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
                 // Add the new data to the table
-                updateRow(xhttp.response, customer_id);
-                alert(`Updated customer ${customer_id}`);
+                updateRow(xhttp.response, updateCustomerIdValue);
+                alert(`Updated customer ${updateCustomerIdValue}`);
                 window.scrollTo(document.body.scrollHeight, 0);
             }
             else if (xhttp.readyState == 4 && xhttp.status != 200) {
@@ -140,14 +132,14 @@ function updateRow(data, customerID) {
     customerEmail[0].innerText = parsedData[0].email;
 
     let customerAddress = updateRow.getElementsByClassName("customer-address")
-    customerAddress[0].innerText = parsedData[0].last_name;
+    customerAddress[0].innerText = parsedData[0].address;
 
     let customerCity = updateRow.getElementsByClassName("customer-city")
-    customerCity[0].innerText = parsedData[0].last_name;
+    customerCity[0].innerText = parsedData[0].city;
 
     let customerState = updateRow.getElementsByClassName("customer-state")
-    customerState[0].innerText = parsedData[0].last_name;
+    customerState[0].innerText = parsedData[0].state;
 
     let customerPcode = updateRow.getElementsByClassName("customer-pcode")
-    customerPcode[0].innerText = parsedData[0].last_name;
+    customerPcode[0].innerText = parsedData[0].postal_code;
 }

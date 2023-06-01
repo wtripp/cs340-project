@@ -98,7 +98,6 @@ app.delete('/delete-customer', function (req, res) {
 app.put('/update-customer', function (req, res) {
 
   let data = req.body;
-  console.log(data);
   let customerID = parseInt(data.customer_id);
   let firstName = data.first_name;
   let lastName = data.last_name;
@@ -110,19 +109,16 @@ app.put('/update-customer', function (req, res) {
   let pcode = data.postal_code;
 
   const updateCustomerQuery = `UPDATE Customers SET first_name = ?, last_name = ?, phone = ?, email = ?, address = ?, city = ?, state = ?, postal_code = ? WHERE customer_id = ?;`;
+  const selectCustomerQuery = `SELECT first_name, last_name, phone, email, address, city, state, postal_code FROM Customers WHERE customer_id = ?;`;
 
-  const selectCustomerQuery = `SELECT first_name, last_name, phone, email, address, city, state, postal_code FROM Customers;`
-  // const selectCustomerQuery = `SELECT first_name FROM Customers;`
-
-  // Run the 1st query
+  // Run the first query
   db.pool.query(updateCustomerQuery, [firstName, lastName, phone, email, address, city, state, pcode, customerID], function (error, rows, fields) {
-    // db.pool.query(updateCustomerQuery, [firstName, lastName, phone, email, address, city, state, pcode, customerID], function (error, rows, fields) {
     if (error) {
       // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
       console.log(error);
       res.sendStatus(400);
     }
-    // If there was no error, we run our second query and return that data so we can use it to update the Orders table on the frontend.
+    // If there was no error, we run our second query and return that data so we can use it to update the Customers table on the frontend.
     else {
       // Run the second query
       db.pool.query(selectCustomerQuery, [customerID], function (error, rows, fields) {
@@ -137,8 +133,8 @@ app.put('/update-customer', function (req, res) {
   });
 });
 
-// Orders
 
+/* Orders */
 app.get('/orders', function (req, res) {
   const selectAllOrdersQuery = `
   SELECT o.order_id,
