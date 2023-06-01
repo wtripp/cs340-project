@@ -99,49 +99,24 @@ app.put('/update-customer', function (req, res) {
 
   let data = req.body;
   console.log(data);
-  let customerID = parseInt(data.customerID);
-  let firstName = data.customerFname;
-  let lastName = data.customerLname;
-  let phone = data.customerPhone;
-  let email = data.customerEmail;
-  let address = data.customerAddress;
-  let city = data.customerCity;
-  let state = data.customerState;
-  let pcode = data.customerPcode;
-
-  //   -- Helper: Get customer data when user clicks "Edit" or "Delete"
-  // SELECT customer_id, first_name, last_name, phone, email, address, city, state, postal_code
-  // FROM Customers WHERE customer_id = :customer_id_selected_for_edit_or_delete;
-
-  // -- Update Customer
-  // UPDATE Customers
-  // SET first_name = :first_name_input, last_name = :last_name_input,
-  //     phone = :phone_input, email = :email_input,
-  //     address = :address_input, city = :city_input,
-  //     state = :state_input, postal_code = :post_code_input
-  // WHERE customer_id = :customer_id_selected_for_edit_or_delete;
+  let customerID = parseInt(data.customer_id);
+  let firstName = data.first_name;
+  let lastName = data.last_name;
+  let phone = data.phone;
+  let email = data.email;
+  let address = data.address;
+  let city = data.city;
+  let state = data.state;
+  let pcode = data.postal_code;
 
   const updateCustomerQuery = `UPDATE Customers SET first_name = ?, last_name = ?, phone = ?, email = ?, address = ?, city = ?, state = ?, postal_code = ? WHERE customer_id = ?;`;
-  // const updateCustomerQuery = `UPDATE Customers SET first_name = ? WHERE customer_id = ?`;
-
-  // UPDATE Orders
-  // SET order_date = ?, ship_date = ?,
-  //   delivered_date = ?, comment = ?,
-  //   customer_id = ?
-  //     WHERE order_id = ? `;
 
   const selectCustomerQuery = `SELECT first_name, last_name, phone, email, address, city, state, postal_code FROM Customers;`
   // const selectCustomerQuery = `SELECT first_name FROM Customers;`
 
-  // UPDATE Customers
-  // SET first_name = :first_name_input, last_name = :last_name_input,
-  //     phone = :phone_input, email = :email_input,
-  //     address = :address_input, city = :city_input,
-  //     state = :state_input, postal_code = :post_code_input
-  // WHERE customer_id = :customer_id_selected_for_edit_or_delete;
-
   // Run the 1st query
-  db.pool.query(updateCustomerQuery, [firstName, lastName, phone, email, address, city, state, pcode], function (error, rows, fields) {
+  db.pool.query(updateCustomerQuery, [firstName, lastName, phone, email, address, city, state, pcode, customerID], function (error, rows, fields) {
+    // db.pool.query(updateCustomerQuery, [firstName, lastName, phone, email, address, city, state, pcode, customerID], function (error, rows, fields) {
     if (error) {
       // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
       console.log(error);

@@ -106,8 +106,8 @@ function updateCustomer(customerID) {
         xhttp.onreadystatechange = () => {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
                 // Add the new data to the table
-                updateRow(xhttp.response, customerID);
-                alert(`Updated customer ${customerID}`);
+                updateRow(xhttp.response, customer_id);
+                alert(`Updated customer ${customer_id}`);
                 window.scrollTo(document.body.scrollHeight, 0);
             }
             else if (xhttp.readyState == 4 && xhttp.status != 200) {
