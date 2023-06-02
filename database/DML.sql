@@ -6,16 +6,6 @@
 
 -- Browse Customers
 SELECT customer_id, first_name, last_name, phone, email, address, city, state, postal_code FROM Customers;
-/*
-+-------------+------------+------------+--------------+---------------------------+--------------------+--------------+---------------+-------------+
-| customer_id | first_name | last_name  | phone        | email                     | address            | city         | state         | postal_code |
-+-------------+------------+------------+--------------+---------------------------+--------------------+--------------+---------------+-------------+
-|           1 | Cordula    | de Courcey | 202-430-1819 | cdecourcey1@dyndns.org    | 353 Buhler Avenue  | Philadelphia | Pennsylvania  | 19104       |
-|           2 | Donia      | Calderhead | NULL         | dcalderhead2@netscape.com | 1 Pepper Wood Hill | Chicago      | NULL          | 60620       |
-|           3 | Sarena     | Vasse      | 349-502-4035 | svasse3@gmail.com         | 17 Oxford Parkway  | Cambridge    | Massachusetts | 02138       |
-|           4 | Liuka      | Vasse      | 213-333-8701 | lfyndon4@gmail.com        | 17 Oxford Parkway  | Cambridge    | Massachusetts | 02138       |
-+-------------+------------+------------+--------------+---------------------------+--------------------+--------------+---------------+-------------+
-*/
 
 -- Add Customer
 INSERT INTO Customers (first_name, last_name, phone, email, address, city, state, postal_code)
