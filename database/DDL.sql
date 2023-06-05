@@ -1,7 +1,13 @@
--- Code was generated initially using phpMyAdmin, version 5.2.1-1.el7.remi
--- https://www.phpmyadmin.net/
--- Date: 4/30/23
--- The following two SET commands are from the assignment description:
+/* 
+Database definition queries that define the Movie Memories database schema and insert sample data
+Will Tripp and Seth Stephanz (CS340 - Group 59 Portfolio Project)
+
+This code was generated initially using phpMyAdmin, version 5.2.1-1.el7.remi
+- https://www.phpmyadmin.net/
+- Date: 4/30/23
+*/
+
+-- These two SET commands were taken from the assignment description:
 -- https://canvas.oregonstate.edu/courses/1914747/assignments/9180999?module_item_id=23040579
 SET FOREIGN_KEY_CHECKS = 0;
 SET AUTOCOMMIT = 0;
@@ -320,7 +326,7 @@ VALUES
     ((SELECT movie_id FROM Movies WHERE title = 'Toy Story' AND year = '1995'),
      (SELECT actor_id FROM Actors WHERE first_name = 'Tom' AND last_name = 'Hanks'));
 
--- These two commands are from the assignment description:
+-- These two commands were taken from the assignment description:
 -- https://canvas.oregonstate.edu/courses/1914747/assignments/9180999?module_item_id=23040579
 SET FOREIGN_KEY_CHECKS = 1;
 COMMIT;

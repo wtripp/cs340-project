@@ -1,8 +1,9 @@
-'use strict';
-// ./database/db-connector.js
-
-// This file uses starter code adapted from:
-// https://github.com/osu-cs340-ecampus/nodejs-starter-app
+/*
+Citation for this file:
+Date: 5/14/2023
+Adapted from OSU CS340 Ecampus starter code.
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+*/
 
 // Get an instance of mysql we can use in the app
 const mysql = require('mysql');
@@ -18,5 +19,5 @@ const pool = mysql.createPool({
     database        : process.env.DATABASE
 })
 
-// Export it for use in our applicaiton
+// Export it for use in our application
 module.exports.pool = pool;

@@ -1,6 +1,8 @@
--- Database manipulation queries for the Movie Memories database.
--- Will Tripp and Seth Stephanz (CS340 - Group 59)
--- Variable names are preceded by a colon (:).
+/*
+Database manipulation queries for the Movie Memories database.
+Will Tripp and Seth Stephanz (CS340 - Group 59 Portfolio Project)
+Variable names are preceded by a colon (:).
+*/
 
 -- CUSTOMERS PAGE --
 
