@@ -553,9 +553,7 @@ app.get('/movies', function (req, res) {
 });
 
 app.post('/add-movie', function (req, res) {
-
   let data = req.body;
-
   // Create the query and run it on the database
   const insertMovieQuery = `
     INSERT INTO Movies (title, year, genre) VALUES ('${data.title}', '${data.year}', '${data.genre}');`;
@@ -641,8 +639,63 @@ app.get('/actorroles', function (req, res) {
 });
 
 /* Actors */
+
 app.get('/actors', function (req, res) {
-  res.render('actors');
+  let selectAllActorssQuery = "SELECT actor_id, first_name, last_name FROM Actors ORDER BY actor_id;";               // Define our query
+  db.pool.query(selectAllActorssQuery, function (error, actors, fields) {    // Execute the query
+    res.render('actors', { actors: actors });                  // Render the index.hbs file, and also send the renderer
+  })                                                      // an object where 'data' is equal to the 'rows' we
+});
+
+app.post('/add-actor', function (req, res) {
+  let data = req.body;
+  console.log('data:', data.actorFname, data.actorLname);
+
+
+  // Create the query and run it on the database
+  const insertActorQuery = `
+    INSERT INTO Actors(first_name, last_name) 
+    VALUES
+    (
+        '${data.actorFname}',
+        '${data.actorLname}'
+    );`;
+
+  // INSERT INTO Actors(first_name, last_name) VALUES(: first_name_input, : last_name_input)
+
+
+  db.pool.query(insertActorQuery, function (error, rows, fields) {
+    if (error) {
+      console.log(error)
+      res.sendStatus(400);
+    } else {
+      // const selectAllCustomersQuery = `SELECT customer_id, first_name, last_name, phone, email, address, city, state, postal_code FROM Customers;`
+      const selectAllActorsQuery = `SELECT actor_id, first_name, last_name FROM Actors;`
+      db.pool.query(selectAllActorsQuery, function (error, rows, fields) {
+        if (error) {
+          console.log(error);
+          res.sendStatus(400);
+        } else {
+          res.send(rows);
+        }
+      });
+    }
+  });
+});
+
+app.delete('/delete-actor', function (req, res) {
+  let data = req.body;
+  let actorID = parseInt(data.id);
+  let deleteActorQuery = `DELETE FROM Actors WHERE actor_id = ? `;
+
+  db.pool.query(deleteActorQuery, [actorID], function (error, rows, fields) {
+    if (error) {
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      res.sendStatus(204);
+    }
+  });
 });
 
 /*
