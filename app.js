@@ -655,7 +655,8 @@ app.post('/add-actor', function (req, res) {
     (
         '${data.actorFname}',
         '${data.actorLname}'
-    );`;
+    )
+    ORDER BY actor_id;`;
 
   // INSERT INTO Actors(first_name, last_name) VALUES(: first_name_input, : last_name_input)
 
@@ -690,6 +691,39 @@ app.delete('/delete-actor', function (req, res) {
       res.sendStatus(400);
     } else {
       res.sendStatus(204);
+    }
+  });
+});
+
+app.put('/update-actor', function (req, res) {
+  let data = req.body;
+  // console.log(data)
+  let actorID = parseInt(data.actor_id);
+  let firstName = data.first_name;
+  let lastName = data.last_name;
+
+  const updateActorQuery =
+    `UPDATE Actors SET first_name = ?, last_name = ? WHERE actor_id = ?;`
+  const selectActorQuery = `SELECT first_name, last_name FROM Actors WHERE actor_id = ?;`;
+
+  // Run the first query
+  db.pool.query(updateActorQuery, [firstName, lastName, actorID], function (error, rows, fields) {
+    if (error) {
+      // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+      console.log(error);
+      res.sendStatus(400);
+    }
+    // If there was no error, we run our second query and return that data so we can use it to update the Customers table on the frontend.
+    else {
+      // Run the second query
+      db.pool.query(selectActorQuery, [actorID], function (error, rows, fields) {
+        if (error) {
+          console.log(error);
+          res.sendStatus(400);
+        } else {
+          res.send(rows);
+        }
+      });
     }
   });
 });
