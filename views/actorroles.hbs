@@ -1,3 +1,87 @@
 <h1>Actor Roles</h1>
 <hr>
-TODO
+<section>
+    <h2>Browse Actor Roles</h2>
+    <table id="actor-roles-table">
+        <thead>
+            <tr>
+                <th colspan=2>Actor Roles</th>
+                {{#each actorroles.[0]}}
+                <th>
+                    {{@key}}
+                </th>
+                {{/each}}
+            </tr>
+        </thead>
+        <tbody>
+            {{#each actorroles}}
+            <tr data-value="{{this.actor_role_id}}">
+                <td><button onclick="updateActorRole({{this.actor_role_id}})">Edit</button></td>
+                <td><button onclick="confirmDelete({{this.actor_role_id}})">Delete</button></td>
+                <td class="actor-role-id">{{this.actor_role_id}}</td>
+                <td class="movie-id">{{this.movie_id}}</td>
+                <td class="actor-id">{{this.actor_id}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</section>
+<section>
+    <h2>Add Actor Role</h2>
+    <p>To add a actor role, enter the following information and click <strong>Add Actor Role</strong>.</p>
+    <form id="add-actor-role-form" method="post">
+        <fieldset>
+            <div class="input-container">
+                <label class="required" for="input-movie-id">Movie ID</label>
+                <select required name="input-movie-id" id="input-movie-id">
+                    <option selected></option>
+                    {{#each movies}}
+                    <option value="{{this.movie_id}}">{{this.movie_id}} - {{this.movie}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="input-container">
+                <label class="required" for="input-actor-id">Actor ID</label>
+                <select required name="input-actor-id" id="input-actor-id">
+                    <option selected></option>
+                    {{#each actors}}
+                    <option value="{{this.actor_id}}">{{this.actor_id}} - {{this.actor}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </fieldset>
+        <button id="add-actor-role-button" type="submit">Add Actor Role</button>
+    </form>
+</section>
+<section>
+    <h2>Update Actor Role</h2>
+    <p>In the table above, click <strong>Edit</strong>. Then, edit the actor role details in these fields and click
+        <strong>Update Actor Role</strong>.</p>
+    <form id="update-actor-role-form" method="post">
+        <fieldset>
+            <div class="input-container">
+                <label class="required" for="input-movie-id">Movie ID</label>
+                <select required name="input-movie-id" id="input-movie-id">
+                    <option selected></option>
+                    {{#each movies}}
+                    <option value="{{this.movie_id}}">{{this.movie_id}} - {{this.movie}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="input-container">
+                <label class="required" for="input-actor-id">Actor ID</label>
+                <select required name="input-actor-id" id="input-actor-id">
+                    <option selected></option>
+                    {{#each actors}}
+                    <option value="{{this.actor_id}}">{{this.actor_id}} - {{this.actor}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </fieldset>
+        <button id="update-actor-roles-button">Update Order</button>
+    </form>
+</section>
+
+{{!-- <script src="./js/add_actor_role.js"></script> --}}
+{{!-- <script src="./js/delete_actor_role.js"></script> --}}
+{{!-- <script src="./js/update_actor_role.js"></script> --}}

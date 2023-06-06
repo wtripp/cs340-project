@@ -628,10 +628,54 @@ app.put('/update-movie', function (req, res) {
   });
 });
 
-
 /* Actor Roles */
 app.get('/actorroles', function (req, res) {
-  res.render('actorroles');
+  let selectAllActorRolesQuery =
+    `SELECT ar.actor_role_id, 
+    CONCAT(m.movie_id, ' - ', m.title, ' (', m.year, ')') AS movie_id,
+    CONCAT(a.actor_id, ' - ', a.first_name, ' ', a.last_name) as actor_id
+    FROM ActorRoles AS ar
+    JOIN Movies AS m ON m.movie_id = ar.movie_id
+    JOIN Actors AS a ON ar.actor_id = a.actor_id;`;
+
+  let selectAllActorsQuery = `SELECT movie_id, CONCAT(title, ' (', year, ')') AS movie FROM Movies ORDER BY movie_id;`;
+
+  let selectAllMoviesQuery = `SELECT actor_id, CONCAT(first_name, ' ', last_name) AS actor FROM Actors ORDER BY actor_id;`;
+
+  // db.pool.query(selectAllActorRolesQuery, function (error, actorroles, fields) {    // Execute the query
+  //   res.render('actorroles', { actorroles: actorroles });                  // Render the index.hbs file, and also send the renderer
+  // })                                                      // an object where 'data' is equal to the 'rows' we
+
+  db.pool.query(selectAllActorRolesQuery, function (error, actorroles, fields) {
+    db.pool.query(selectAllActorsQuery, function (error, actors, fields) {
+      db.pool.query(selectAllMoviesQuery, function (error, movies, fields) {
+        res.render('actorroles', { actorroles: actorroles, actors: actors, movies: movies});
+      });
+    });
+  });
+});
+
+app.get('/movieitems', function (req, res) {
+
+  const selectAllMovieItemsQuery = `
+    SELECT mi.movie_item_id,
+        CONCAT(i.item_id, ' - ', i.description) AS item_id,
+        CONCAT(m.movie_id, ' - ', m.title, ' (', m.year, ')') AS movie_id
+    FROM MovieItems AS mi
+    JOIN Memorabilia AS i ON mi.item_id = i.item_id
+    JOIN Movies AS m ON m.movie_id = mi.movie_id
+    ORDER BY mi.movie_item_id;`;
+
+  const selectAllMemorabiliaQuery = `SELECT item_id, description FROM Memorabilia ORDER BY item_id;`;
+  const selectAllMoviesQuery = `SELECT movie_id, CONCAT(title, ' (', year, ')') AS movie FROM Movies ORDER BY movie_id;`;
+
+  db.pool.query(selectAllMovieItemsQuery, function (error, movieItems, fields) {
+    db.pool.query(selectAllMemorabiliaQuery, function (error, memorabilia, fields) {
+      db.pool.query(selectAllMoviesQuery, function (error, movies, fields) {
+        res.render('movieitems', { movieItems: movieItems, memorabilia: memorabilia, movies: movies });
+      });
+    });
+  });
 });
 
 /* Actors */
