@@ -1,5 +1,5 @@
 /*
-WARNING: DO NOT run this scipt unless you've made a backup of the database. To make a backup:
+WARNING: DO NOT run this script unless you've made a backup of the database. To make a backup:
 
 1. Quit mysql.
 2. Run this command:

@@ -1,6 +1,9 @@
-// This file uses starter code adapted from:
-// https://github.com/osu-cs340-ecampus/nodejs-starter-app
-
+/*
+Citation for this file:
+Date: 5/28/2023
+Adapted from OSU CS340 Ecampus starter code.
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+*/
 
 // Get the objects we need to modify
 let addMovieForm = document.getElementById('add-movie-form');

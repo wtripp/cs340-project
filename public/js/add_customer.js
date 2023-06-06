@@ -1,6 +1,9 @@
-// This file uses starter code adapted from:
-// https://github.com/osu-cs340-ecampus/nodejs-starter-app
-
+/*
+Citation for this file:
+Date: 6/1/2023
+Adapted from OSU CS340 Ecampus starter code.
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+*/
 
 // Get the objects we need to modify
 let addCustomerForm = document.getElementById('add-customer-form');

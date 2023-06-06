@@ -1,8 +1,13 @@
 # Group 59 - CS340 Project
 
-## Attributions
-This project was adapted from the NodeJS start app code:
-https://github.com/osu-cs340-ecampus/nodejs-starter-app
+## Citations
+Much of this project was adapted from the OSU CS340 Ecampus NodeJS starter app code.
+
+Date: May-June 2023
+
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+
+Each file adapted from the starter code includes a citation. If a file does not include a citation, assume it is original work of the project authors, Will Tripp and Seth Stephanz. Pages with original work only include index.hbs, main.hbs, README.md, style.css, reset_db.sql, and show_tables.sql.  
 
 ## Project Setup
 Connect to the Flip server using the VPN. 
@@ -76,14 +81,3 @@ This script does the following:
 3. Re-enables foreign key checks.
 4. Runs the database/DDL.sql that re-creates all tables in the schema and adds sample rows.
 5. Displays all tables and all the contents of each table.
-
-## Open Bugs and Enhancement Requests
-- Enhancement Request: Search feature for browsing entities.
-
-## Fixed Since Step 4 Draft Submission
-- Enhancement: Decreased padding on table, textarea, and section to make page more compact you can see the table column headers when scrolled down in the Add/Update section.
-- Enhancement: Improved editing experience by scrolling page to bottom when clicking "Edit", then scroll back to the top after saving the edits.
-- Bug Fix: Removed UNQIUE constraint on order_date + customer_id, which was causing unexpected INSERT failures.
-- Bug Fix: Some INSERTs do not update correctly until you refresh. This was because the table was not sorted by order_id. "Add Order" expected the new order to be the last row in the table, but it wasn't.
-- Enhancement: Added a dialog to notify when an order is updated.
-- Bug Fix: Made "Ship Date" and "Delivered Date" optional fields.
