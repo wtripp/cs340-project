@@ -120,4 +120,10 @@ function updateRow(data, itemID){
     
     let orderId = updateRow.getElementsByClassName("order-id")
     orderId[0].innerText = parsedData[0].order_id;
+
+    if (orderId[0].innerText) {
+        orderId[0].innerText = parsedData[0].order_id;
+    } else {
+        orderId[0].innerText = 'NULL';
+    }
 }

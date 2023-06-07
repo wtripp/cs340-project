@@ -29,7 +29,13 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
                     <td class="type">{{this.type}}</td>
                     <td class="condition">{{this.condition}}</td>
                     <td class="price">{{this.price}}</td>
-                    <td class="order-id">{{this.order_id}}</td>
+                    <td class="order-id">
+                        {{#if this.order_id}}
+                            {{this.order_id}}
+                        {{else}}
+                            NULL
+                        {{/if}}
+                    </td>
                 </tr>
             {{/each}}
         </tbody>
