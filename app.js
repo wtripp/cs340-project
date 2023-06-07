@@ -25,8 +25,17 @@ app.use(express.static('public'))
 // Database
 const db = require('./database/db-connector');
 
-// Handlebars
+// Handlebars - Includes helper function to format headings from 'order_id' to 'Order ID'
 const Handlebars = require('handlebars');
+Handlebars.registerHelper('formatHeading', function(heading) {
+  let newHeading = heading;
+  newHeading = newHeading.replace(/_/g, ' '); // Replace underscores with spaces
+  newHeading = newHeading.replace(/\b(\w)/g, function(match, firstLetter) { // Capitalize first letter
+    return firstLetter.toUpperCase();
+  });
+  newHeading = newHeading.replace(/\sId$/g, ' ID'); // Replace Id with ID
+  return newHeading;
+});
 const { engine } = require('express-handlebars');
 require('express-handlebars');
 app.engine('.hbs', engine({ extname: ".hbs" }));
