@@ -1,3 +1,71 @@
 <h1>Actors</h1>
 <hr>
-TODO
+<section>
+    <h2>Actors</h2>
+    <table id="actors-table">
+        <thead>
+            <tr>
+                <th colspan=2>Actors</th>
+                {{#each actors.[0]}}
+                <th>
+                    {{@key}}
+                </th>
+                {{/each}}
+            </tr>
+        </thead>
+        <tbody>
+            {{#each actors}}
+            <tr data-value="{{this.actor_id}}">
+                <td><button onclick="updateActor({{this.actor_id}})">Edit</button></td>
+                <td><button onclick="confirmDelete({{this.actor_id}})">Delete</button></td>
+                <td class="actor-id">{{this.actor_id}}</td>
+                <td class="actor-fname">{{this.first_name}}</td>
+                <td class="actor-lname">{{this.last_name}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</section>
+<section>
+    <h2>Add Actor</h2>
+    <p>To add an actor, enter the following information and click <strong>Add Actor</strong>.</p>
+    <form id="add-actor-form" method="post">
+        <fieldset>
+            <div class="input-container">
+                <label class="required" for="input-actor-fname">First Name</label>
+                <input required type="text" name="input-actor-fname" id="input-actor-fname">
+            </div>
+            <div class="input-container">
+                <label class="required" for="input-actor-lname">Last Name</label>
+                <input required type="text" name="input-actor-lname" id="input-actor-lname">
+            </div>
+        </fieldset>
+        <button id="add-actor-button" type="submit">Add Actor</button>
+    </form>
+</section>
+<section>
+    <h2>Update Actor</h2>
+    <p>In the table above, click <strong>Edit</strong>. Then, edit the actor details in these fields and click
+        <strong>Update Actor</strong>.</p>
+    <form id="update-actor-form" method="post">
+        <fieldset>
+            <div class="input-container">
+                <label class='required' for="update-actor-id">Actor ID</label>
+                <input disabled type="number" name="update-actor-id" id="update-actor-id" value="">
+            </div>
+            <div class="input-container">
+                <label for="update-actor-fname">First Name</label>
+                <input disabled required type="text" name="update-actor-fname" id="update-actor-fname" value="">
+            </div>
+            <div class="input-container">
+                <label for="update-actor-lname">Last Name</label>
+                <input disabled type="text" name="update-actor-lname" id="update-actor-lname" value="">
+            </div>
+        </fieldset>
+        <button id="update-actor-button" disabled>Update Order</button>
+    </form>
+</section>
+
+<script src="./js/add_actor.js"></script>
+<script src="./js/delete_actor.js"></script>
+<script src="./js/update_actor.js"></script>
