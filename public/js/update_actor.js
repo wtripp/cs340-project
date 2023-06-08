@@ -11,6 +11,7 @@ function updateActor(actorID) {
     // document.getElementById('update-customer-id').removeAttribute('disabled'); // we want this to stay disabled during edit
     document.getElementById("update-actor-fname").removeAttribute("disabled");
     document.getElementById("update-actor-lname").removeAttribute("disabled");
+    document.getElementById("update-actor-button").removeAttribute("disabled");
 
     const rowToUpdate = document.querySelector(`[data-value="${actorID}"]`);
 

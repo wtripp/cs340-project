@@ -657,7 +657,7 @@ app.post('/add-actor-role', function (req, res) {
   // Create the query and run it on the database
   const insertActorRolesQuery = `
     INSERT INTO ActorRoles (movie_id, actor_id)
-    VALUES ('${data.actorId}','${data.movieId}');`;
+    VALUES ('${data.movieId}','${data.actorId}');`;
 
   // actorId: actorIdValue,
   // movieId: movieIdValue
@@ -809,6 +809,47 @@ app.put('/update-actor', function (req, res) {
     else {
       // Run the second query
       db.pool.query(selectActorQuery, [actorID], function (error, rows, fields) {
+        if (error) {
+          console.log(error);
+          res.sendStatus(400);
+        } else {
+          res.send(rows);
+        }
+      });
+    }
+  });
+});
+
+app.put('/update-actor-role', function (req, res) {
+  let data = req.body;
+  let actorRoleId = parseInt(data.actorRoleId);
+  let actorId = parseInt(data.actorId);
+  let movieId = parseInt(data.movieId);
+
+  const updateActorRoleQuery = `
+  UPDATE ActorRoles
+  SET movie_id = ?, actor_id = ?
+  WHERE actor_role_id = ?;`;
+
+  const selectActorRoleQuery = `
+    SELECT ar.actor_role_id,
+    CONCAT(m.movie_id, ' - ', m.title, ' (', m.year, ')') AS movie_id,
+    CONCAT(a.actor_id, ' - ', a.first_name, ' ', a.last_name) as actor_id
+  FROM ActorRoles AS ar
+  JOIN Movies AS m ON m.movie_id = ar.movie_id
+  JOIN Actors AS a ON ar.actor_id = a.actor_id
+  WHERE ar.actor_role_id = ?`;
+
+  db.pool.query(updateActorRoleQuery, [actorId, movieId, actorRoleId], function (error, rows, fields) {
+    if (error) {
+      // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+      console.log(error);
+      res.sendStatus(400);
+    }
+
+    else {
+      // Run the second query
+      db.pool.query(selectActorRoleQuery, [actorRoleId], function (error, rows, fields) {
         if (error) {
           console.log(error);
           res.sendStatus(400);
