@@ -28,7 +28,7 @@ addMovieForm.addEventListener("submit", function (event) {
     let titles = document.querySelectorAll(".title");
     let years = document.querySelectorAll(".year");
     let titlesAndYears = Array.from(titles).map(function(title ,i) {
-        year = years[i];
+        let year = years[i];
         // Returns array of text combinations extracted from table
         return title.textContent + year.textContent;
     });

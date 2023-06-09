@@ -1,6 +1,6 @@
 /*
 Citation for this file:
-Date: 5/28/2023
+Date: 6/8/2023
 Adapted from OSU CS340 Ecampus starter code.
 Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
 */
@@ -15,18 +15,18 @@ addActorRoleForm.addEventListener("submit", function (event) {
     event.preventDefault();
 
     // Get form fields we need to get data from
-    let inputActorId = document.getElementById("input-actor-id");
     let inputMovieId = document.getElementById("input-movie-id");
+    let inputActorId = document.getElementById("input-actor-id");
 
     // Get the values from the form fields
-    let actorIdValue = inputActorId.value;
     let movieIdValue = inputMovieId.value;
+    let actorIdValue = inputActorId.value;
 
     // Perform data validation: Check that ID combinations are unique
-    let actors = document.querySelectorAll(".actor-id");
     let movies = document.querySelectorAll(".movie-id");
+    let actors = document.querySelectorAll(".actor-id");
     let actorRoleIds = Array.from(actors).map(function (actor, i) {
-        movie = movies[i];
+        let movie = movies[i];
         // Returns array of ID combos extracted from table, e.g., ['1-2', '3-4', ...]
         return actor.textContent.match(/\d+/)[0] + "-" + movie.textContent.match(/\d+/)[0];
     });
@@ -39,8 +39,8 @@ addActorRoleForm.addEventListener("submit", function (event) {
 
     // Put our data we want to send in a javascript object
     let data = {
-        actorId: actorIdValue,
-        movieId: movieIdValue
+        movieId: movieIdValue,
+        actorId: actorIdValue
     }
 
     // Setup our AJAX request
@@ -58,8 +58,8 @@ addActorRoleForm.addEventListener("submit", function (event) {
             addRowToTable(xhttp.response);
 
             // Clear the input fields for another transaction
-            inputActorId.value = '';
             inputMovieId.value = '';
+            inputActorId.value = '';
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")
@@ -104,15 +104,15 @@ addRowToTable = (data) => {
 
     // Fill the cells with correct data
     actorRoleIdCell.innerText = newRow.actor_role_id;
-    actorIdCell.innerText = newRow.actor_id;
     movieIdCell.innerText = newRow.movie_id;
+    actorIdCell.innerText = newRow.actor_id;
 
     // Add the cells to the row
     row.appendChild(editCell);
     row.appendChild(deleteCell);
     row.appendChild(actorRoleIdCell);
-    row.appendChild(actorIdCell);
     row.appendChild(movieIdCell);
+    row.appendChild(actorIdCell);
 
     // Add the row to the table
     tbody.appendChild(row);

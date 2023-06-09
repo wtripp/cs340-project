@@ -1,6 +1,6 @@
 /*
 Citation for this file:
-Date: 5/28/2023
+Date: 6/8/2023
 Adapted from OSU CS340 Ecampus starter code.
 Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
 */
@@ -32,18 +32,18 @@ function deleteActorRole(actorRoleID) {
             // Add the new data to the table
             deleteRow(actorRoleID);
             // Clear any row that contained updates 
-            updateactorRoleId = document.getElementById("update-actor-role-id");
-            if (updateactorRoleId.value == actorRoleID) {
-                updateactorRoleId.value = '';
-                updateactorRoleId.setAttribute("disabled", "disabled");
-
-                updateActorId = document.getElementById("update-actor-id");
-                updateActorId.value = '';
-                updateActorId.setAttribute("disabled", "disabled");
+            updateActorRoleId = document.getElementById("update-actor-role-id");
+            if (updateActorRoleId.value == actorRoleID) {
+                updateActorRoleId.value = '';
+                updateActorRoleId.setAttribute("disabled", "disabled");
 
                 updateMovieId = document.getElementById("update-movie-id");
                 updateMovieId.value = '';
                 updateMovieId.setAttribute("disabled", "disabled");
+
+                updateActorId = document.getElementById("update-actor-id");
+                updateActorId.value = '';
+                updateActorId.setAttribute("disabled", "disabled");
             }
         }
         else if (xhttp.readyState == 4 && xhttp.status != 204) {

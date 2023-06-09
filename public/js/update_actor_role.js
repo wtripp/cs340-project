@@ -1,6 +1,6 @@
 /*
 Citation for this file:
-Date: 5/28/2023
+Date: 6/8/2023
 Adapted from OSU CS340 Ecampus starter code.
 Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
 */
@@ -13,19 +13,19 @@ function updateActorRole(actorRoleID) {
     let updateActorRoleForm = document.getElementById('update-actor-role-form');
 
     // Populate the update fields with the data from the table.
-    document.getElementById("update-actor-id").removeAttribute("disabled");
     document.getElementById("update-movie-id").removeAttribute("disabled");
+    document.getElementById("update-actor-id").removeAttribute("disabled");
     document.getElementById("update-actor-role-button").removeAttribute("disabled");
 
     const rowToUpdate = document.querySelector(`[data-value="${actorRoleID}"]`);
 
     document.getElementById("update-actor-role-id").value = actorRoleID;
 
-    let actorId = rowToUpdate.getElementsByClassName("actor-id")[0].textContent;
-    document.getElementById("update-actor-id").value = parseInt(actorId); // Gets ID from "ID - FirstName LastName (email)"
-
     let movieId = rowToUpdate.getElementsByClassName("movie-id")[0].textContent;
     document.getElementById("update-movie-id").value = parseInt(movieId); // Gets ID from "ID - FirstName LastName (email)"
+
+    let actorId = rowToUpdate.getElementsByClassName("actor-id")[0].textContent;
+    document.getElementById("update-actor-id").value = parseInt(actorId); // Gets ID from "ID - FirstName LastName (email)"
 
 
     // Modify the objects we need
@@ -36,34 +36,34 @@ function updateActorRole(actorRoleID) {
 
         // Get form fields we need to get data from
         let updateActorRoleId = document.getElementById("update-actor-role-id");
-        let updateActorId = document.getElementById("update-actor-id");
         let updateMovieId = document.getElementById("update-movie-id");
+        let updateActorId = document.getElementById("update-actor-id");
 
         // Get the values from the form fields
         let actorRoleIdValue = updateActorRoleId.value;
-        let actorIdValue = updateActorId.value;
         let movieIdValue = updateMovieId.value;
+        let actorIdValue = updateActorId.value;
 
         // Perform data validation: Check that ID combinations are unique
-        let actors = document.querySelectorAll(".actor-id");
         let movies = document.querySelectorAll(".movie-id");
-        let actorRoleIds = Array.from(actors).map(function (actor, i) {
-            movie = movies[i];
+        let actors = document.querySelectorAll(".actor-id");
+        let actorRolesIds = Array.from(movies).map(function(movie ,i) {
+            let actor = actors[i];
             // Returns array of ID combos extracted from table, e.g., ['1-2', '3-4', ...]
-            return actor.textContent.match(/\d+/)[0] + "-" + movie.textContent.match(/\d+/)[0];
+            return movie.textContent.match(/\d+/)[0] + "-" + actor.textContent.match(/\d+/)[0];
         });
 
-        let isDuplicate = actorRoleIds.includes(actorIdValue + "-" + movieIdValue);
+        let isDuplicate = actorRolesIds.includes(movieIdValue + "-" + actorIdValue);
         if (isDuplicate) {
-            alert("Actor ID and movie ID combination must be unique.");
+            alert("Movie ID and actor ID combination must be unique.");
             return;
         }
 
         // Put our data we want to send in a Javascript object
         let data = {
             actorRoleId: actorRoleIdValue,
-            actorId: actorIdValue,
             movieId: movieIdValue,
+            actorId: actorIdValue,
         }
 
         // Setup our AJAX request
@@ -76,7 +76,7 @@ function updateActorRole(actorRoleID) {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
                 // Add the new data to the table
                 updateRow(xhttp.response, actorRoleIdValue);
-                alert(`Updated movie item ${actorRoleIdValue}`);
+                alert(`Updated actor role ${actorRoleIdValue}`);
                 window.scrollTo(document.body.scrollHeight, 0);
             }
             else if (xhttp.readyState == 4 && xhttp.status != 200) {
@@ -95,9 +95,10 @@ function updateRow(data, actorRoleID) {
     let updateRow = document.querySelector(`[data-value='${actorRoleID}'`);
 
     // Reassign values in the table.
+    let movieId = updateRow.getElementsByClassName("movie-id")
+    movieId[0].innerText = parsedData[0].movie_id;
+
     let actorId = updateRow.getElementsByClassName("actor-id")
     actorId[0].innerText = parsedData[0].actor_id;
 
-    let movieId = updateRow.getElementsByClassName("movie-id")
-    movieId[0].innerText = parsedData[0].movie_id;
 }

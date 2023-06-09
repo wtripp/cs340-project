@@ -7,7 +7,9 @@ Variable names are preceded by a colon (:).
 -- CUSTOMERS PAGE --
 
 -- Browse Customers
-SELECT customer_id, first_name, last_name, phone, email, address, city, state, postal_code FROM Customers;
+SELECT customer_id, first_name, last_name, phone, email, address, city, state, postal_code
+FROM Customers
+ORDER BY customer_id;
 
 -- Add Customer
 INSERT INTO Customers (first_name, last_name, phone, email, address, city, state, postal_code)
@@ -45,7 +47,7 @@ JOIN Customers AS c ON o.customer_id = c.customer_id
 ORDER BY o.order_id;
 
 -- Helper: Select customer data used to populate the dropdown that associates a customer with an order. 
-SELECT customer_id, first_name, last_name, email FROM Customers;
+SELECT customer_id, first_name, last_name, email FROM Customers ORDER BY customer_id;
 
 -- Add Order
 INSERT INTO Orders (order_date, ship_date, delivered_date, comment, customer_id)
@@ -55,7 +57,8 @@ VALUES (:order_date_input, :ship_date_input, :delivered_date_input, :comment_inp
 SELECT o.order_id, o.order_date, o.ship_date, o.delivered_date, o.comment,
        CONCAT(c.customer_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ')') AS customer_id
 FROM Orders AS o
-JOIN Customers AS c ON o.customer_id = c.customer_id AND order_id = :order_id_selected_for_edit_or_delete;
+JOIN Customers AS c ON o.customer_id = c.customer_id AND order_id = :order_id_selected_for_edit_or_delete
+ORDER BY o.order_id;
 
 -- Update Order
 UPDATE Orders
@@ -97,7 +100,7 @@ INSERT INTO Memorabilia (description, type, `condition`, price, order_id)
 VALUES (:description_input, :type_input, :condition_input, :price_input, :order_id_from_dropdown);
 
 -- Helper: Get memorabilia data when user clicks "Edit" or "Delete".
-SELECT item_id, items.description, items.type, items.`condition`, items.price,
+SELECT items.item_id, items.description, items.type, items.`condition`, items.price,
         CONCAT(o.order_id, ' - ', c.first_name, ' ', c.last_name, ' (', c.email, ') on ', DATE_FORMAT(o.order_date, '%Y-%m-%d')) AS order_id
 FROM Memorabilia AS items
 LEFT JOIN Orders AS o ON items.order_id = o.order_id
@@ -185,20 +188,7 @@ DELETE FROM Movies WHERE movie_id = :movie_id_selected_for_edit_or_delete;
 -- ACTORS PAGE --
 
 -- Browse Actors
-SELECT actor_id, first_name, last_name FROM Actors;
-/*
-+----------+------------+-----------+
-| actor_id | first_name | last_name |
-+----------+------------+-----------+
-|        1 | Christian  | Bale      |
-|        2 | Al         | Pacino    |
-|        3 | Uma        | Thurman   |
-|        4 | Tom        | Hanks     |
-|        5 | Meryl      | Streep    |
-|        6 | Jeff       | Bridges   |
-|        7 | Julianne   | Moore     |
-+----------+------------+-----------+
-*/
+SELECT actor_id, first_name, last_name FROM Actors ORDER BY actor_id;
 
 -- Add Actor
 INSERT INTO Actors (first_name, last_name) VALUES (:first_name_input, :last_name_input);
@@ -218,7 +208,7 @@ DELETE FROM Actors WHERE actor_id = :actor_id_selected_for_edit_or_delete;
 -- END ACTORS PAGE --
 
 
--- ACTOR-ROLES PAGE
+-- ACTOR-ROLES PAGE --
 
 -- Browse Actor Roles
 SELECT ar.actor_role_id,
@@ -226,54 +216,14 @@ SELECT ar.actor_role_id,
        CONCAT(a.actor_id, ' - ', a.first_name, ' ', a.last_name) as actor_id
 FROM ActorRoles AS ar
 JOIN Movies AS m ON m.movie_id = ar.movie_id
-JOIN Actors AS a ON ar.actor_id = a.actor_id;
-/*
-+---------------+-----------------------------+--------------------+
-| actor_role_id | movie_id                    | actor_id           |
-+---------------+-----------------------------+--------------------+
-|             1 | 1 - Batman Begins (2005)    | 1 - Christian Bale |
-|             2 | 2 - The Dark Knight (2008)  | 1 - Christian Bale |
-|             3 | 3 - The Godfather (1972)    | 2 - Al Pacino      |
-|             4 | 4 - Pulp Fiction (1994)     | 3 - Uma Thurman    |
-|             5 | 6 - American Psycho (2000)  | 1 - Christian Bale |
-|             6 | 7 - The Big Lebowski (1998) | 6 - Jeff Bridges   |
-|             7 | 7 - The Big Lebowski (1998) | 7 - Julianne Moore |
-|             8 | 8 - Toy Story (1995)        | 4 - Tom Hanks      |
-+---------------+-----------------------------+--------------------+
-*/
+JOIN Actors AS a ON ar.actor_id = a.actor_id
+ORDER BY ar.actor_role_id;
 
 -- Helper: Select movie data used to populate the movie-actor association dropdown. 
 SELECT movie_id, CONCAT(title, ' (', year, ')') AS movie FROM Movies ORDER BY movie_id;
-/*
-+----------+-------------------------+
-| movie_id | movie                   |
-+----------+-------------------------+
-|        1 | Batman Begins (2005)    |
-|        2 | The Dark Knight (2008)  |
-|        3 | The Godfather (1972)    |
-|        4 | Pulp Fiction (1994)     |
-|        5 | Friday the 13th (1980)  |
-|        6 | American Psycho (2000)  |
-|        7 | The Big Lebowski (1998) |
-|        8 | Toy Story (1995)        |
-+----------+-------------------------+
-*/
 
 -- Helper: Select actor data used to populate the movie-actor association dropdown. 
 SELECT actor_id, CONCAT(first_name, ' ', last_name) AS actor FROM Actors ORDER BY actor_id;
-/*
-+----------+----------------+
-| actor_id | actor          |
-+----------+----------------+
-|        1 | Christian Bale |
-|        2 | Al Pacino      |
-|        3 | Uma Thurman    |
-|        4 | Tom Hanks      |
-|        5 | Meryl Streep   |
-|        6 | Jeff Bridges   |
-|        7 | Julianne Moore |
-+----------+----------------+
-*/
 
 -- Add Actor Role
 INSERT INTO ActorRoles (movie_id, actor_id)

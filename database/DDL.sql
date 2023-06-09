@@ -89,7 +89,7 @@ CREATE OR REPLACE TABLE `Orders` (
     `comment` varchar(500) DEFAULT NULL,
     `customer_id` int(11) DEFAULT NULL,
     PRIMARY KEY (order_id),
-    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id) ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT UNIQUE(order_id)
 );
 

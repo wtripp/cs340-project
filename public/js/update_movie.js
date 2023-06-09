@@ -53,7 +53,7 @@ function updateMovie(movieID) {
     let titles = document.querySelectorAll(".title");
     let years = document.querySelectorAll(".year");
     let titlesAndYears = Array.from(titles).map(function(title ,i) {
-        year = years[i];
+        let year = years[i];
 
         let rowBeingUpdated = document.querySelector(`[data-value="${movieIdValue}"]`);
         let originalTitle = rowBeingUpdated.getElementsByClassName("title")[0].textContent;

@@ -35,30 +35,14 @@ addCustomerForm.addEventListener("submit", function (event) {
     let customerStateValue = inputCustomerState.value;
     let customerPcodeValue = inputCustomerPcode.value;
 
-    // Perform data validation.
-    // if (shipDateValue && new Date(orderDateValue) > new Date(shipDateValue)) {
-    //     alert("Ship date must be later than or equal to order date.");
-    //     return;
-    // }
-
-    // if (!shipDateValue && deliveredDateValue) {
-    //     alert("If delivered date is specified, then ship date must be specified too.");
-    //     return;
-    // }
-
-    // if (shipDateValue && deliveredDateValue && new Date(shipDateValue) > new Date(deliveredDateValue)) {
-    //     alert("Delivered date must be later than or equal to ship date.");
-    //     return;
-    // }
-
-    // Put our data we want to send in a javascript object
-    // let data = {
-    //     orderDate: orderDateValue,
-    //     shipDate: shipDateValue,
-    //     deliveredDate: deliveredDateValue,
-    //     comment: commentValue,
-    //     customerId: customerIdValue
-    // }
+    // Perform data validation: Check that email is unique
+    let emailCells = document.querySelectorAll(".customer-email");
+    let emails = Array.from(emailCells).map(function(email, i){ return email.textContent });
+    let isDuplicate = emails.includes(customerEmailValue);
+    if (isDuplicate) {
+        alert("Email must be unique.");
+        return;
+    }
 
     let data = {
         customerFname: customerFnameValue,

@@ -1,5 +1,9 @@
-// This file uses starter code adapted from:
-// https://github.com/osu-cs340-ecampus/nodejs-starter-app
+/*
+Citation for this file:
+Date: 6/8/2023
+Adapted from OSU CS340 Ecampus starter code.
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+*/
 
 function updateActor(actorID) {
     window.scrollTo(0, document.body.scrollHeight);
@@ -8,7 +12,6 @@ function updateActor(actorID) {
     let updateActorForm = document.getElementById('update-actor-form');
 
     // Populate the update fields with the data from the table.
-    // document.getElementById('update-customer-id').removeAttribute('disabled'); // we want this to stay disabled during edit
     document.getElementById("update-actor-fname").removeAttribute("disabled");
     document.getElementById("update-actor-lname").removeAttribute("disabled");
     document.getElementById("update-actor-button").removeAttribute("disabled");
@@ -23,9 +26,6 @@ function updateActor(actorID) {
     let actorLname = rowToUpdate.getElementsByClassName("actor-lname")[0].textContent;
     document.getElementById("update-actor-lname").value = actorLname;
 
-    // let customerId = rowToUpdate.getElementsByClassName("customer-id")[0].textContent;
-    // document.getElementById("update-customer-id").value = parseInt(customerId); // Gets ID from "ID - FirstName LastName (email)"
-
     // Modify the objects we need
     updateActorForm.addEventListener("submit", function (event) {
 
@@ -34,7 +34,6 @@ function updateActor(actorID) {
 
         // Get form fields we need to get data from
         let updateActorId = document.getElementById("update-actor-id");
-        // doesn't change but probably better to keep this in
         let updateActorFname = document.getElementById("update-actor-fname");
         let updateActorLname = document.getElementById("update-actor-lname");
 
@@ -43,14 +42,30 @@ function updateActor(actorID) {
         let updateActorFnameValue = updateActorFname.value;
         let updateActorLnameValue = updateActorLname.value;
 
+    // Perform data validation: Check that title + year is unique
+    let fnames = document.querySelectorAll(".actor-fname");
+    let lnames = document.querySelectorAll(".actor-lname");
+    let fullNames = Array.from(fnames).map(function(fname ,i) {
+        let lname = lnames[i];
+
+        let rowBeingUpdated = document.querySelector(`[data-value="${updateActorIdValue}"]`);
+        let originalFName = rowBeingUpdated.getElementsByClassName("actor-fname")[0].textContent;
+        let originalLName = rowBeingUpdated.getElementsByClassName("actor-lname")[0].textContent;
+
+        // exclude the row being edited
+        if ((fname.textContent !== originalFName) && (lname.textContent !== originalLName)) 
+            // Returns array of text combinations extracted from table
+            return fname.textContent + lname.textContent;
+    });
+
+    let isDuplicate = fullNames.includes(updateActorFnameValue + updateActorLnameValue);
+    if (isDuplicate) {
+        alert("First name and last name combination must be unique.");
+        return;
+    }
+
         // Put our data we want to send in a Javascript object
         let data = {
-            // orderId: orderIdValue,
-            // orderDate: orderDateValue,
-            // shipDate: shipDateValue,
-            // deliveredDate: deliveredDateValue,
-            // comment: commentValue,
-            // customerId: customerIdValue
             actor_id: updateActorIdValue,
             first_name: updateActorFnameValue,
             last_name: updateActorLnameValue
@@ -65,8 +80,8 @@ function updateActor(actorID) {
         xhttp.onreadystatechange = () => {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
                 // Add the new data to the table
-                updateRow(xhttp.response, actorID);
-                alert(`Updated actor ${actorID}`);
+                updateRow(xhttp.response, updateActorIdValue);
+                alert(`Updated actor ${updateActorIdValue}`);
                 window.scrollTo(document.body.scrollHeight, 0);
             }
             else if (xhttp.readyState == 4 && xhttp.status != 200) {

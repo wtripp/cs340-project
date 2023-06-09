@@ -62,6 +62,25 @@ function updateItem(itemID) {
         let priceValue = updatePrice.value;
         let orderIdValue = updateOrderId.value;
 
+        // Perform data validation: Check that description is unique
+        let descriptionCells = document.querySelectorAll(".description");
+        let descriptions = Array.from(descriptionCells).map(function(description) {
+
+            let rowBeingUpdated = document.querySelector(`[data-value="${itemIdValue}"]`);
+            let originalDescription = rowBeingUpdated.getElementsByClassName("description")[0].textContent;
+            
+            // exclude the description of row being edited
+            if (description.textContent !== originalDescription)  
+                // Returns array of text combinations extracted from table
+                return description.textContent;
+        });            
+            
+        let isDuplicate = descriptions.includes(descriptionValue);
+        if (isDuplicate) {
+            alert("Description must be unique.");
+            return;
+        }
+
         // Put our data we want to send in a Javascript object
         let data = {
             itemId: itemIdValue,

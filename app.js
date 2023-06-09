@@ -549,6 +549,7 @@ app.put('/update-movie-item', function (req, res) {
   });
 });
 
+
 /* Movies */
 app.get('/movies', function (req, res) {
 
@@ -560,6 +561,7 @@ app.get('/movies', function (req, res) {
 
 app.post('/add-movie', function (req, res) {
   let data = req.body;
+
   // Create the query and run it on the database
   const insertMovieQuery = `
     INSERT INTO Movies (title, year, genre) VALUES ('${data.title}', '${data.year}', '${data.genre}');`;
@@ -636,117 +638,18 @@ app.put('/update-movie', function (req, res) {
   });
 });
 
-/* Actor Roles */
-app.get('/actorroles', function (req, res) {
-
-  let selectAllActorRolesQuery =
-    `SELECT ar.actor_role_id, 
-    CONCAT(m.movie_id, ' - ', m.title, ' (', m.year, ')') AS movie_id,
-    CONCAT(a.actor_id, ' - ', a.first_name, ' ', a.last_name) as actor_id
-    FROM ActorRoles AS ar
-    JOIN Movies AS m ON m.movie_id = ar.movie_id
-    JOIN Actors AS a ON ar.actor_id = a.actor_id
-    ORDER BY actor_role_id;`;
-
-  const selectAllActorsQuery = `SELECT actor_id, first_name, last_name FROM Actors ORDER BY actor_id;`;
-  const selectAllMoviesQuery = `SELECT movie_id, CONCAT(title, ' (', year, ')') AS movie FROM Movies ORDER BY movie_id;`;
-
-  db.pool.query(selectAllActorRolesQuery, function (error, actorRoles, fields) {
-    db.pool.query(selectAllActorsQuery, function (error, actors, fields) {
-      db.pool.query(selectAllMoviesQuery, function (error, movies, fields) {
-        res.render('actorroles', { actorRoles: actorRoles, actors: actors, movies: movies });
-      });
-    });
-  });
-});
-
-app.post('/add-actor-role', function (req, res) {
-  let data = req.body;
-  console.log(data);
-  // Create the query and run it on the database
-  const insertActorRolesQuery = `
-    INSERT INTO ActorRoles (movie_id, actor_id)
-    VALUES ('${data.movieId}','${data.actorId}');`;
-
-  // actorId: actorIdValue,
-  // movieId: movieIdValue
-
-  db.pool.query(insertActorRolesQuery, function (error, rows, fields) {
-
-    if (error) {
-      console.log(error)
-      res.sendStatus(400);
-    } else {
-      const selectAllActorRolesQuery = `
-        SELECT ar.actor_role_id,
-        CONCAT(m.movie_id, ' - ', m.title, ' (', m.year, ')') AS movie_id,
-        CONCAT(a.actor_id, ' - ', a.first_name, ' ', a.last_name) as actor_id
-        FROM ActorRoles AS ar
-        JOIN Movies AS m ON m.movie_id = ar.movie_id
-        JOIN Actors AS a ON ar.actor_id = a.actor_id
-        ORDER BY actor_role_id;`;
-      db.pool.query(selectAllActorRolesQuery, function (error, rows, fields) {
-        if (error) {
-          console.log(error);
-          res.sendStatus(400);
-        } else {
-          res.send(rows);
-        }
-      });
-    }
-  });
-});
-
-app.delete('/delete-actor-role', function (req, res) {
-  let data = req.body;
-  let actorRoleID = parseInt(data.id);
-  let deleteActorRoleQuery = `DELETE FROM ActorRoles WHERE actor_role_id = ?;`;
-
-  db.pool.query(deleteActorRoleQuery, [actorRoleID], function (error, rows, fields) {
-    if (error) {
-      console.log(error);
-      res.sendStatus(400);
-    } else {
-      res.sendStatus(204);
-    }
-  });
-});
-
-app.get('/movieitems', function (req, res) {
-
-  const selectAllMovieItemsQuery = `
-    SELECT mi.movie_item_id,
-        CONCAT(i.item_id, ' - ', i.description) AS item_id,
-        CONCAT(m.movie_id, ' - ', m.title, ' (', m.year, ')') AS movie_id
-    FROM MovieItems AS mi
-    JOIN Memorabilia AS i ON mi.item_id = i.item_id
-    JOIN Movies AS m ON m.movie_id = mi.movie_id
-    ORDER BY mi.movie_item_id;`;
-
-  const selectAllMemorabiliaQuery = `SELECT item_id, description FROM Memorabilia ORDER BY item_id;`;
-  const selectAllMoviesQuery = `SELECT movie_id, CONCAT(title, ' (', year, ')') AS movie FROM Movies ORDER BY movie_id;`;
-
-  db.pool.query(selectAllMovieItemsQuery, function (error, movieItems, fields) {
-    db.pool.query(selectAllMemorabiliaQuery, function (error, memorabilia, fields) {
-      db.pool.query(selectAllMoviesQuery, function (error, movies, fields) {
-        res.render('movieitems', { movieItems: movieItems, memorabilia: memorabilia, movies: movies });
-      });
-    });
-  });
-});
 
 /* Actors */
 
 app.get('/actors', function (req, res) {
-  let selectAllActorssQuery = "SELECT actor_id, first_name, last_name FROM Actors ORDER BY actor_id;";               // Define our query
-  db.pool.query(selectAllActorssQuery, function (error, actors, fields) {    // Execute the query
+  let selectAllActorsQuery = "SELECT actor_id, first_name, last_name FROM Actors ORDER BY actor_id;";               // Define our query
+  db.pool.query(selectAllActorsQuery, function (error, actors, fields) {    // Execute the query
     res.render('actors', { actors: actors });                  // Render the index.hbs file, and also send the renderer
   })                                                      // an object where 'data' is equal to the 'rows' we
 });
 
 app.post('/add-actor', function (req, res) {
   let data = req.body;
-  console.log('data:', data.actorFname, data.actorLname);
 
   // Create the query and run it on the database
   const insertActorQuery = `
@@ -758,15 +661,11 @@ app.post('/add-actor', function (req, res) {
     )
     ORDER BY actor_id;`;
 
-  // INSERT INTO Actors(first_name, last_name) VALUES(: first_name_input, : last_name_input)
-
-
   db.pool.query(insertActorQuery, function (error, rows, fields) {
     if (error) {
       console.log(error)
       res.sendStatus(400);
     } else {
-      // const selectAllCustomersQuery = `SELECT customer_id, first_name, last_name, phone, email, address, city, state, postal_code FROM Customers;`
       const selectAllActorsQuery = `SELECT actor_id, first_name, last_name FROM Actors ORDER BY actor_id;`
 
       db.pool.query(selectAllActorsQuery, function (error, rows, fields) {
@@ -798,7 +697,6 @@ app.delete('/delete-actor', function (req, res) {
 
 app.put('/update-actor', function (req, res) {
   let data = req.body;
-  // console.log(data)
   let actorID = parseInt(data.actor_id);
   let firstName = data.first_name;
   let lastName = data.last_name;
@@ -829,11 +727,84 @@ app.put('/update-actor', function (req, res) {
   });
 });
 
+
+/* Actor Roles */
+app.get('/actorroles', function (req, res) {
+
+  let selectAllActorRolesQuery =
+    `SELECT ar.actor_role_id, 
+    CONCAT(m.movie_id, ' - ', m.title, ' (', m.year, ')') AS movie_id,
+    CONCAT(a.actor_id, ' - ', a.first_name, ' ', a.last_name) as actor_id
+    FROM ActorRoles AS ar
+    JOIN Movies AS m ON m.movie_id = ar.movie_id
+    JOIN Actors AS a ON ar.actor_id = a.actor_id
+    ORDER BY ar.actor_role_id;`;
+
+  const selectAllMoviesQuery = `SELECT movie_id, CONCAT(title, ' (', year, ')') AS movie FROM Movies ORDER BY movie_id;`;
+  const selectAllActorsQuery = `SELECT actor_id, first_name, last_name FROM Actors ORDER BY actor_id;`;
+
+  db.pool.query(selectAllActorRolesQuery, function (error, actorRoles, fields) {
+    db.pool.query(selectAllMoviesQuery, function (error, movies, fields) {
+      db.pool.query(selectAllActorsQuery, function (error, actors, fields) {
+        res.render('actorroles', { actorRoles: actorRoles, actors: actors, movies: movies });
+      });
+    });
+  });
+});
+
+app.post('/add-actor-role', function (req, res) {
+  let data = req.body;
+  // Create the query and run it on the database
+  const insertActorRolesQuery = `
+    INSERT INTO ActorRoles (movie_id, actor_id)
+    VALUES ('${data.movieId}','${data.actorId}');`;
+
+  db.pool.query(insertActorRolesQuery, function (error, rows, fields) {
+
+    if (error) {
+      console.log(error)
+      res.sendStatus(400);
+    } else {
+      const selectAllActorRolesQuery = `
+        SELECT ar.actor_role_id,
+        CONCAT(m.movie_id, ' - ', m.title, ' (', m.year, ')') AS movie_id,
+        CONCAT(a.actor_id, ' - ', a.first_name, ' ', a.last_name) as actor_id
+        FROM ActorRoles AS ar
+        JOIN Movies AS m ON m.movie_id = ar.movie_id
+        JOIN Actors AS a ON ar.actor_id = a.actor_id
+        ORDER BY ar.actor_role_id;`;
+      db.pool.query(selectAllActorRolesQuery, function (error, rows, fields) {
+        if (error) {
+          console.log(error);
+          res.sendStatus(400);
+        } else {
+          res.send(rows);
+        }
+      });
+    }
+  });
+});
+
+app.delete('/delete-actor-role', function (req, res) {
+  let data = req.body;
+  let actorRoleID = parseInt(data.id);
+  let deleteActorRoleQuery = `DELETE FROM ActorRoles WHERE actor_role_id = ?;`;
+
+  db.pool.query(deleteActorRoleQuery, [actorRoleID], function (error, rows, fields) {
+    if (error) {
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      res.sendStatus(204);
+    }
+  });
+});
+
 app.put('/update-actor-role', function (req, res) {
   let data = req.body;
   let actorRoleId = parseInt(data.actorRoleId);
-  let actorId = parseInt(data.actorId);
   let movieId = parseInt(data.movieId);
+  let actorId = parseInt(data.actorId);
 
   const updateActorRoleQuery = `
   UPDATE ActorRoles
@@ -849,7 +820,7 @@ app.put('/update-actor-role', function (req, res) {
   JOIN Actors AS a ON ar.actor_id = a.actor_id
   WHERE ar.actor_role_id = ?`;
 
-  db.pool.query(updateActorRoleQuery, [actorId, movieId, actorRoleId], function (error, rows, fields) {
+  db.pool.query(updateActorRoleQuery, [movieId, actorId, actorRoleId], function (error, rows, fields) {
     if (error) {
       // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
       console.log(error);

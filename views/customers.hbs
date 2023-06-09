@@ -43,45 +43,39 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
     <p>To add a customer, enter the following information and click <strong>Add Customer</strong>.</p>
     <form id="add-customer-form" method="post">
         <fieldset>
-            <div class='first-add-customer-section'>
-                <div class="input-container">
-                    <label class="required" for="input-customer-fname">First Name</label>
-                    <input required type="text" name="input-customer-fname" id="input-customer-fname">
-                </div>
-                <div class="input-container">
-                    <label class="required" for="input-customer-lname">Last Name</label>
-                    <input required type="text" name="input-customer-lname" id="input-customer-lname">
-                </div>
+            <div class="input-container">
+                <label class="required" for="input-customer-fname">First Name</label>
+                <input required type="text" name="input-customer-fname" id="input-customer-fname">
             </div>
-            <div class='second-add-customer--section'>
-                <div class="input-container">
-                    <label for="input-customer-phone">Phone</label>
-                    <input type="tel" name="input-customer-phone" id="input-customer-phone">
-                </div>
-                <div class="input-container">
-                    <label class="required" for="input-customer-email">Email</label>
-                    <input required type="email" name="input-customer-email" id="input-customer-email">
-                </div>
+            <div class="input-container">
+                <label class="required" for="input-customer-lname">Last Name</label>
+                <input required type="text" name="input-customer-lname" id="input-customer-lname">
             </div>
-            <div class='third-add-customer--section'>
-                <div class="input-container">
-                    <label class="required" for="input-customer-address">Address</label>
-                    <input required type="text" name="input-customer-address" id="input-customer-address">
-                </div>
-                <div class="input-container">
-                    <label for="input-customer-city">City</label>
-                    <input type="text" name="input-customer-city" id="input-customer-city">
-                </div>
+            <div class="input-container">
+                <label for="input-customer-phone">Phone</label>
+                <input type="tel" name="input-customer-phone" id="input-customer-phone">
             </div>
-            <div class='fourth-add-customer-section'>
-                <div class="input-container">
-                    <label for="input-customer-state">State</label>
-                    <input type="text" name="input-customer-state" id="input-customer-state">
-                </div>
-                <div class="input-container">
-                    <label class="required" for="input-customer-pcode">Postal Code</label>
-                    <input required type="number" name="input-customer-pcode" id="input-customer-pcode">
-                </div>
+            <div class="input-container">
+                <label class="required" for="input-customer-email">Email</label>
+                <input required type="email" name="input-customer-email" id="input-customer-email">
+            </div>
+        </fieldset>
+        <fieldset>
+            <div class="input-container">
+                <label class="required" for="input-customer-address">Address</label>
+                <input required type="text" name="input-customer-address" id="input-customer-address">
+            </div>
+            <div class="input-container">
+                <label for="input-customer-city">City</label>
+                <input type="text" name="input-customer-city" id="input-customer-city">
+            </div>
+            <div class="input-container">
+                <label for="input-customer-state">State</label>
+                <input type="text" name="input-customer-state" id="input-customer-state">
+            </div>
+            <div class="input-container">
+                <label class="required" for="input-customer-pcode">Postal Code</label>
+                <input required type="number" name="input-customer-pcode" id="input-customer-pcode">
             </div>
         </fieldset>
         <button id="add-customer-button" type="submit">Add Customer</button>
@@ -93,52 +87,49 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
         <strong>Update Customer</strong>.</p>
     <form id="update-customer-form" method="post">
         <fieldset>
-            <div class='first-update-customer-section'>
-                <div class="input-container">
-                    <label class='required' for="update-customer-id">Customer ID</label>
-                    <input disabled type="number" name="update-customer-id" id="update-customer-id" value="">
-                </div>
-                <div class="input-container">
-                    <label for="update-customer-fname">First Name</label>
-                    <input disabled required type="text" name="update-customer-fname" id="update-customer-fname"
-                        value="">
-                </div>
-
-                <div class="input-container">
-                    <label for="update-customer-lname">Last Name</label>
-                    <input disabled type="text" name="update-customer-lname" id="update-customer-lname" value="">
-                </div>
+            <div class="input-container">
+                <label  for="update-customer-id">Customer ID</label>
+                <input disabled type="number" name="update-customer-id" id="update-customer-id" value="">
             </div>
-            <div class='second-update-customer-section'>
-                <div class="input-container">
-                    <label for="update-customer-phone">Phone</label>
-                    <input disabled type="tel" name="update-customer-phone" id="update-customer-phone" value="">
-                </div>
-                <div class="input-container">
-                    <label for="update-customer-email">Email</label>
-                    <input disabled type="email" name="update-customer-email" id="update-customer-email" value="">
-                </div>
-                <div class="input-container">
-                    <label for="update-customer-address">Address</label>
-                    <input disabled type="text" name="update-customer-address" id="update-customer-address" value="">
-                </div>
+            <div class="input-container">
+                <label for="update-customer-fname" class="required">First Name</label>
+                <input disabled required type="text" name="update-customer-fname" id="update-customer-fname"
+                    value="">
             </div>
-            <div class='third-update-customer-section'>
-                <div class="input-container">
-                    <label for="update-customer-city">City</label>
-                    <input disabled type="text" name="update-customer-city" id="update-customer-city" value="">
-                </div>
-                <div class="input-container">
-                    <label for="update-customer-state">State</label>
-                    <input disabled type="text" name="update-customer-state" id="update-customer-state" value="">
-                </div>
-                <div class="input-container">
-                    <label for="update-customer-pcode">Postal Code</label>
-                    <input disabled type="num" name="update-customer-pcode" id="update-customer-pcode" value="">
-                </div>
+            <div class="input-container">
+                <label for="update-customer-lname" class="required">Last Name</label>
+                <input disabled required type="text" name="update-customer-lname" id="update-customer-lname" value="">
             </div>
         </fieldset>
-        <button id="update-customer-button">Update Order</button>
+        <fieldset>
+            <div class="input-container">
+                <label for="update-customer-phone">Phone</label>
+                <input disabled type="tel" name="update-customer-phone" id="update-customer-phone" value="">
+            </div>
+            <div class="input-container">
+                <label for="update-customer-email" class="required">Email</label>
+                <input disabled required type="email" name="update-customer-email" id="update-customer-email" value="">
+            </div>
+            <div class="input-container">
+                <label for="update-customer-address" class="required">Address</label>
+                <input disabled required type="text" name="update-customer-address" id="update-customer-address" value="">
+            </div>
+        </fieldset>
+        <fieldset>
+            <div class="input-container">
+                <label for="update-customer-city">City</label>
+                <input disabled type="text" name="update-customer-city" id="update-customer-city" value="">
+            </div>
+            <div class="input-container">
+                <label for="update-customer-state">State</label>
+                <input disabled type="text" name="update-customer-state" id="update-customer-state" value="">
+            </div>
+            <div class="input-container">
+                <label for="update-customer-pcode" class="required">Postal Code</label>
+                <input disabled required type="number" name="update-customer-pcode" id="update-customer-pcode" value="">
+            </div>
+        </fieldset>
+        <button id="update-customer-button">Update Customer</button>
     </form>
 </section>
 

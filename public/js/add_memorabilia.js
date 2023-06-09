@@ -28,7 +28,14 @@ addItemForm.addEventListener("submit", function (event) {
     let priceValue = inputPrice.value;
     let orderIdValue = inputOrderId.value;
 
-    // No JS validation for this form needed. It's all handled in the HTML.
+    // Perform data validation: Check that description is unique
+    let descriptionCells = document.querySelectorAll(".description");
+    let descriptions = Array.from(descriptionCells).map(function(description){ return description.textContent });
+    let isDuplicate = descriptions.includes(descriptionValue);
+    if (isDuplicate) {
+        alert("Description must be unique.");
+        return;
+    }
 
     // Put our data we want to send in a javascript object
     let data = {
@@ -117,7 +124,11 @@ addRowToTable = (data) => {
     typeCell.innerText = newRow.type;
     conditionCell.innerText = newRow.condition;
     priceCell.innerText = newRow.price;
-    orderIdCell.innerText = newRow.order_id;
+    if(newRow.order_id) {
+        orderIdCell.innerText = newRow.order_id;
+    } else {
+        orderIdCell.innerText = 'NULL';
+    }
 
     // Add the cells to the row
     row.appendChild(editCell);
@@ -128,7 +139,7 @@ addRowToTable = (data) => {
     row.appendChild(conditionCell);
     row.appendChild(priceCell);
     row.appendChild(orderIdCell);
-    
+
     // Add the row to the table
     tbody.appendChild(row);
 }

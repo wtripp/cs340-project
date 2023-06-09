@@ -29,4 +29,4 @@ DROP TABLE IF EXISTS `Orders`;
 SET FOREIGN_KEY_CHECKS = 1;
 source ./database/DDL.sql
 SHOW TABLES;
-source show_tables.sql
+source ./database/show_tables.sql

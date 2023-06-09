@@ -80,6 +80,27 @@ function updateCustomer(customerID) {
         let updateCustomerStateValue = updateCustomerState.value;
         let updateCustomerPcodeValue = updateCustomerPcode.value;
 
+        // Perform data validation: Check that email is unique
+        let emailCells = document.querySelectorAll(".customer-email");
+        let emails = Array.from(emailCells).map(function(email){
+            
+            let rowBeingUpdated = document.querySelector(`[data-value="${updateCustomerIdValue}"]`);
+            let originalEmail = rowBeingUpdated.getElementsByClassName("customer-email")[0].textContent;
+            
+            // exclude the title + year of row being edited
+            if (email.textContent !== originalEmail)  
+                // Returns array of text combinations extracted from table
+                return email.textContent;
+        });
+
+        let isDuplicate = emails.includes(updateCustomerEmailValue);
+        if (isDuplicate) {
+            alert("Email must be unique.");
+            return;
+        }
+
+
+
         // Put our data we want to send in a Javascript object
         let data = {
             customer_id: updateCustomerIdValue,

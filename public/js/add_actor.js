@@ -1,6 +1,9 @@
-// This file uses starter code adapted from:
-// https://github.com/osu-cs340-ecampus/nodejs-starter-app
-
+/*
+Citation for this file:
+Date: 6/8/2023
+Adapted from OSU CS340 Ecampus starter code.
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+*/
 
 // Get the objects we need to modify
 let addActorForm = document.getElementById('add-actor-form');
@@ -18,6 +21,23 @@ addActorForm.addEventListener("submit", function (event) {
     // Get the values from the form fields
     let actorFnameValue = inputActorFname.value;
     let actorLnameValue = inputActorLname.value;
+
+    // Perform data validation: Check that fname + lname is unique
+    let fnames = document.querySelectorAll(".actor-fname");
+    let lnames = document.querySelectorAll(".actor-lname");
+    let fullNames = Array.from(fnames).map(function(fname ,i) {
+        let lname = lnames[i];
+        // Returns array of text combinations extracted from table
+        return fname.textContent + lname.textContent;
+    });
+
+    let isDuplicate = fullNames.includes(actorFnameValue + actorLnameValue);
+    if (isDuplicate) {
+        alert("First name and last name combination must be unique.");
+        return;
+    }
+
+
 
     let data = {
         actorFname: actorFnameValue,
@@ -69,7 +89,7 @@ addRowToTable = (data) => {
     row.setAttribute("data-value", `${newRow.actor_id}`);
 
     let editCell = document.createElement("td");
-    editCell.innerHTML = `<button onclick=updateCustomer(${newRow.actor_id})>Edit</button>`;
+    editCell.innerHTML = `<button onclick=updateActor(${newRow.actor_id})>Edit</button>`;
 
     let deleteCell = document.createElement("td");
     deleteCell.innerHTML = `<button onclick=confirmDelete(${newRow.actor_id})>Delete</button>`;
@@ -87,11 +107,6 @@ addRowToTable = (data) => {
     actorIdCell.innerText = newRow.actor_id;
     actorFnameCell.innerText = newRow.first_name;
     actorLnameCell.innerText = newRow.last_name;
-
-    // shipDateCell.innerText = newRow.ship_date.substring(0, 10);
-    // deliveredDateCell.innerText = newRow.delivered_date.substring(0, 10);
-    // commentCell.innerText = newRow.comment;
-    // customerIdCell.innerText = newRow.customer_id;
 
     // Add the cells to the row
     row.appendChild(editCell);

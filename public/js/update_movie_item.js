@@ -48,7 +48,7 @@ function updateMovieItem(movieItemID) {
         let items = document.querySelectorAll(".item-id");
         let movies = document.querySelectorAll(".movie-id");
         let movieItemIds = Array.from(items).map(function(item ,i) {
-            movie = movies[i];
+            let movie = movies[i];
             // Returns array of ID combos extracted from table, e.g., ['1-2', '3-4', ...]
             return item.textContent.match(/\d+/)[0] + "-" + movie.textContent.match(/\d+/)[0];
         });
