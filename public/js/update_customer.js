@@ -22,6 +22,7 @@ function updateCustomer(customerID) {
     document.getElementById("update-customer-city").removeAttribute("disabled");
     document.getElementById("update-customer-state").removeAttribute("disabled");
     document.getElementById("update-customer-pcode").removeAttribute("disabled");
+    document.getElementById("update-customer-button").removeAttribute("disabled");
 
     const rowToUpdate = document.querySelector(`[data-value="${customerID}"]`);
 
